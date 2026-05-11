@@ -16,6 +16,9 @@ files [0-9]*/
 *.swp
 *.swo
 
+# Claude Code (config local del desarrollador)
+.claude/
+
 # node (por si en algún momento se mete tooling local — el output del user sigue siendo vanilla)
 node_modules/
 npm-debug.log*
