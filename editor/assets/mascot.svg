@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" shape-rendering="crispEdges" width="64" height="64">
+  <!-- PLACEHOLDER: gato-rinoceronte 8x8 meowrhino studio
+       Manu: este es un placeholder mínimo. sustituye con la mascota oficial
+       (la misma de moixí o variante). conserva el viewBox 0 0 8 8.
+       Cuerpo de color ink, cuerno ámbar, naricilla coral. -->
+  <!-- cuerpo -->
+  <rect x="1" y="2" width="6" height="5" fill="#1a1a1a"/>
+  <!-- orejas -->
+  <rect x="1" y="1" width="1" height="1" fill="#1a1a1a"/>
+  <rect x="6" y="1" width="1" height="1" fill="#1a1a1a"/>
+  <!-- cuerno -->
+  <rect x="3" y="0" width="1" height="2" fill="#f5b840"/>
+  <!-- naricilla -->
+  <rect x="3" y="4" width="2" height="1" fill="#ef7d57"/>
+  <!-- ojos -->
+  <rect x="2" y="3" width="1" height="1" fill="#fef8e6"/>
+  <rect x="5" y="3" width="1" height="1" fill="#fef8e6"/>
+</svg>

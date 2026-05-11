@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+
+# carpetas duplicadas de Finder
+files [0-9]*/
+
+# archivos descargables / artefactos
+*.zip
+
+# editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# node (por si en algún momento se mete tooling local — el output del user sigue siendo vanilla)
+node_modules/
+npm-debug.log*
+
+# logs
+*.log
