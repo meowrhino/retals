@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-marquee · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --moss:   #5a6a3e;
+      --r-bg:   var(--cream);
+      --r-fg:   var(--ink);
+      --r-font: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 0.9rem; margin: 0 0 0.4rem; color: var(--moss); letter-spacing: 0.04em; text-transform: lowercase; }
+    .demo-code {
+      display: block;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+    .demo-preview {
+      border: 1px solid var(--ink);
+      overflow: hidden;
+    }
+
+    /* fallback para r-marquee sin JS */
+    r-marquee {
+      display: block;
+      overflow: hidden;
+      padding: 0.25rem 0;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✦ r-marquee · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-marquee.md">docs</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>default (izquierda, speed 60)</h2>
+      <code class="demo-code">&lt;r-marquee&gt;retals · vanilla, forever · meowrhino studio · made in barcelona&lt;/r-marquee&gt;</code>
+      <div class="demo-preview">
+        <r-marquee>retals · vanilla, forever · meowrhino studio · made in barcelona</r-marquee>
+      </div>
+    </section>
+
+    <section>
+      <h2>direction="right"</h2>
+      <code class="demo-code">&lt;r-marquee direction="right"&gt;...&lt;/r-marquee&gt;</code>
+      <div class="demo-preview">
+        <r-marquee direction="right">← de vuelta · en sentido contrario · reverse marquee</r-marquee>
+      </div>
+    </section>
+
+    <section>
+      <h2>pause-on-hover</h2>
+      <code class="demo-code">&lt;r-marquee pause-on-hover&gt;...&lt;/r-marquee&gt;</code>
+      <div class="demo-preview">
+        <r-marquee pause-on-hover>pasa el ratón por encima para pausar · hover to pause · atura al passar el ratolí</r-marquee>
+      </div>
+    </section>
+
+    <section>
+      <h2>separator y speed personalizados</h2>
+      <code class="demo-code">&lt;r-marquee separator=" ◌ " speed="40"&gt;...&lt;/r-marquee&gt;</code>
+      <div class="demo-preview">
+        <r-marquee separator=" ◌ " speed="40">lento con separador personalizado</r-marquee>
+      </div>
+    </section>
+
+    <section>
+      <h2>contenido con HTML inline</h2>
+      <code class="demo-code">&lt;r-marquee&gt;&lt;strong&gt;retals&lt;/strong&gt; ✺ &lt;em&gt;vanilla&lt;/em&gt; ✺ ...&lt;/r-marquee&gt;</code>
+      <div class="demo-preview">
+        <r-marquee><strong>retals</strong> ✺ <em>vanilla, forever</em> ✺ <strong>meowrhino</strong> ✺ hecho con amor ✺</r-marquee>
+      </div>
+    </section>
+
+    <section>
+      <h2>velocidad extrema (speed="200")</h2>
+      <code class="demo-code">&lt;r-marquee speed="200"&gt;...&lt;/r-marquee&gt;</code>
+      <div class="demo-preview">
+        <r-marquee speed="200">¡muy rápido! · fast! · molt ràpid!</r-marquee>
+      </div>
+    </section>
+
+    <section>
+      <h2>override de CSS vars</h2>
+      <code class="demo-code">style="--r-marquee-color: var(--coral); --r-marquee-size: 1.4rem; --r-marquee-bg: var(--ink); --r-marquee-padding: 0.5rem 0;"</code>
+      <div class="demo-preview">
+        <r-marquee
+          separator=" ✦ "
+          style="--r-marquee-color: var(--cream); --r-marquee-size: 1.4rem; --r-marquee-bg: var(--ink); --r-marquee-padding: 0.5rem 0;">
+          retals · vanilla, forever · meowrhino studio
+        </r-marquee>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="../../components/r-marquee.js"></script>
+</body>
+</html>

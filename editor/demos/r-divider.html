@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-divider · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --moss:   #5a6a3e;
+      --r-bg:   var(--cream);
+      --r-fg:   var(--ink);
+      --r-font: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 0.9rem; margin: 0 0 0.4rem; color: var(--moss); letter-spacing: 0.04em; text-transform: lowercase; }
+    .demo-code {
+      display: block;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+
+    /* fallback opcional para r-divider sin JS */
+    r-divider {
+      display: block;
+      text-align: center;
+      margin: 1.5rem auto;
+      color: var(--ink);
+      font-size: 1.2rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✦ r-divider · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-divider.md">docs</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>default (sin atributos → ✦ ✦ ✦)</h2>
+      <code class="demo-code">&lt;r-divider&gt;&lt;/r-divider&gt;</code>
+      <r-divider></r-divider>
+    </section>
+
+    <section>
+      <h2>glyph + repeat</h2>
+      <code class="demo-code">&lt;r-divider glyph="✺" repeat="5"&gt;&lt;/r-divider&gt;</code>
+      <r-divider glyph="✺" repeat="5"></r-divider>
+    </section>
+
+    <section>
+      <h2>otros glifos</h2>
+      <code class="demo-code">&lt;r-divider glyph="◌"&gt;&lt;/r-divider&gt; · &lt;r-divider glyph="✜"&gt;&lt;/r-divider&gt;</code>
+      <r-divider glyph="◌"></r-divider>
+      <r-divider glyph="✜"></r-divider>
+    </section>
+
+    <section>
+      <h2>children como contenido (texto literal)</h2>
+      <code class="demo-code">&lt;r-divider&gt;━━━━━━━━&lt;/r-divider&gt;</code>
+      <r-divider>━━━━━━━━</r-divider>
+    </section>
+
+    <section>
+      <h2>children con SVG inline</h2>
+      <code class="demo-code">&lt;r-divider&gt;&lt;svg ...&gt;&lt;/r-divider&gt;</code>
+      <r-divider>
+        <svg width="120" height="12" viewBox="0 0 120 12" aria-hidden="true">
+          <path d="M0 6 L40 6 M50 6 L70 6 M80 6 L120 6" stroke="currentColor" stroke-width="2" fill="none"/>
+          <circle cx="45" cy="6" r="3" fill="currentColor"/>
+          <circle cx="75" cy="6" r="3" fill="currentColor"/>
+        </svg>
+      </r-divider>
+    </section>
+
+    <section>
+      <h2>override de CSS vars</h2>
+      <code class="demo-code">style="--r-divider-color: var(--coral); --r-divider-size: 2rem; --r-divider-gap: 2rem;"</code>
+      <r-divider
+        glyph="✺"
+        repeat="3"
+        style="--r-divider-color: var(--coral); --r-divider-size: 2rem; --r-divider-gap: 2rem;"></r-divider>
+    </section>
+
+    <section>
+      <h2>repeat=1 (un solo glyph)</h2>
+      <code class="demo-code">&lt;r-divider glyph="◆" repeat="1"&gt;&lt;/r-divider&gt;</code>
+      <r-divider glyph="◆" repeat="1"></r-divider>
+    </section>
+
+  </main>
+
+  <script type="module" src="../../components/r-divider.js"></script>
+</body>
+</html>

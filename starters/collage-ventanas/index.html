@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>mi web — collage de ventanas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="desktop">
+
+  <!-- glifos decorativos de fondo -->
+  <span class="glifo" style="top:8%;  left:5%;">✦</span>
+  <span class="glifo" style="top:15%; right:8%;">✺</span>
+  <span class="glifo" style="top:45%; left:3%;">◌</span>
+  <span class="glifo" style="top:70%; right:5%;">✜</span>
+  <span class="glifo" style="bottom:15%; left:45%;">✦</span>
+
+  <!-- ——————————————————————————————————————————————
+       VENTANA 1 — bienvenida
+       cambia: title, x, y, w, h, y el contenido dentro
+  ——————————————————————————————————————————————— -->
+  <r-window title="✦ hola" x="60" y="40" w="280" h="160" minimizable="true">
+    <div class="ventana-bienvenida">
+      <h1>hola, soy<br>[tu nombre]</h1>
+      <p class="tagline">diseñadora · barcelona · 2026</p>
+    </div>
+  </r-window>
+
+  <!-- ——————————————————————————————————————————————
+       VENTANA 2 — sobre mí
+  ——————————————————————————————————————————————— -->
+  <r-window title="sobre mí" x="380" y="30" w="300" h="200" minimizable="true">
+    <p>hago [cosas]. me interesa [intereses]. trabajo con [herramientas].</p>
+    <p>nací en [ciudad], vivo en [ciudad]. me gusta [gusto] y [gusto].</p>
+    <p>puedes escribirme a <a href="mailto:hola@miweb.com">hola@miweb.com</a></p>
+  </r-window>
+
+  <!-- ——————————————————————————————————————————————
+       VENTANA 3 — proyectos
+  ——————————————————————————————————————————————— -->
+  <r-window title="proyectos ✺" x="50" y="220" w="340" h="220" minimizable="true">
+    <h2>trabajo seleccionado</h2>
+    <ul>
+      <li><a href="#">proyecto 1 — descripción breve</a></li>
+      <li><a href="#">proyecto 2 — descripción breve</a></li>
+      <li><a href="#">proyecto 3 — descripción breve</a></li>
+      <li><a href="#">proyecto 4 — descripción breve</a></li>
+    </ul>
+  </r-window>
+
+  <!-- ——————————————————————————————————————————————
+       VENTANA 4 — ahora
+       qué estás haciendo ahora mismo (à la nownownow.com)
+  ——————————————————————————————————————————————— -->
+  <r-window title="ahora ◌" x="420" y="260" w="260" h="180" minimizable="true">
+    <p><strong>mayo 2026</strong></p>
+    <ul>
+      <li>trabajando en [proyecto]</li>
+      <li>leyendo [libro]</li>
+      <li>escuchando [disco]</li>
+    </ul>
+  </r-window>
+
+  <!-- ——————————————————————————————————————————————
+       VENTANA 5 — links
+  ——————————————————————————————————————————————— -->
+  <r-window title="links ✜" x="720" y="60" w="220" h="180" minimizable="true">
+    <ul>
+      <li><a href="#">instagram</a></li>
+      <li><a href="#">are.na</a></li>
+      <li><a href="#">github</a></li>
+      <li><a href="#">letterboxd</a></li>
+      <li><a href="#">newsletter</a></li>
+    </ul>
+  </r-window>
+
+  <!-- ——————————————————————————————————————————————
+       VENTANA 6 — imagen / foto
+       sustituye el placeholder por tu imagen
+  ——————————————————————————————————————————————— -->
+  <r-window title="foto" x="700" y="280" w="240" h="260" resizable="false" minimizable="true">
+    <!-- sustituye esto por: <img src="img/foto.webp" alt="descripción"> -->
+    <div style="width:100%;height:200px;background:#333;display:flex;align-items:center;justify-content:center;color:#ef7d57;font-size:3rem;">✦</div>
+  </r-window>
+
+</div><!-- /desktop -->
+
+<footer class="desktop-footer">
+  hecho con <a href="https://retals.cat" style="color:inherit;">retals</a> · vanilla, forever
+</footer>
+
+<script type="module" src="components/r-window.js"></script>
+</body>
+</html>

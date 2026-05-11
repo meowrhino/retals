@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-glitch · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --moss:   #5a6a3e;
+      --r-bg:   var(--cream);
+      --r-fg:   var(--ink);
+      --r-font: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 0.9rem; margin: 0 0 0.4rem; color: var(--moss); letter-spacing: 0.04em; text-transform: lowercase; }
+    .demo-code {
+      display: block;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+    .demo-preview {
+      padding: 1.25rem 1rem;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      font-size: 1.5rem;
+    }
+    .demo-row {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .demo-label {
+      font-size: 0.7rem;
+      color: var(--moss);
+      margin-bottom: 0.25rem;
+    }
+
+    /* fallback sin JS */
+    r-glitch { display: inline-block; }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✦ r-glitch · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-glitch.md">docs</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>effect="shift" (default) — aberración cromática</h2>
+      <code class="demo-code">&lt;r-glitch&gt;RETALS&lt;/r-glitch&gt;</code>
+      <div class="demo-preview">
+        <r-glitch>RETALS</r-glitch>
+      </div>
+    </section>
+
+    <section>
+      <h2>effect="flicker" — parpadeo</h2>
+      <code class="demo-code">&lt;r-glitch effect="flicker"&gt;VANILLA FOREVER&lt;/r-glitch&gt;</code>
+      <div class="demo-preview">
+        <r-glitch effect="flicker">VANILLA FOREVER</r-glitch>
+      </div>
+    </section>
+
+    <section>
+      <h2>effect="noise" — caracteres aleatorios</h2>
+      <code class="demo-code">&lt;r-glitch effect="noise"&gt;MEOWRHINO&lt;/r-glitch&gt;</code>
+      <div class="demo-preview">
+        <r-glitch effect="noise">MEOWRHINO</r-glitch>
+      </div>
+    </section>
+
+    <section>
+      <h2>trigger="hover" (pasa el cursor por encima)</h2>
+      <code class="demo-code">&lt;r-glitch trigger="hover"&gt;...&lt;/r-glitch&gt;</code>
+      <div class="demo-preview demo-row">
+        <div>
+          <div class="demo-label">shift + hover</div>
+          <r-glitch trigger="hover">SHIFT</r-glitch>
+        </div>
+        <div>
+          <div class="demo-label">flicker + hover</div>
+          <r-glitch effect="flicker" trigger="hover">FLICKER</r-glitch>
+        </div>
+        <div>
+          <div class="demo-label">noise + hover</div>
+          <r-glitch effect="noise" trigger="hover">NOISE</r-glitch>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>comparativa de intensity</h2>
+      <code class="demo-code">intensity="low" · "medium" · "high"</code>
+      <div class="demo-preview demo-row">
+        <div>
+          <div class="demo-label">low</div>
+          <r-glitch intensity="low">GLITCH</r-glitch>
+        </div>
+        <div>
+          <div class="demo-label">medium</div>
+          <r-glitch intensity="medium">GLITCH</r-glitch>
+        </div>
+        <div>
+          <div class="demo-label">high</div>
+          <r-glitch intensity="high">GLITCH</r-glitch>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>comparativa de speed</h2>
+      <code class="demo-code">speed="slow" · "normal" · "fast"</code>
+      <div class="demo-preview demo-row">
+        <div>
+          <div class="demo-label">slow</div>
+          <r-glitch speed="slow">LENTO</r-glitch>
+        </div>
+        <div>
+          <div class="demo-label">normal</div>
+          <r-glitch speed="normal">NORMAL</r-glitch>
+        </div>
+        <div>
+          <div class="demo-label">fast</div>
+          <r-glitch speed="fast">RÁPIDO</r-glitch>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>override de CSS vars</h2>
+      <code class="demo-code">style="--r-glitch-color-1: var(--amber); --r-glitch-color-2: var(--moss);"</code>
+      <div class="demo-preview">
+        <r-glitch
+          intensity="high"
+          style="--r-glitch-color-1: var(--amber); --r-glitch-color-2: var(--moss); color: var(--ink);">
+          CUSTOM COLORS
+        </r-glitch>
+      </div>
+    </section>
+
+  </main>
+
+  <script type="module" src="../../components/r-glitch.js"></script>
+</body>
+</html>

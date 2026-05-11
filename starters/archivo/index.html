@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[nombre del archivo] — notas</title>
+  <meta name="description" content="[descripción breve del archivo]">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ——— header ——— -->
+  <header class="site-header">
+    <p class="site-title">[nombre del archivo]</p>
+    <p class="site-desc">[subtítulo o descripción breve]</p>
+    <nav class="nav">
+      <a href="#">inicio</a>
+      <a href="#">notas</a>
+      <a href="#">proyectos</a>
+      <a href="#">sobre</a>
+      <a href="#">feed</a>
+    </nav>
+  </header>
+
+  <!-- ——— about box breve ——— -->
+  <div class="about-box">
+    <p>soy [tu nombre]. trabajo en [qué haces]. este es mi archivo de [tipo de contenido].</p>
+    <p>escríbeme: <a href="mailto:hola@miweb.com">hola@miweb.com</a></p>
+  </div>
+
+  <!-- ——— filtros (opcionales, funcionan sin JS con links a categorías) ——— -->
+  <div class="filters">
+    <button class="filter-btn active">todo</button>
+    <button class="filter-btn">notas</button>
+    <button class="filter-btn">proyectos</button>
+    <button class="filter-btn">enlaces</button>
+    <button class="filter-btn">lecturas</button>
+  </div>
+
+  <!-- ——— lista de entradas ——— -->
+  <ul class="entry-list">
+
+    <!-- año -->
+    <li class="year-header">2026</li>
+
+    <li class="entry">
+      <span class="entry__date">11 may 2026</span>
+      <div>
+        <div class="entry__title"><a href="#">el título de la entrada más reciente</a></div>
+        <div class="entry__tags"><span>#notas</span><span>#proceso</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">03 may 2026</span>
+      <div>
+        <div class="entry__title"><a href="#">otra entrada de mayo</a></div>
+        <div class="entry__tags"><span>#proyectos</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">22 abr 2026</span>
+      <div>
+        <div class="entry__title"><a href="#">reflexión sobre [tema]</a></div>
+        <div class="entry__tags"><span>#notas</span><span>#lecturas</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">10 abr 2026</span>
+      <div>
+        <div class="entry__title"><a href="#">enlace: [nombre del recurso o artículo]</a></div>
+        <div class="entry__tags"><span>#enlaces</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">28 mar 2026</span>
+      <div>
+        <div class="entry__title"><a href="#">[otro título de entrada]</a></div>
+        <div class="entry__tags"><span>#proyectos</span><span>#proceso</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">15 mar 2026</span>
+      <div>
+        <div class="entry__title"><a href="#">terminé de leer: [libro]</a></div>
+        <div class="entry__tags"><span>#lecturas</span></div>
+      </div>
+    </li>
+
+    <!-- año -->
+    <li class="year-header">2025</li>
+
+    <li class="entry">
+      <span class="entry__date">18 dic 2025</span>
+      <div>
+        <div class="entry__title"><a href="#">resumen del año</a></div>
+        <div class="entry__tags"><span>#notas</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">02 nov 2025</span>
+      <div>
+        <div class="entry__title"><a href="#">[entrada de noviembre]</a></div>
+        <div class="entry__tags"><span>#proyectos</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">14 sep 2025</span>
+      <div>
+        <div class="entry__title"><a href="#">[entrada de septiembre]</a></div>
+        <div class="entry__tags"><span>#notas</span></div>
+      </div>
+    </li>
+
+    <li class="entry">
+      <span class="entry__date">01 jun 2025</span>
+      <div>
+        <div class="entry__title"><a href="#">primer post del verano</a></div>
+        <div class="entry__tags"><span>#notas</span></div>
+      </div>
+    </li>
+
+    <!-- añade más entradas copiando un bloque <li class="entry">...</li> -->
+
+  </ul>
+
+  <!-- paginación (si hay muchas entradas) -->
+  <nav class="pagination" aria-label="paginación">
+    <a href="#">← más antiguo</a>
+  </nav>
+
+  <!-- ——— footer ——— -->
+  <footer>
+    <p>[tu nombre] · desde [año] · hecho con <a href="https://retals.cat">retals</a></p>
+    <p><a href="feed.xml">RSS</a> · <a href="mailto:hola@miweb.com">contacto</a></p>
+  </footer>
+
+</body>
+</html>

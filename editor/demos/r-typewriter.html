@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-typewriter · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --moss:   #5a6a3e;
+      --r-bg:   var(--cream);
+      --r-fg:   var(--ink);
+      --r-font: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 0.9rem; margin: 0 0 0.4rem; color: var(--moss); letter-spacing: 0.04em; text-transform: lowercase; }
+    .demo-code {
+      display: block;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+    .demo-preview {
+      padding: 1rem;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+      min-height: 2.5rem;
+    }
+    /* fallback para r-typewriter sin JS */
+    r-typewriter {
+      display: inline;
+      color: var(--ink);
+    }
+    /* event log */
+    #log {
+      font-size: 0.75rem;
+      max-height: 100px;
+      overflow-y: auto;
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      background: var(--paper);
+      line-height: 1.8;
+      margin-top: 0.5rem;
+    }
+    #log p { margin: 0; }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✦ r-typewriter · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-typewriter.md">docs</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>texto simple (sin loop)</h2>
+      <code class="demo-code">&lt;r-typewriter&gt;vanilla, forever.&lt;/r-typewriter&gt;</code>
+      <div class="demo-preview">
+        <r-typewriter>vanilla, forever.</r-typewriter>
+      </div>
+    </section>
+
+    <section>
+      <h2>con loop (borra y reescribe)</h2>
+      <code class="demo-code">&lt;r-typewriter loop pause="1000"&gt;retals · hecho en barcelona.&lt;/r-typewriter&gt;</code>
+      <div class="demo-preview">
+        <r-typewriter loop pause="1000">retals · hecho en barcelona.</r-typewriter>
+      </div>
+    </section>
+
+    <section>
+      <h2>cursor personalizado</h2>
+      <code class="demo-code">&lt;r-typewriter cursor="▮" loop&gt;el cursor puede ser cualquier carácter&lt;/r-typewriter&gt;</code>
+      <div class="demo-preview">
+        <r-typewriter cursor="▮" loop>el cursor puede ser cualquier carácter</r-typewriter>
+      </div>
+    </section>
+
+    <section>
+      <h2>velocidad baja vs alta</h2>
+      <code class="demo-code">speed="8" · speed="120"</code>
+      <div class="demo-preview">
+        <p style="margin:0 0 0.5rem;">lento: <r-typewriter speed="8">despacio, como máquina de escribir antigua...</r-typewriter></p>
+        <p style="margin:0;">rápido: <r-typewriter speed="120" delay="300">muy rápido, como un ordenador moderno.</r-typewriter></p>
+      </div>
+    </section>
+
+    <section>
+      <h2>con delay inicial</h2>
+      <code class="demo-code">&lt;r-typewriter delay="2000"&gt;...&lt;/r-typewriter&gt;</code>
+      <div class="demo-preview">
+        <r-typewriter delay="2000">esperé 2 segundos antes de empezar.</r-typewriter>
+      </div>
+    </section>
+
+    <section>
+      <h2>override de CSS vars</h2>
+      <code class="demo-code">style="--r-typewriter-color: var(--coral); --r-typewriter-cursor-color: var(--amber); --r-typewriter-size: 1.4rem;"</code>
+      <div class="demo-preview">
+        <r-typewriter
+          loop
+          style="--r-typewriter-color: var(--coral); --r-typewriter-cursor-color: var(--amber); --r-typewriter-size: 1.4rem;">
+          meowrhino studio ☼
+        </r-typewriter>
+      </div>
+    </section>
+
+    <section>
+      <h2>eventos r-typewriter:start y r-typewriter:done</h2>
+      <code class="demo-code">r-typewriter:start / r-typewriter:done</code>
+      <div class="demo-preview">
+        <r-typewriter id="tw-event" loop pause="800">escucha los eventos.</r-typewriter>
+      </div>
+      <div id="log"><p style="opacity:0.5">esperando eventos…</p></div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const log = document.getElementById('log');
+          const tw = document.getElementById('tw-event');
+          function logEvent(name) {
+            const p = document.createElement('p');
+            p.textContent = `${name} · ${new Date().toLocaleTimeString('es')}`;
+            if (log.firstChild && log.firstChild.style && log.firstChild.style.opacity === '0.5') {
+              log.innerHTML = '';
+            }
+            log.prepend(p);
+            while (log.children.length > 6) log.lastChild.remove();
+          }
+          tw.addEventListener('r-typewriter:start', () => logEvent('start'));
+          tw.addEventListener('r-typewriter:done',  () => logEvent('done'));
+        });
+      </script>
+    </section>
+
+  </main>
+
+  <script type="module" src="../../components/r-typewriter.js"></script>
+</body>
+</html>

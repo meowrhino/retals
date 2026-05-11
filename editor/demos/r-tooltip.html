@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-tooltip · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root { --coral:#ef7d57;--amber:#f5b840;--cream:#fef8e6;--ink:#1a1a1a;--paper:#fafafa;--moss:#5a6a3e;--r-bg:var(--cream);--r-fg:var(--ink);--r-font:'JetBrains Mono','Menlo','Consolas',monospace; }
+    *{box-sizing:border-box;}html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font-family:var(--r-font);font-size:14px;line-height:1.55;}
+    .demo-header{padding:1.25rem 1.75rem;border-bottom:2px solid var(--ink);background:var(--paper);display:flex;justify-content:space-between;align-items:center;}
+    .demo-header h1{margin:0;font-size:1.1rem;}.demo-header nav{display:flex;gap:1rem;font-size:.85rem;}.demo-header a{color:var(--ink);}
+    main{max-width:720px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    section{margin-bottom:2rem;}
+    h2{font-size:.9rem;margin:0 0 .4rem;color:var(--moss);letter-spacing:.04em;text-transform:lowercase;}
+    .demo-code{display:block;background:var(--paper);border:1px solid var(--ink);padding:.5rem .75rem;font-size:.75rem;margin-bottom:.75rem;overflow-x:auto;}
+    .demo-preview{padding:2rem 1rem;border:1px solid var(--ink);background:var(--paper);display:flex;gap:2rem;flex-wrap:wrap;align-items:flex-end;}
+    button,a.demo-btn{font-family:var(--r-font);font-size:.85rem;padding:.35rem .75rem;border:1px solid var(--ink);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;}
+    r-tooltip{display:inline-block;}
+  </style>
+</head>
+<body>
+<header class="demo-header">
+  <h1>✦ r-tooltip · demo</h1>
+  <nav><a href="../index.html">← landing</a><a href="../../docs/r-tooltip.md">docs</a></nav>
+</header>
+<main>
+
+  <section>
+    <h2>default (position top)</h2>
+    <code class="demo-code">&lt;r-tooltip text="hola, soy un tooltip"&gt;&lt;button&gt;hover aquí&lt;/button&gt;&lt;/r-tooltip&gt;</code>
+    <div class="demo-preview">
+      <r-tooltip text="hola, soy un tooltip"><button>hover aquí</button></r-tooltip>
+    </div>
+  </section>
+
+  <section>
+    <h2>posiciones (top · bottom · left · right)</h2>
+    <code class="demo-code">position="top|bottom|left|right"</code>
+    <div class="demo-preview" style="justify-content:center;gap:3rem;">
+      <r-tooltip text="arriba" position="top"><button>top</button></r-tooltip>
+      <r-tooltip text="abajo" position="bottom"><button>bottom</button></r-tooltip>
+      <r-tooltip text="izquierda" position="left"><button>left</button></r-tooltip>
+      <r-tooltip text="derecha" position="right"><button>right</button></r-tooltip>
+    </div>
+  </section>
+
+  <section>
+    <h2>trigger="click"</h2>
+    <code class="demo-code">&lt;r-tooltip text="..." trigger="click"&gt;&lt;button&gt;click&lt;/button&gt;&lt;/r-tooltip&gt;</code>
+    <div class="demo-preview">
+      <r-tooltip text="aparezco al hacer click. pulsa Esc o fuera para cerrar." trigger="click">
+        <button>click para abrir</button>
+      </r-tooltip>
+    </div>
+  </section>
+
+  <section>
+    <h2>con delay</h2>
+    <code class="demo-code">&lt;r-tooltip text="..." delay="500"&gt;...&lt;/r-tooltip&gt;</code>
+    <div class="demo-preview">
+      <r-tooltip text="tardé 500ms en aparecer" delay="500"><button>hover (delay 500ms)</button></r-tooltip>
+    </div>
+  </section>
+
+  <section>
+    <h2>sobre cualquier elemento</h2>
+    <code class="demo-code">&lt;r-tooltip text="..."&gt;&lt;abbr&gt;HTML&lt;/abbr&gt;&lt;/r-tooltip&gt;</code>
+    <div class="demo-preview">
+      <r-tooltip text="HyperText Markup Language"><abbr style="cursor:help;border-bottom:1px dotted">HTML</abbr></r-tooltip>
+      <r-tooltip text="cascading style sheets" position="right"><abbr style="cursor:help;border-bottom:1px dotted">CSS</abbr></r-tooltip>
+    </div>
+  </section>
+
+  <section>
+    <h2>override de CSS vars</h2>
+    <code class="demo-code">style="--r-tooltip-bg:var(--coral);--r-tooltip-color:#fff;"</code>
+    <div class="demo-preview">
+      <r-tooltip text="tooltip con coral de fondo" style="--r-tooltip-bg:var(--coral);--r-tooltip-color:#fef8e6;">
+        <button>coral tooltip</button>
+      </r-tooltip>
+      <r-tooltip text="tooltip con amber" position="bottom" style="--r-tooltip-bg:var(--amber);--r-tooltip-color:var(--ink);">
+        <button>amber tooltip</button>
+      </r-tooltip>
+    </div>
+  </section>
+
+</main>
+<script type="module" src="../../components/r-tooltip.js"></script>
+</body>
+</html>

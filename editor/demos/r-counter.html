@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-counter · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root{--coral:#ef7d57;--amber:#f5b840;--cream:#fef8e6;--ink:#1a1a1a;--paper:#fafafa;--moss:#5a6a3e;--r-bg:var(--cream);--r-fg:var(--ink);--r-font:'JetBrains Mono','Menlo','Consolas',monospace;}
+    *{box-sizing:border-box;}html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font-family:var(--r-font);font-size:14px;line-height:1.55;}
+    .demo-header{padding:1.25rem 1.75rem;border-bottom:2px solid var(--ink);background:var(--paper);display:flex;justify-content:space-between;align-items:center;}
+    .demo-header h1{margin:0;font-size:1.1rem;}.demo-header nav{display:flex;gap:1rem;font-size:.85rem;}.demo-header a{color:var(--ink);}
+    main{max-width:720px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    section{margin-bottom:2.5rem;}
+    h2{font-size:.9rem;margin:0 0 .4rem;color:var(--moss);letter-spacing:.04em;text-transform:lowercase;}
+    .demo-code{display:block;background:var(--paper);border:1px solid var(--ink);padding:.5rem .75rem;font-size:.75rem;margin-bottom:.75rem;overflow-x:auto;}
+    .demo-preview{padding:1rem;border:1px solid var(--ink);background:var(--paper);}
+    .note{font-size:.8rem;opacity:.65;margin-top:.5rem;}
+    r-counter{display:inline-flex;}
+  </style>
+</head>
+<body>
+<header class="demo-header">
+  <h1>✦ r-counter · demo</h1>
+  <nav><a href="../index.html">← landing</a><a href="../../docs/r-counter.md">docs</a></nav>
+</header>
+<main>
+
+  <section>
+    <h2>modo default — localStorage (solo para este visitante)</h2>
+    <code class="demo-code">&lt;r-counter id="demo"&gt;&lt;/r-counter&gt;</code>
+    <div class="demo-preview">
+      <r-counter id="demo"></r-counter>
+    </div>
+    <p class="note">⚠ este contador es local a tu navegador. cada visitante ve el suyo. para un contador compartido entre visitantes, necesitas el Worker de CF (ver docs).</p>
+  </section>
+
+  <section>
+    <h2>con increment — suma 1 en cada carga de página</h2>
+    <code class="demo-code">&lt;r-counter id="visitas" increment&gt;&lt;/r-counter&gt;</code>
+    <div class="demo-preview">
+      <r-counter id="visitas" increment></r-counter>
+    </div>
+    <p class="note">cada vez que recargues esta página, este contador subirá 1.</p>
+  </section>
+
+  <section>
+    <h2>label personalizado</h2>
+    <code class="demo-code">&lt;r-counter id="lectores" label="lectores"&gt;&lt;/r-counter&gt;</code>
+    <div class="demo-preview">
+      <r-counter id="lectores" label="lectores"></r-counter>
+    </div>
+  </section>
+
+  <section>
+    <h2>varios contadores en la misma página</h2>
+    <code class="demo-code">id="posts" · id="proyectos" · id="fotos"</code>
+    <div class="demo-preview" style="display:flex;gap:2rem;flex-wrap:wrap;">
+      <r-counter id="posts"     label="posts"     increment></r-counter>
+      <r-counter id="proyectos" label="proyectos"></r-counter>
+      <r-counter id="fotos"     label="fotos"></r-counter>
+    </div>
+  </section>
+
+  <section>
+    <h2>override de CSS vars</h2>
+    <code class="demo-code">--r-counter-color, --r-counter-size</code>
+    <div class="demo-preview">
+      <r-counter id="styled" label="visitas" increment
+        style="--r-counter-color:var(--coral);--r-counter-size:2rem;"></r-counter>
+    </div>
+  </section>
+
+  <section>
+    <h2>modo compartido (con Worker CF)</h2>
+    <code class="demo-code">&lt;r-counter id="x" increment endpoint="https://mi-worker.workers.dev/counter"&gt;&lt;/r-counter&gt;</code>
+    <div class="demo-preview">
+      <p style="margin:0;opacity:.6;font-size:.85rem;">el modo compartido requiere desplegar tu propio Worker. ver <a href="../../workers/README.md">workers/README.md</a> para la guía completa.</p>
+    </div>
+  </section>
+
+</main>
+<script type="module" src="../../components/r-counter.js"></script>
+</body>
+</html>

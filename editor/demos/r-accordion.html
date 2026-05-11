@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-accordion · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root{--coral:#ef7d57;--amber:#f5b840;--cream:#fef8e6;--ink:#1a1a1a;--paper:#fafafa;--moss:#5a6a3e;--r-bg:var(--cream);--r-fg:var(--ink);--r-accent:var(--coral);--r-font:'JetBrains Mono','Menlo','Consolas',monospace;}
+    *{box-sizing:border-box;}html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font-family:var(--r-font);font-size:14px;line-height:1.55;}
+    .demo-header{padding:1.25rem 1.75rem;border-bottom:2px solid var(--ink);background:var(--paper);display:flex;justify-content:space-between;align-items:center;}
+    .demo-header h1{margin:0;font-size:1.1rem;}.demo-header nav{display:flex;gap:1rem;font-size:.85rem;}.demo-header a{color:var(--ink);}
+    main{max-width:720px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    section{margin-bottom:2.5rem;}
+    h2{font-size:.9rem;margin:0 0 .4rem;color:var(--moss);letter-spacing:.04em;text-transform:lowercase;}
+    .demo-code{display:block;background:var(--paper);border:1px solid var(--ink);padding:.5rem .75rem;font-size:.75rem;margin-bottom:.75rem;overflow-x:auto;}
+    #log{font-size:.75rem;max-height:80px;overflow-y:auto;border:1px solid var(--ink);padding:.5rem .75rem;background:var(--paper);line-height:1.8;margin-top:.5rem;}
+    #log p{margin:0;}
+    r-accordion{display:block;}
+  </style>
+</head>
+<body>
+<header class="demo-header">
+  <h1>✦ r-accordion · demo</h1>
+  <nav><a href="../index.html">← landing</a><a href="../../docs/r-accordion.md">docs</a></nav>
+</header>
+<main>
+
+  <section>
+    <h2>default (una sola sección abierta a la vez)</h2>
+    <code class="demo-code">&lt;r-accordion&gt;&lt;section data-label="Pregunta"&gt;Respuesta&lt;/section&gt;...&lt;/r-accordion&gt;</code>
+    <r-accordion>
+      <section data-label="¿Qué es retals?">
+        <p>retals es una biblioteca de Web Components vanilla para hacer webs personales con la filosofía de Geocities, la ligereza del JAMstack, y el respeto por el código del visitante.</p>
+      </section>
+      <section data-label="¿Necesito saber programar?">
+        <p>No. Puedes empezar arrastrando bloques en el editor. Si quieres meter mano al HTML, todo está ahí, legible, sin trucos.</p>
+      </section>
+      <section data-label="¿Funciona sin JavaScript?">
+        <p>Sí. Cada componente tiene un fallback legible sin JS. Progressive enhancement obligatorio.</p>
+      </section>
+      <section data-label="¿A qué me ata retals?">
+        <p>A nada. El output es HTML + CSS + JS vanilla. Si retals desaparece mañana, tus webs siguen funcionando.</p>
+      </section>
+    </r-accordion>
+  </section>
+
+  <section>
+    <h2>multiple — varias secciones abiertas a la vez</h2>
+    <code class="demo-code">&lt;r-accordion multiple&gt;...&lt;/r-accordion&gt;</code>
+    <r-accordion multiple>
+      <section data-label="Primera sección">Se puede abrir junto con otras.</section>
+      <section data-label="Segunda sección">Todas pueden estar abiertas a la vez.</section>
+      <section data-label="Tercera sección">Cada una se abre y cierra independientemente.</section>
+    </r-accordion>
+  </section>
+
+  <section>
+    <h2>open="1" (sección pre-abierta)</h2>
+    <code class="demo-code">&lt;r-accordion open="1"&gt;...&lt;/r-accordion&gt;</code>
+    <r-accordion open="1">
+      <section data-label="Cerrada por defecto">Esta empieza cerrada.</section>
+      <section data-label="Abierta por defecto">Esta empieza abierta (open="1").</section>
+      <section data-label="También cerrada">Esta también empieza cerrada.</section>
+    </r-accordion>
+  </section>
+
+  <section>
+    <h2>override de CSS vars</h2>
+    <code class="demo-code">--r-accordion-border, --r-accordion-bg-open, --r-accordion-font-size</code>
+    <r-accordion style="--r-accordion-border:1px solid var(--coral);--r-accordion-bg-open:var(--coral);--r-accordion-color:var(--ink);--r-accordion-font-size:1rem;" open="0">
+      <section data-label="✦ Sección 1" style="--r-accordion-color:var(--cream);">Contenido de la primera sección con estilo coral.</section>
+      <section data-label="✺ Sección 2">Contenido de la segunda sección.</section>
+      <section data-label="◌ Sección 3">Contenido de la tercera sección.</section>
+    </r-accordion>
+  </section>
+
+  <section>
+    <h2>eventos r-accordion:open y r-accordion:close</h2>
+    <r-accordion id="acc-event">
+      <section data-label="Alpha">Contenido alpha.</section>
+      <section data-label="Beta">Contenido beta.</section>
+      <section data-label="Gamma">Contenido gamma.</section>
+    </r-accordion>
+    <div id="log"><p style="opacity:.5">esperando eventos…</p></div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const log = document.getElementById('log');
+        const acc = document.getElementById('acc-event');
+        ['r-accordion:open','r-accordion:close'].forEach(ev => {
+          acc.addEventListener(ev, e => {
+            if (log.firstChild && log.firstChild.style && log.firstChild.style.opacity === '0.5') log.innerHTML = '';
+            const p = document.createElement('p');
+            p.textContent = `${ev.split(':')[1]} → index: ${e.detail.index}, label: "${e.detail.label}"`;
+            log.prepend(p);
+            while (log.children.length > 4) log.lastChild.remove();
+          });
+        });
+      });
+    </script>
+  </section>
+
+</main>
+<script type="module" src="../../components/r-accordion.js"></script>
+</body>
+</html>

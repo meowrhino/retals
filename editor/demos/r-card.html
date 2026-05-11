@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-card · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root{--coral:#ef7d57;--amber:#f5b840;--cream:#fef8e6;--ink:#1a1a1a;--paper:#fafafa;--moss:#5a6a3e;--r-bg:var(--cream);--r-fg:var(--ink);--r-font:'JetBrains Mono','Menlo','Consolas',monospace;}
+    *{box-sizing:border-box;}html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);font-family:var(--r-font);font-size:14px;line-height:1.55;}
+    .demo-header{padding:1.25rem 1.75rem;border-bottom:2px solid var(--ink);background:var(--paper);display:flex;justify-content:space-between;align-items:center;}
+    .demo-header h1{margin:0;font-size:1.1rem;}.demo-header nav{display:flex;gap:1rem;font-size:.85rem;}.demo-header a{color:var(--ink);}
+    main{max-width:720px;margin:0 auto;padding:2rem 1.5rem 4rem;}
+    section{margin-bottom:2.5rem;}
+    h2{font-size:.9rem;margin:0 0 .4rem;color:var(--moss);letter-spacing:.04em;text-transform:lowercase;}
+    .demo-code{display:block;background:var(--paper);border:1px solid var(--ink);padding:.5rem .75rem;font-size:.75rem;margin-bottom:.75rem;overflow-x:auto;}
+    .demo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem;}
+    .demo-single{max-width:280px;}
+    /* placeholder de imagen para demos sin foto real */
+    .placeholder-img{width:100%;aspect-ratio:4/3;background:var(--ash,#d4d4d0);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--ink);opacity:.4;}
+    r-card{display:block;}
+  </style>
+</head>
+<body>
+<header class="demo-header">
+  <h1>✦ r-card · demo</h1>
+  <nav><a href="../index.html">← landing</a><a href="../../docs/r-card.md">docs</a></nav>
+</header>
+<main>
+
+  <section>
+    <h2>tarjeta básica (sin imagen, sin enlace)</h2>
+    <code class="demo-code">&lt;r-card heading="Proyecto"&gt;&lt;p&gt;Descripción...&lt;/p&gt;&lt;/r-card&gt;</code>
+    <div class="demo-single">
+      <r-card heading="Proyecto de ejemplo">
+        <p>Una descripción breve del proyecto. Sin imagen, sin enlace.</p>
+      </r-card>
+    </div>
+  </section>
+
+  <section>
+    <h2>con imagen (img placeholder)</h2>
+    <code class="demo-code">&lt;r-card heading="Con imagen"&gt;&lt;img src="..." alt="..."&gt;&lt;p&gt;...&lt;/p&gt;&lt;/r-card&gt;</code>
+    <div class="demo-single">
+      <r-card heading="Con imagen">
+        <div class="placeholder-img">✦</div>
+        <p>La primera imagen child se extrae y se coloca arriba.</p>
+      </r-card>
+    </div>
+  </section>
+
+  <section>
+    <h2>con enlace (href)</h2>
+    <code class="demo-code">&lt;r-card heading="Enlazable" href="#"&gt;...&lt;/r-card&gt;</code>
+    <div class="demo-single">
+      <r-card heading="Tarjeta enlazable" href="#enlace-demo">
+        <div class="placeholder-img">◌</div>
+        <p>Toda la tarjeta es clickable. Se activa con hover y focus.</p>
+      </r-card>
+    </div>
+  </section>
+
+  <section>
+    <h2>grid de tarjetas</h2>
+    <code class="demo-code">&lt;div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem"&gt;...&lt;/div&gt;</code>
+    <div class="demo-grid">
+      <r-card heading="Studio carta" href="#">
+        <div class="placeholder-img">✺</div>
+        <p>Portfolio tipo meowrhino.</p>
+      </r-card>
+      <r-card heading="One pager" href="#">
+        <div class="placeholder-img">✜</div>
+        <p>Scroll narrativo vertical.</p>
+      </r-card>
+      <r-card heading="Archivo" href="#">
+        <div class="placeholder-img">▮</div>
+        <p>Índice cronológico.</p>
+      </r-card>
+    </div>
+  </section>
+
+  <section>
+    <h2>override de CSS vars</h2>
+    <code class="demo-code">--r-card-bg, --r-card-border, --r-card-shadow, --r-card-padding, --r-card-radius</code>
+    <div class="demo-single">
+      <r-card heading="Estilo propio" href="#"
+        style="--r-card-bg:var(--ink);--r-card-border:1px solid var(--coral);--r-card-shadow:3px 3px 0 var(--coral);--r-card-heading-color:var(--cream);--r-card-content-color:var(--cream);">
+        <div class="placeholder-img" style="background:#333;opacity:1;color:var(--coral);">✦</div>
+        <p>Fondo oscuro con acento coral.</p>
+      </r-card>
+    </div>
+  </section>
+
+</main>
+<script type="module" src="../../components/r-card.js"></script>
+</body>
+</html>

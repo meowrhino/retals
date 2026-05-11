@@ -1,0 +1,106 @@
+/* ============================================================
+   collage-ventanas — starter de retals
+   personaliza los colores en :root, las posiciones de las
+   ventanas en index.html, y el fondo aquí abajo.
+   ============================================================ */
+
+:root {
+  /* paleta — cambia estos colores para cambiar todo el look */
+  --bg:       #1a1a2e;   /* fondo de la página */
+  --accent:   #ef7d57;   /* acento coral */
+  --win-bg:   #fef8e6;   /* fondo de las ventanas */
+  --win-fg:   #1a1a1a;   /* texto dentro de las ventanas */
+  --win-bar:  #f5b840;   /* barra de título */
+  --ink:      #1a1a1a;
+
+  /* CSS vars que lee r-window */
+  --r-bg:              var(--win-bg);
+  --r-fg:              var(--win-fg);
+  --r-accent:          var(--accent);
+  --r-font:            'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+  --r-window-bg:       var(--win-bg);
+  --r-window-fg:       var(--win-fg);
+  --r-window-header-bg: var(--win-bar);
+  --r-window-header-fg: var(--ink);
+  --r-window-border:   var(--ink);
+  --r-window-shadow:   3px 3px 0 var(--ink);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  min-height: 100vh;
+  font-family: var(--r-font);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--win-fg);
+}
+
+/* ——— fondo: cambia el background-color o descomenta el pattern ——— */
+body {
+  background-color: var(--bg);
+  /* fondo tileado (descomenta y ajusta la imagen):
+  background-image: url('assets/tile.gif');
+  background-repeat: repeat;
+  background-size: auto;
+  */
+}
+
+/* ——— área de ventanas: todo el viewport, posición relativa ——— */
+.desktop {
+  position: relative;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+/* ——— glifos decorativos flotantes ——— */
+.glifo {
+  position: absolute;
+  color: var(--accent);
+  font-size: 1.5rem;
+  opacity: 0.35;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ——— footer ——— */
+.desktop-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.4rem 1rem;
+  background: rgba(0,0,0,0.4);
+  color: rgba(255,255,255,0.5);
+  font-size: 0.75rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+
+/* ——— estilos dentro de las ventanas ——— */
+r-window p  { margin: 0 0 0.75rem; }
+r-window p:last-child { margin: 0; }
+r-window a  { color: var(--accent); }
+r-window ul { padding-left: 1.2rem; }
+r-window li { margin-bottom: 0.25rem; }
+r-window h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.03em;
+}
+r-window img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ——— window de bienvenida: texto grande ——— */
+.ventana-bienvenida h1 {
+  font-size: 1.4rem;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+.ventana-bienvenida .tagline {
+  opacity: 0.7;
+  font-size: 0.85rem;
+}

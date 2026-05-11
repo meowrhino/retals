@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-clock · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --moss:   #5a6a3e;
+      --r-bg:   var(--cream);
+      --r-fg:   var(--ink);
+      --r-font: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    section { margin-bottom: 2rem; }
+    h2 { font-size: 0.9rem; margin: 0 0 0.4rem; color: var(--moss); letter-spacing: 0.04em; text-transform: lowercase; }
+    .demo-code {
+      display: block;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      margin-bottom: 0.5rem;
+      overflow-x: auto;
+    }
+    .demo-preview {
+      padding: 1rem;
+      border: 1px solid var(--ink);
+      background: var(--paper);
+    }
+
+    /* fallback opcional para r-clock sin JS */
+    r-clock {
+      display: inline-block;
+      font-family: var(--r-font);
+      font-size: 1rem;
+      color: var(--ink);
+      letter-spacing: 0.05em;
+    }
+
+    /* event log */
+    #log {
+      font-size: 0.75rem;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      background: var(--paper);
+      line-height: 1.8;
+    }
+    #log p { margin: 0; }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✦ r-clock · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-clock.md">docs</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <section>
+      <h2>default (HH:MM:SS)</h2>
+      <code class="demo-code">&lt;r-clock&gt;&lt;/r-clock&gt;</code>
+      <div class="demo-preview">
+        <r-clock></r-clock>
+      </div>
+    </section>
+
+    <section>
+      <h2>formato 12 horas</h2>
+      <code class="demo-code">&lt;r-clock format="hh:MM:SS A"&gt;&lt;/r-clock&gt;</code>
+      <div class="demo-preview">
+        <r-clock format="hh:MM:SS A"></r-clock>
+      </div>
+    </section>
+
+    <section>
+      <h2>fecha + hora</h2>
+      <code class="demo-code">&lt;r-clock format="dd/mm/YYYY — HH:MM"&gt;&lt;/r-clock&gt;</code>
+      <div class="demo-preview">
+        <r-clock format="dd/mm/YYYY — HH:MM"></r-clock>
+      </div>
+    </section>
+
+    <section>
+      <h2>nombre de mes corto</h2>
+      <code class="demo-code">&lt;r-clock format="dd Mon YYYY" lang="en"&gt;&lt;/r-clock&gt;</code>
+      <div class="demo-preview">
+        <r-clock format="dd Mon YYYY" lang="en"></r-clock>
+      </div>
+    </section>
+
+    <section>
+      <h2>timezone (Nueva York)</h2>
+      <code class="demo-code">&lt;r-clock format="HH:MM:SS" timezone="America/New_York"&gt;&lt;/r-clock&gt;</code>
+      <div class="demo-preview">
+        <r-clock format="HH:MM:SS" timezone="America/New_York"></r-clock>
+        <br><small style="opacity:0.6">— tu hora local: <r-clock format="HH:MM:SS"></r-clock></small>
+      </div>
+    </section>
+
+    <section>
+      <h2>override de CSS vars</h2>
+      <code class="demo-code">style="--r-clock-color: var(--coral); --r-clock-size: 2.5rem; --r-clock-letter-spacing: 0.1em;"</code>
+      <div class="demo-preview">
+        <r-clock style="--r-clock-color: var(--coral); --r-clock-size: 2.5rem; --r-clock-letter-spacing: 0.1em;"></r-clock>
+      </div>
+    </section>
+
+    <section>
+      <h2>evento r-clock:tick</h2>
+      <code class="demo-code">document.querySelector('r-clock').addEventListener('r-clock:tick', e => ...)</code>
+      <r-clock id="clock-event" format="HH:MM:SS" style="display:block; margin-bottom: 0.5rem;"></r-clock>
+      <div id="log"><p style="opacity:0.5">esperando ticks…</p></div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const log = document.getElementById('log');
+          document.getElementById('clock-event').addEventListener('r-clock:tick', e => {
+            const p = document.createElement('p');
+            p.textContent = `tick · ${e.detail.time.toISOString()}`;
+            if (log.firstChild && log.firstChild.style && log.firstChild.style.opacity === '0.5') {
+              log.innerHTML = '';
+            }
+            log.prepend(p);
+            while (log.children.length > 5) log.lastChild.remove();
+          });
+        });
+      </script>
+    </section>
+
+  </main>
+
+  <script type="module" src="../../components/r-clock.js"></script>
+</body>
+</html>
