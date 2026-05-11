@@ -12,20 +12,71 @@ el proyecto se inspira en mosi (de hecho funciona como moixí en cuanto a estruc
 
 ---
 
-## qué hacer primero (literalmente el primer commit)
+## estado actual (actualizado 2026-05-11)
 
-1. **verificar que el landing carga.**
-   ```bash
-   python3 -m http.server 8080
-   # abrir http://localhost:8080/editor/
-   ```
-   debería verse el manifiesto con la paleta meowrhino y sin errores en consola. si algo se ve raro, arreglar antes de seguir. ese es el criterio de done de Fase 0 — ya está casi todo, solo refinar.
+el repo está vivo en https://github.com/meowrhino/retals (público, MIT). dos commits:
 
-2. **revisar la mascota.** `editor/assets/mascot.svg` y `editor/assets/favicon.svg` son placeholders pixel art 8x8 muy mínimos (viene marcado como PLACEHOLDER en el propio SVG). **dejarlos como están** salvo que Manu te diga lo contrario y te pase la mascota oficial (probablemente la de moixí). si te la pasa: **conservar el viewBox `0 0 8 8`** para que el CSS no se mueva.
+- `adf5c3f` — scaffold inicial: contrato (CLAUDE.md, ROADMAP, DESIGN, TESTING, HANDOFF), README, LICENSE, .gitignore, mascot/favicon placeholder, `_template.js`, `editor/index.html` + `style.css`.
+- `af1ea4d` (Sonnet) — Fase 1 + 2 + 3 + 6 + 7:
+  - **13 componentes** con docs y demo cada uno: `r-window`, `r-divider`, `r-marquee`, `r-typewriter`, `r-clock`, `r-glitch`, `r-cursor`, `r-tooltip`, `r-card`, `r-tabs`, `r-accordion`, `r-counter`, `r-guestbook`.
+  - **4 starters**: `collage-ventanas` (con copia snapshot de `r-window.js` dentro), `studio-carta`, `one-pager`, `archivo`.
+  - **2 workers**: `counter.js` + `guestbook.js` listos para `wrangler deploy`; guía paso a paso en `docs/self-host-workers.md`.
 
-3. **el nombre del proyecto está cerrado: `retals`.** prefijo de componentes: `r-`. ya está aplicado en todo el código y los docs. no hace falta find/replace.
+### revisión de código (2026-05-11)
 
-4. **el directorio `files 4/` en la raíz del repo es un duplicado plano del scaffold inicial** (mismos archivos que ya están en su sitio correcto: docs en raíz, código en `editor/` y `components/`). **no es la fuente de verdad — ignóralo y no edites nada ahí dentro.** Manu lo borrará o lo moverá fuera del repo cuando le venga bien. el `retals.zip` que hay dentro tampoco hace falta: ya está descomprimido.
+- todos los componentes cumplen el contrato CLAUDE.md: light DOM, `<style>` único auto-inyectado, clases prefijadas `r-<nombre>__`, fallback sin JS, CSS vars `--r-*` con override por componente, eventos custom con namespace, i18n trilingüe (`es`/`en`/`ca`) con fallback a `es`, independencia entre componentes.
+- archivo más grande: `r-window.js` (509 líneas, cruza por 9 el umbral de 500 de TESTING.md). **decisión: no se parte** — cada línea sirve a drag/resize/close/minimize/3-temas/i18n; no hay bloat ni código muerto. la regla del umbral apunta a evitar "dumping ground", aquí la complejidad es inherente al componente.
+- comentarios siguen la regla "el porqué, no el qué". cada componente abre con un bloque-cabecera documentando atributos, eventos y CSS vars.
+- duplicación menor entre archivos (`escapeHtml`, `t(lang, key)`). aceptada por la regla de independencia entre componentes (CLAUDE.md → "acepta la duplicación a cambio de no tener grafo de dependencias").
+
+---
+
+## siguiente sesión — qué falta
+
+en orden de prioridad:
+
+### 1. verificación manual de Fase 0 + 1 + 2 (rápido, bloquea avance)
+
+```bash
+cd /Users/manu/Documents/GitHub/retals
+python3 -m http.server 8080
+# abrir http://localhost:8080/editor/
+```
+
+confirmar:
+- la landing carga sin errores en consola
+- la paleta meowrhino (coral/ámbar sobre cream) se ve correcta
+- `mascot.svg` + `favicon.svg` cargan (siguen como placeholder 8x8)
+- las dos secciones futuras (`#bloques`, `#starters`) tienen `<!-- TODO -->` visible
+
+luego abrir 2-3 demos (`/editor/demos/r-window.html`, `/editor/demos/r-glitch.html`, `/editor/demos/r-guestbook.html`) y pasar TESTING.md por encima: keyboard, fallback sin JS (devtools → disable JS → reload), eventos custom en consola, override de CSS vars.
+
+### 2. completar Fase 2 — componentes pendientes
+
+- `r-gallery` 🟡 — galería con layouts (`grid` · `masonry` · `carousel` · `stack`) + lightbox interno (sin reusar `r-window`, replicar lo necesario por dentro).
+- `r-jukebox` 🟡 — reproductor de audio con playlist (children `<r-track>`).
+
+seguir el patrón de los 13 ya hechos: i18n trilingüe, fallback, CSS vars `--r-*`, demo en `editor/demos/`, doc en `docs/`.
+
+### 3. Fase 4 — editor en navegador 🔴 (fase grande, requiere su propio plan)
+
+split-view biblioteca · código · preview. todas las decisiones ya cerradas en `ROADMAP.md` (textarea simple sin CodeMirror, parsing de tags `r-*` para inyectar solo lo necesario, ZIP con solo los componentes realmente usados, layout móvil con tabs <700px). ahora hay 13 componentes para poblar la biblioteca.
+
+### 4. Fase 5 — integración imgToWeb / videoToWeb 🟡
+
+comprobación previa: ver si imgToWeb/videoToWeb exponen `postMessage` desde el iframe. si sí, integración fluida; si no, flow manual (descargar + drop zone). decisión documentada en ROADMAP.
+
+### 5. limpieza menor (no bloquea)
+
+- `.claude/launch.json` está sin trackear (launch profile local con `python3 -m http.server` en puerto 8090; el doc oficial usa 8080). decidir si añadir `.claude/` al `.gitignore` o si trackear el launch.json (alinear puerto antes).
+- si Manu pasa la mascota oficial de moixí, sustituir `editor/assets/mascot.svg` y `favicon.svg` **conservando el `viewBox="0 0 8 8"`** para que el CSS no se descoloque.
+
+---
+
+## contexto del repo a tener presente
+
+- **nombre cerrado**: `retals`. prefijo de componentes: `r-`. aplicado en todo el código y docs; no rehacer find/replace.
+- **`files 4/`**: duplicado plano del scaffold inicial (los mismos `.md` + el zip). ignorado por `.gitignore` (`files [0-9]*/` + `*.zip`). Manu lo borrará o moverá cuando le venga bien — no editar nada ahí dentro.
 
 ---
 
