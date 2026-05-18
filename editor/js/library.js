@@ -11,6 +11,11 @@
 // el orden de declaración es el orden en el que aparecen en el panel.
 // ============================================================================
 
+// el campo `attrs` lista atributos editables por el inspector. cada uno:
+//   { name, type?, options?, placeholder?, help? }
+//   type:    "text" (default) | "number" | "bool"
+//   options: array de strings → render como <select>
+
 export const BLOCKS = [
   {
     tag: 'r-window',
@@ -21,6 +26,18 @@ export const BLOCKS = [
 `<r-window title="hola" x="40" y="40" w="320" h="200">
   <p>contenido de la ventana.</p>
 </r-window>`,
+    attrs: [
+      { name: 'title' },
+      { name: 'x',  type: 'text', placeholder: 'px o longitud CSS' },
+      { name: 'y',  type: 'text' },
+      { name: 'w',  type: 'text' },
+      { name: 'h',  type: 'text' },
+      { name: 'theme',       options: ['none','win95','macos'] },
+      { name: 'resizable',   options: ['false'] },
+      { name: 'closable',    options: ['false'] },
+      { name: 'minimizable', options: ['true'] },
+      { name: 'lang',        options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-divider',
@@ -28,6 +45,11 @@ export const BLOCKS = [
     complexity: 'green',
     desc: 'separador decorativo.',
     snippet: `<r-divider variant="wave"></r-divider>`,
+    attrs: [
+      { name: 'variant', options: ['wave','dots','dashes','glyph','solid'] },
+      { name: 'glyph',   placeholder: '✺ · ◌ ✜' },
+      { name: 'lang',    options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-marquee',
@@ -35,6 +57,12 @@ export const BLOCKS = [
     complexity: 'green',
     desc: 'texto en movimiento (sin el <marquee> viejo).',
     snippet: `<r-marquee speed="40">retals · vanilla, forever · meowrhino studio · </r-marquee>`,
+    attrs: [
+      { name: 'speed',     type: 'number', placeholder: 'px/s' },
+      { name: 'direction', options: ['left','right','up','down'] },
+      { name: 'pause',     type: 'bool',   help: 'pausa al hover' },
+      { name: 'lang',      options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-typewriter',
@@ -42,6 +70,13 @@ export const BLOCKS = [
     complexity: 'green',
     desc: 'texto que se escribe solo.',
     snippet: `<r-typewriter speed="60">hola, esto se escribe solo.</r-typewriter>`,
+    attrs: [
+      { name: 'speed', type: 'number', placeholder: 'ms por char' },
+      { name: 'delay', type: 'number', placeholder: 'ms antes de empezar' },
+      { name: 'loop',  type: 'bool' },
+      { name: 'cursor', options: ['true','false'] },
+      { name: 'lang',  options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-clock',
@@ -49,6 +84,11 @@ export const BLOCKS = [
     complexity: 'green',
     desc: 'reloj en vivo con formato.',
     snippet: `<r-clock format="HH:mm:ss"></r-clock>`,
+    attrs: [
+      { name: 'format',   placeholder: 'HH:mm:ss · YYYY-MM-DD' },
+      { name: 'timezone', placeholder: 'Europe/Madrid' },
+      { name: 'lang',     options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-glitch',
@@ -56,6 +96,12 @@ export const BLOCKS = [
     complexity: 'green',
     desc: 'texto glitcheado.',
     snippet: `<r-glitch intensity="0.6">retals</r-glitch>`,
+    attrs: [
+      { name: 'intensity', type: 'number', placeholder: '0..1' },
+      { name: 'speed',     type: 'number', placeholder: 'ms' },
+      { name: 'hover',     type: 'bool',   help: 'solo en hover' },
+      { name: 'lang',      options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-cursor',
@@ -63,6 +109,12 @@ export const BLOCKS = [
     complexity: 'green',
     desc: 'efectos de cursor (sparkle/trail).',
     snippet: `<r-cursor effect="sparkle"></r-cursor>`,
+    attrs: [
+      { name: 'effect', options: ['sparkle','trail','custom'] },
+      { name: 'glyph',  placeholder: '✺ ✦ ◌' },
+      { name: 'color',  placeholder: '#ef7d57' },
+      { name: 'lang',   options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-tooltip',
@@ -73,6 +125,11 @@ export const BLOCKS = [
 `<r-tooltip text="información oculta">
   pasa el cursor por encima
 </r-tooltip>`,
+    attrs: [
+      { name: 'text' },
+      { name: 'placement', options: ['top','bottom','left','right','cursor'] },
+      { name: 'lang',      options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-card',
@@ -86,6 +143,10 @@ export const BLOCKS = [
   <p slot="body">descripción breve.</p>
   <a slot="link" href="#">más →</a>
 </r-card>`,
+    attrs: [
+      { name: 'variant', options: ['default','outlined','elevated'] },
+      { name: 'lang',    options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-tabs',
@@ -98,6 +159,10 @@ export const BLOCKS = [
   <r-tab title="dos">contenido del segundo tab.</r-tab>
   <r-tab title="tres">contenido del tercero.</r-tab>
 </r-tabs>`,
+    attrs: [
+      { name: 'active', type: 'number', placeholder: 'índice (0=primero)' },
+      { name: 'lang',   options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-accordion',
@@ -109,6 +174,10 @@ export const BLOCKS = [
   <r-panel title="sección uno">contenido uno.</r-panel>
   <r-panel title="sección dos">contenido dos.</r-panel>
 </r-accordion>`,
+    attrs: [
+      { name: 'single', type: 'bool', help: 'solo un panel abierto a la vez' },
+      { name: 'lang',   options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-gallery',
@@ -121,6 +190,14 @@ export const BLOCKS = [
   <img src="img/2.webp" alt="">
   <img src="img/3.webp" alt="">
 </r-gallery>`,
+    attrs: [
+      { name: 'layout',   options: ['grid','masonry','carousel','stack'] },
+      { name: 'cols',     type: 'number' },
+      { name: 'gap',      placeholder: '0.5rem · 8px' },
+      { name: 'lightbox', options: ['on','off'] },
+      { name: 'start',    type: 'number' },
+      { name: 'lang',     options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-jukebox',
@@ -132,6 +209,14 @@ export const BLOCKS = [
   <r-track src="audio/1.mp3" title="apertura"   artist="tú"></r-track>
   <r-track src="audio/2.mp3" title="intermedio" artist="tú"></r-track>
 </r-jukebox>`,
+    attrs: [
+      { name: 'loop',    options: ['off','one','all'] },
+      { name: 'shuffle', type: 'bool' },
+      { name: 'autoplay', type: 'bool' },
+      { name: 'volume',  type: 'number', placeholder: '0..1' },
+      { name: 'start',   type: 'number' },
+      { name: 'lang',    options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-counter',
@@ -139,6 +224,12 @@ export const BLOCKS = [
     complexity: 'yellow',
     desc: 'contador local o vía Worker self-hosted.',
     snippet: `<r-counter label="visitas"></r-counter>`,
+    attrs: [
+      { name: 'id' },
+      { name: 'label' },
+      { name: 'endpoint', placeholder: 'https://… (opcional, Worker)' },
+      { name: 'lang',     options: ['es','en','ca'] },
+    ],
   },
   {
     tag: 'r-guestbook',
@@ -146,8 +237,39 @@ export const BLOCKS = [
     complexity: 'yellow',
     desc: 'libro de visitas local o vía Worker self-hosted.',
     snippet: `<r-guestbook label="déjame un mensaje"></r-guestbook>`,
+    attrs: [
+      { name: 'id' },
+      { name: 'label' },
+      { name: 'endpoint', placeholder: 'https://… (opcional, Worker)' },
+      { name: 'lang',     options: ['es','en','ca'] },
+    ],
+  },
+  // r-track lo registra r-jukebox pero también queremos atributos en inspector
+  {
+    tag: 'r-track', name: '<r-track>', complexity: 'green',
+    desc: '(hijo de r-jukebox)', snippet: `<r-track src="audio.mp3" title="" artist=""></r-track>`,
+    attrs: [
+      { name: 'src' },
+      { name: 'title' },
+      { name: 'artist' },
+      { name: 'duration', placeholder: '3:24' },
+    ],
+  },
+  {
+    tag: 'r-tab', name: '<r-tab>', complexity: 'green',
+    desc: '(hijo de r-tabs)', snippet: `<r-tab title="">contenido</r-tab>`,
+    attrs: [{ name: 'title' }],
+  },
+  {
+    tag: 'r-panel', name: '<r-panel>', complexity: 'green',
+    desc: '(hijo de r-accordion)', snippet: `<r-panel title="">contenido</r-panel>`,
+    attrs: [{ name: 'title' }, { name: 'open', type: 'bool' }],
   },
 ];
+
+// los tres hijos de arriba no aparecen en la biblioteca visible
+// (la lista útil del panel biblioteca son los 15 primeros).
+export const VISIBLE_BLOCKS = BLOCKS.slice(0, 15);
 
 // ── helpers ────────────────────────────────────────────────────────────
 

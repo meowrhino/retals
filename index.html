@@ -208,5 +208,109 @@
   <footer class="r-editor__footer">
     made in barcelona ☼ <a href="https://github.com/meowrhino" target="_blank" rel="noopener">meowrhino studio</a> · vanilla, forever · <a href="https://github.com/meowrhino/retals" target="_blank" rel="noopener">MIT</a>
   </footer>
+
+  <!-- modal de preview de bloque (se llena por JS) -->
+  <div class="r-block-modal" id="block-modal" hidden>
+    <div class="r-block-modal__card">
+      <header class="r-block-modal__head">
+        <h3 id="bm-title">—</h3>
+        <button type="button" class="r-btn r-btn--xs" id="bm-close" aria-label="cerrar">×</button>
+      </header>
+      <div class="r-block-modal__body">
+        <div class="r-block-modal__live" id="bm-live"></div>
+        <div class="r-block-modal__code">
+          <header>
+            <span>HTML pegable</span>
+            <button type="button" class="r-btn r-btn--xs" id="bm-copy">copiar</button>
+            <span class="r-block-modal__copied" id="bm-copied" hidden>¡copiado!</span>
+          </header>
+          <pre id="bm-pre"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // catálogo en línea: el de la biblioteca real lo importamos del editor
+    import { BLOCKS } from './editor/js/library.js';
+
+    const $modal  = document.getElementById('block-modal');
+    const $title  = document.getElementById('bm-title');
+    const $live   = document.getElementById('bm-live');
+    const $pre    = document.getElementById('bm-pre');
+    const $close  = document.getElementById('bm-close');
+    const $copy   = document.getElementById('bm-copy');
+    const $copied = document.getElementById('bm-copied');
+
+    const byTag = Object.fromEntries(BLOCKS.map(b => [b.tag, b]));
+    const cardsLoaded = new Set();   // tags cuyo .js ya cargamos
+
+    function loadScriptOnce(tag) {
+      // los hijos (r-track, r-tab, r-panel) los registra el archivo del padre
+      const PARENT = { 'r-track':'r-jukebox', 'r-tab':'r-tabs', 'r-panel':'r-accordion' };
+      const owner = PARENT[tag] || tag;
+      if (cardsLoaded.has(owner)) return Promise.resolve();
+      cardsLoaded.add(owner);
+      return import(`./components/${owner}.js`).catch(err => {
+        console.warn('[modal] no se pudo cargar', owner, err);
+      });
+    }
+
+    async function openModal(tag) {
+      const b = byTag[tag];
+      if (!b) return;
+      $title.textContent = b.name;
+      $pre.textContent = b.snippet;
+      $live.innerHTML = b.snippet;
+      $modal.hidden = false;
+      // cargar también componentes hijos si el snippet los referencia
+      const childTags = Array.from($live.querySelectorAll('*'))
+        .map(el => el.tagName.toLowerCase())
+        .filter(t => t.startsWith('r-'));
+      for (const t of new Set([tag, ...childTags])) await loadScriptOnce(t);
+    }
+
+    function closeModal() {
+      $modal.hidden = true;
+      $live.innerHTML = '';
+      $copied.hidden = true;
+    }
+
+    document.querySelectorAll('.r-card-block').forEach(card => {
+      // buscar el tag a partir del h3 (ej "<r-window>")
+      const txt = card.querySelector('h3')?.textContent?.trim() || '';
+      const m = txt.match(/<\s*([a-z-]+)\s*>/i);
+      if (!m) return;
+      const tag = m[1].toLowerCase();
+      // bind click en el card excepto en los links <a>
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('a')) return;
+        openModal(tag);
+      });
+      // keyboard
+      card.tabIndex = 0;
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', `ver ${tag} en vivo`);
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(tag); }
+      });
+    });
+
+    $close.addEventListener('click', closeModal);
+    $modal.addEventListener('click', (e) => { if (e.target === $modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$modal.hidden) closeModal(); });
+
+    $copy.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText($pre.textContent);
+        $copied.hidden = false;
+        setTimeout(() => { $copied.hidden = true; }, 1500);
+      } catch (_) {
+        $copied.textContent = 'no se pudo copiar — selecciona y copia a mano';
+        $copied.hidden = false;
+      }
+    });
+  </script>
 </body>
 </html>

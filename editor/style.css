@@ -332,11 +332,18 @@ a:hover { text-decoration: none; }
   font-weight: 700;
 }
 
-/* layout principal: 3 paneles */
+/* layout principal: 3 paneles separados por splitters arrastrables.
+   las anchuras se controlan via CSS vars que JS modifica al arrastrar.
+   ocultar paneles → JS pone su variable a 0 y oculta el splitter precedente. */
 .r-editor__app {
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: 280px 1fr 1fr;
+  grid-template-columns:
+    var(--col-library, 240px)
+    var(--col-splitter-1, 6px)
+    var(--col-code, 1fr)
+    var(--col-splitter-2, 6px)
+    var(--col-preview, 1fr);
   min-height: 0;
 }
 
@@ -345,10 +352,26 @@ a:hover { text-decoration: none; }
   flex-direction: column;
   min-height: 0;
   min-width: 0;
-  border-right: 1px solid var(--ink);
   background: var(--paper);
 }
-.r-editor__panel:last-child { border-right: 0; }
+
+/* splitters */
+.r-editor__splitter {
+  background: var(--ink);
+  cursor: col-resize;
+  position: relative;
+  user-select: none;
+}
+.r-editor__splitter::after {
+  content: '';
+  position: absolute;
+  inset: 0 -3px;
+  background: transparent;
+}
+.r-editor__splitter:hover { background: var(--coral); }
+.r-editor__splitter--dragging { background: var(--amber); }
+.r-editor__splitter[hidden] { display: none; }
+.r-editor__panel[hidden]    { display: none; }
 
 .r-editor__panel-head {
   display: flex;
@@ -472,7 +495,146 @@ a:hover { text-decoration: none; }
   min-height: 0;
 }
 
-/* modal */
+/* ============================================================================
+   toggles + menú hamburger
+   ========================================================================== */
+
+.r-editor__view-toggles {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+.r-toggle {
+  min-width: 1.8rem;
+  font-family: var(--r-font);
+  background: var(--paper);
+  color: var(--r-muted);
+  opacity: 0.55;
+}
+.r-toggle--on {
+  background: var(--amber);
+  color: var(--ink);
+  opacity: 1;
+}
+
+.r-menu { position: relative; }
+.r-menu__panel {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  min-width: 220px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  z-index: 50;
+  padding: 0.3rem 0;
+}
+.r-menu__panel[hidden] { display: none; }
+.r-menu__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.4rem 0.85rem;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: var(--ink);
+}
+.r-menu__item:hover { background: var(--cream); }
+.r-menu__sep {
+  height: 1px;
+  background: var(--ash);
+  margin: 0.3rem 0;
+}
+.r-menu__group {
+  padding: 0.4rem 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+}
+.r-menu__group small {
+  color: var(--r-muted);
+}
+.r-menu__group select {
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+/* ============================================================================
+   inspector contextual (flota abajo-derecha del editor)
+   ========================================================================== */
+
+.r-editor__inspector {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 280px;
+  max-height: 60vh;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--amber);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.82rem;
+}
+.r-editor__inspector[hidden] { display: none; }
+.r-editor__inspector-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  background: var(--amber);
+  border-bottom: 1px solid var(--ink);
+}
+.r-editor__inspector-head strong { font-size: 0.82rem; }
+.r-editor__inspector-head code {
+  background: rgba(0,0,0,0.08);
+  padding: 0 0.3rem;
+  font-family: var(--r-font);
+  font-size: 0.78rem;
+}
+.r-editor__inspector-body {
+  padding: 0.6rem 0.75rem;
+  overflow: auto;
+  flex: 1 1 auto;
+}
+.r-ins-field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.35rem;
+}
+.r-ins-field label {
+  flex: 0 0 auto;
+  min-width: 4.5rem;
+  font-size: 0.78rem;
+  color: var(--r-muted);
+}
+.r-ins-field input,
+.r-ins-field select {
+  flex: 1 1 auto;
+  min-width: 0;
+  font: inherit;
+  font-size: 0.78rem;
+  border: 1px solid var(--ash);
+  background: var(--paper);
+  padding: 0.15rem 0.3rem;
+}
+.r-ins-field input:focus,
+.r-ins-field select:focus {
+  outline: 2px solid var(--amber);
+  outline-offset: 1px;
+  border-color: var(--ink);
+}
+
+/* ============================================================================
+   modal genérico
+   ========================================================================== */
+
 .r-editor__modal {
   position: fixed;
   inset: 0;
@@ -504,6 +666,93 @@ a:hover { text-decoration: none; }
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+/* ============================================================================
+   modal de preview de bloque (landing)
+   ========================================================================== */
+
+.r-block-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,26,0.78);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.r-block-modal[hidden] { display: none; }
+.r-block-modal__card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--coral);
+  width: 100%;
+  max-width: 880px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.r-block-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--cream);
+}
+.r-block-modal__head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-family: var(--r-font);
+}
+.r-block-modal__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.r-block-modal__live {
+  padding: 1.25rem;
+  overflow: auto;
+  border-right: 2px solid var(--ink);
+  background: var(--cream);
+}
+.r-block-modal__code {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.r-block-modal__code header {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--r-muted);
+  border-bottom: 1px solid var(--ash);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.r-block-modal__code pre {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  background: var(--ink);
+  color: var(--cream);
+  font-family: var(--r-font);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  overflow: auto;
+  flex: 1 1 auto;
+  white-space: pre;
+}
+.r-block-modal__copied {
+  color: var(--amber);
+  font-size: 0.72rem;
+}
+@media (max-width: 700px) {
+  .r-block-modal__body { grid-template-columns: 1fr; }
+  .r-block-modal__live { border-right: 0; border-bottom: 2px solid var(--ink); }
+  .r-block-modal { padding: 0.5rem; }
 }
 
 /* ============================================================================

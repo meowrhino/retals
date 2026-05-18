@@ -10,25 +10,49 @@
 </head>
 <body class="r-editor-body">
   <header class="r-editor__header r-editor__header--app">
-    <a href="./" class="r-editor__brand">
+    <a href="../" class="r-editor__brand">
       <img src="./assets/mascot.svg" alt="" width="28" height="28" class="r-editor__mascot">
       <span>retals · editor</span>
     </a>
+
     <div class="r-editor__toolbar">
-      <button type="button" class="r-btn r-btn--sm" data-r-action="new">nuevo</button>
-      <label class="r-btn r-btn--sm" data-r-action="load-starter-label">
-        starter
-        <select id="starter-select" aria-label="cargar starter">
-          <option value="">— elige —</option>
-          <option value="collage-ventanas">collage-ventanas</option>
-          <option value="studio-carta">studio-carta</option>
-          <option value="one-pager">one-pager</option>
-          <option value="archivo">archivo</option>
-        </select>
-      </label>
-      <button type="button" class="r-btn r-btn--sm" data-r-action="import">importar .retals.json</button>
-      <button type="button" class="r-btn r-btn--sm" data-r-action="export-json">exportar .retals.json</button>
-      <button type="button" class="r-btn r-btn--sm" data-r-action="media" title="Fase 5">comprimir media</button>
+      <!-- toggles de paneles, siempre visibles -->
+      <div class="r-editor__view-toggles" role="group" aria-label="paneles visibles">
+        <button type="button" class="r-btn r-btn--xs r-toggle r-toggle--on" data-r-toggle="library" title="biblioteca">▤</button>
+        <button type="button" class="r-btn r-btn--xs r-toggle r-toggle--on" data-r-toggle="code"    title="código">{ }</button>
+        <button type="button" class="r-btn r-btn--xs r-toggle r-toggle--on" data-r-toggle="preview" title="preview">▶</button>
+        <button type="button" class="r-btn r-btn--xs r-toggle"              data-r-toggle="inspector" title="inspector contextual">ⓘ</button>
+      </div>
+
+      <!-- menú hamburger con el resto de acciones -->
+      <div class="r-menu" id="menu">
+        <button type="button" class="r-btn r-btn--sm r-menu__trigger" aria-haspopup="true" aria-expanded="false">≡ menú</button>
+        <div class="r-menu__panel" role="menu" hidden>
+          <button type="button" class="r-menu__item" data-r-action="new">nuevo (vacío)</button>
+          <div class="r-menu__sep"></div>
+          <div class="r-menu__group">
+            <small>cargar starter</small>
+            <select id="starter-select" aria-label="cargar starter">
+              <option value="">— elige —</option>
+              <option value="collage-ventanas">collage-ventanas</option>
+              <option value="studio-carta">studio-carta</option>
+              <option value="one-pager">one-pager</option>
+              <option value="archivo">archivo</option>
+              <option value="zine-personal">zine-personal</option>
+              <option value="portfolio-foto">portfolio-foto</option>
+              <option value="banda-album">banda-album</option>
+              <option value="wiki-jardin">wiki-jardin</option>
+              <option value="hub-minimal">hub-minimal</option>
+            </select>
+          </div>
+          <div class="r-menu__sep"></div>
+          <button type="button" class="r-menu__item" data-r-action="import">importar .retals.json</button>
+          <button type="button" class="r-menu__item" data-r-action="export-json">exportar .retals.json</button>
+          <div class="r-menu__sep"></div>
+          <button type="button" class="r-menu__item" data-r-action="media">comprimir media (Fase 5)</button>
+        </div>
+      </div>
+
       <button type="button" class="r-btn r-btn--sm r-btn--primary" data-r-action="download">descargar zip ↓</button>
     </div>
   </header>
@@ -48,8 +72,11 @@
         <input type="search" id="lib-search" placeholder="buscar bloque…" aria-label="buscar bloque">
       </div>
       <ul class="r-editor__lib" id="lib"></ul>
-      <p class="r-editor__hint">click en un bloque → se inserta en el cursor.</p>
+      <p class="r-editor__hint">click → inserta en cursor.</p>
     </aside>
+
+    <!-- splitter biblioteca/código -->
+    <div class="r-editor__splitter" data-r-splitter="lib-code" role="separator" aria-orientation="vertical" aria-label="redimensionar biblioteca"></div>
 
     <!-- ===== panel código ===== -->
     <section class="r-editor__panel r-editor__panel--code r-editor__panel--active" data-r-panel="code">
@@ -65,8 +92,12 @@
         autocapitalize="off"
         wrap="off"
         aria-label="editor de código HTML"
+        placeholder="<!-- empieza aquí, o abre ≡ menú → cargar starter -->"
       ></textarea>
     </section>
+
+    <!-- splitter código/preview -->
+    <div class="r-editor__splitter" data-r-splitter="code-preview" role="separator" aria-orientation="vertical" aria-label="redimensionar preview"></div>
 
     <!-- ===== panel preview ===== -->
     <section class="r-editor__panel r-editor__panel--preview" data-r-panel="preview">
@@ -84,7 +115,18 @@
 
   </main>
 
-  <!-- modal genérico para confirmaciones y media -->
+  <!-- ===== inspector contextual (flota fijo abajo a la derecha) ===== -->
+  <aside class="r-editor__inspector" id="inspector" hidden>
+    <header class="r-editor__inspector-head">
+      <strong>inspector · <code id="ins-tag">—</code></strong>
+      <button type="button" class="r-btn r-btn--xs" data-r-action="ins-close" aria-label="cerrar inspector">×</button>
+    </header>
+    <div class="r-editor__inspector-body" id="ins-body">
+      <p class="r-editor__hint">coloca el cursor dentro de un &lt;r-…&gt; en el código.</p>
+    </div>
+  </aside>
+
+  <!-- modal genérico -->
   <div class="r-editor__modal" id="modal" hidden>
     <div class="r-editor__modal-card">
       <h3 id="modal-title">aviso</h3>
@@ -96,7 +138,6 @@
     </div>
   </div>
 
-  <!-- input file oculto para importar -->
   <input type="file" id="file-import" accept=".json,.retals.json,application/json" hidden>
 
   <script type="module" src="./js/editor.js"></script>
