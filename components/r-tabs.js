@@ -152,8 +152,20 @@ class RTabs extends HTMLElement {
   }
 
   _build() {
-    // recopilar panels originales (children con data-tab)
-    const originalPanels = Array.from(this.children).filter(el => el.hasAttribute('data-tab'));
+    // recopilar panels originales:
+    // - convención canónica: children con `data-tab="label"` (cualquier tag)
+    // - convención corta:    <r-tab title="label">...</r-tab>
+    // ambas se aceptan; si vienen mezcladas también.
+    const originalPanels = Array.from(this.children).filter(el => {
+      if (el.hasAttribute('data-tab')) return true;
+      if (el.tagName === 'R-TAB' && el.hasAttribute('title')) {
+        // normalizar: copiar `title` a `data-tab` para el resto del flujo
+        el.setAttribute('data-tab', el.getAttribute('title'));
+        el.removeAttribute('title'); // evita tooltip nativo del navegador
+        return true;
+      }
+      return false;
+    });
     if (!originalPanels.length) return;
 
     // lista de tabs

@@ -718,6 +718,14 @@ a:hover { text-decoration: none; }
   overflow: auto;
   border-right: 2px solid var(--ink);
   background: var(--cream);
+  position: relative;     /* ancla para r-window y otros position:absolute */
+  min-height: 280px;
+}
+/* dentro del modal: que r-window no se vaya a (40,40) del viewport */
+.r-block-modal__live r-window.r-window--ready {
+  left: 1rem !important;
+  top: 1rem !important;
+  position: absolute;
 }
 .r-block-modal__code {
   display: flex;

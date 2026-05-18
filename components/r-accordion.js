@@ -151,7 +151,18 @@ class RAccordion extends HTMLElement {
   }
 
   _build() {
-    const sections = Array.from(this.children).filter(el => el.hasAttribute('data-label'));
+    // recopilar secciones:
+    // - convención canónica: children con `data-label="…"` (cualquier tag)
+    // - convención corta:    <r-panel title="…">…</r-panel>
+    const sections = Array.from(this.children).filter(el => {
+      if (el.hasAttribute('data-label')) return true;
+      if (el.tagName === 'R-PANEL' && el.hasAttribute('title')) {
+        el.setAttribute('data-label', el.getAttribute('title'));
+        el.removeAttribute('title');
+        return true;
+      }
+      return false;
+    });
     if (!sections.length) return;
 
     this.setAttribute('role', 'region');
