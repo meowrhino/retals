@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>retals · editor</title>
+  <meta name="description" content="editor en navegador para componer webs con bloques retals. tu código, tu web.">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body class="r-editor-body">
+  <header class="r-editor__header r-editor__header--app">
+    <a href="./" class="r-editor__brand">
+      <img src="./assets/mascot.svg" alt="" width="28" height="28" class="r-editor__mascot">
+      <span>retals · editor</span>
+    </a>
+    <div class="r-editor__toolbar">
+      <button type="button" class="r-btn r-btn--sm" data-r-action="new">nuevo</button>
+      <label class="r-btn r-btn--sm" data-r-action="load-starter-label">
+        starter
+        <select id="starter-select" aria-label="cargar starter">
+          <option value="">— elige —</option>
+          <option value="collage-ventanas">collage-ventanas</option>
+          <option value="studio-carta">studio-carta</option>
+          <option value="one-pager">one-pager</option>
+          <option value="archivo">archivo</option>
+        </select>
+      </label>
+      <button type="button" class="r-btn r-btn--sm" data-r-action="import">importar .retals.json</button>
+      <button type="button" class="r-btn r-btn--sm" data-r-action="export-json">exportar .retals.json</button>
+      <button type="button" class="r-btn r-btn--sm" data-r-action="media" title="Fase 5">comprimir media</button>
+      <button type="button" class="r-btn r-btn--sm r-btn--primary" data-r-action="download">descargar zip ↓</button>
+    </div>
+  </header>
+
+  <div class="r-editor__tabs" role="tablist" aria-label="paneles">
+    <button type="button" class="r-editor__tab" data-r-tab="library"  role="tab" aria-selected="false">biblioteca</button>
+    <button type="button" class="r-editor__tab r-editor__tab--active" data-r-tab="code" role="tab" aria-selected="true">código</button>
+    <button type="button" class="r-editor__tab" data-r-tab="preview"  role="tab" aria-selected="false">preview</button>
+  </div>
+
+  <main class="r-editor__app" id="app">
+
+    <!-- ===== panel biblioteca ===== -->
+    <aside class="r-editor__panel r-editor__panel--library" data-r-panel="library">
+      <div class="r-editor__panel-head">
+        <h2>biblioteca</h2>
+        <input type="search" id="lib-search" placeholder="buscar bloque…" aria-label="buscar bloque">
+      </div>
+      <ul class="r-editor__lib" id="lib"></ul>
+      <p class="r-editor__hint">click en un bloque → se inserta en el cursor.</p>
+    </aside>
+
+    <!-- ===== panel código ===== -->
+    <section class="r-editor__panel r-editor__panel--code r-editor__panel--active" data-r-panel="code">
+      <div class="r-editor__panel-head">
+        <h2>código <small id="code-status">·</small></h2>
+        <span class="r-editor__used" id="used-components" aria-live="polite"></span>
+      </div>
+      <textarea
+        id="code"
+        class="r-editor__code"
+        spellcheck="false"
+        autocomplete="off"
+        autocapitalize="off"
+        wrap="off"
+        aria-label="editor de código HTML"
+      ></textarea>
+    </section>
+
+    <!-- ===== panel preview ===== -->
+    <section class="r-editor__panel r-editor__panel--preview" data-r-panel="preview">
+      <div class="r-editor__panel-head">
+        <h2>preview</h2>
+        <button type="button" class="r-btn r-btn--xs" data-r-action="reload-preview">↻ recargar</button>
+      </div>
+      <iframe
+        id="preview"
+        class="r-editor__preview"
+        sandbox="allow-scripts allow-same-origin"
+        title="preview del proyecto"
+      ></iframe>
+    </section>
+
+  </main>
+
+  <!-- modal genérico para confirmaciones y media -->
+  <div class="r-editor__modal" id="modal" hidden>
+    <div class="r-editor__modal-card">
+      <h3 id="modal-title">aviso</h3>
+      <div id="modal-body"></div>
+      <div class="r-editor__modal-actions">
+        <button type="button" class="r-btn r-btn--sm" data-r-modal="cancel">cancelar</button>
+        <button type="button" class="r-btn r-btn--sm r-btn--primary" data-r-modal="ok">ok</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- input file oculto para importar -->
+  <input type="file" id="file-import" accept=".json,.retals.json,application/json" hidden>
+
+  <script type="module" src="./js/editor.js"></script>
+</body>
+</html>

@@ -49,18 +49,18 @@ publicar componentes uno a uno. **cada uno con docs + demo + test de fallback**.
 
 orden sugerido (de más simple a más complejo):
 
-- [ ] `r-divider` 🟢 — separador decorativo (svg, gif, o glifo tipográfico)
-- [ ] `r-marquee` 🟢 — texto en movimiento, configurable (no el `<marquee>` viejo)
-- [ ] `r-typewriter` 🟢 — texto que se escribe solo
-- [ ] `r-clock` 🟢 — reloj en vivo con formato
-- [ ] `r-glitch` 🟢 — texto glitcheado
-- [ ] `r-tooltip` 🟡 — tooltip que sigue cursor o pegado a elemento
-- [ ] `r-card` 🟡 — tarjeta con slots (image, title, body, link)
-- [ ] `r-tabs` 🟡 — tabs accesibles con keyboard nav
-- [ ] `r-accordion` 🟡 — secciones expandibles
-- [ ] `r-gallery` 🟡 — galería con layouts (grid, masonry, carousel, stack) + lightbox
-- [ ] `r-jukebox` 🟡 — reproductor de audio con playlist (children `<r-track>`)
-- [ ] `r-cursor` 🟢 — efectos de cursor (sparkle, trail, custom)
+- [x] `r-divider` 🟢 — separador decorativo (svg, gif, o glifo tipográfico)
+- [x] `r-marquee` 🟢 — texto en movimiento, configurable (no el `<marquee>` viejo)
+- [x] `r-typewriter` 🟢 — texto que se escribe solo
+- [x] `r-clock` 🟢 — reloj en vivo con formato
+- [x] `r-glitch` 🟢 — texto glitcheado
+- [x] `r-tooltip` 🟡 — tooltip que sigue cursor o pegado a elemento
+- [x] `r-card` 🟡 — tarjeta con slots (image, title, body, link)
+- [x] `r-tabs` 🟡 — tabs accesibles con keyboard nav
+- [x] `r-accordion` 🟡 — secciones expandibles
+- [x] `r-gallery` 🟡 — galería con layouts (grid, masonry, carousel, stack) + lightbox
+- [x] `r-jukebox` 🟡 — reproductor de audio con playlist (children `<r-track>`)
+- [x] `r-cursor` 🟢 — efectos de cursor (sparkle, trail, custom)
 
 **criterio de done por componente**: respeta CLAUDE.md, tiene su `docs/r-<name>.md`, tiene demo en `editor/demos/`, pasa TESTING.md.
 
@@ -93,27 +93,25 @@ el starter debe:
 
 ---
 
-## Fase 4 — editor en navegador 🔴
+## Fase 4 — editor en navegador 🔴 ✅ (cerrada 2026-05-11)
 
 el split-view tres columnas. la parte más ambiciosa.
 
-- [ ] `editor/editor.html` con layout de 3 paneles: biblioteca · código · preview
-- [ ] panel de biblioteca: lista de todos los bloques con preview en miniatura
-- [ ] panel de código (**decisión cerrada**):
-  - **`<textarea>` monoespaciada simple** con `font-family: var(--r-font)` y `tab-size: 2`. nada de resaltado de sintaxis en esta fase.
-  - razón: cumple "vanilla, forever" sin meter dependencias. CodeMirror 6 (vía CDN) queda como mejora opcional para Fase 8 si el feedback lo pide.
-  - sí indentar al pulsar Tab y permitir Cmd/Ctrl+Z (delegado al navegador).
-- [ ] panel de preview (**decisión cerrada sobre detección de componentes**):
-  - iframe sandboxed (`sandbox="allow-scripts"`)
-  - live reload con debounce (300ms tras última pulsación)
-  - **el editor parsea el HTML del user, detecta los tags `r-*` que aparezcan, e inyecta solo los `<script type="module" src="../components/r-X.js">` necesarios** (no inyectar los 12 siempre)
-  - reusar la lista de tags presentes para invalidar cache cuando cambia
-- [ ] click en bloque de biblioteca → inserta snippet en posición de cursor del código
-- [ ] toolbar: nuevo proyecto, cargar starter, comprimir media, descargar
-- [ ] descarga (**decisión cerrada**): ZIP autocontenido con HTML + assets + **solo los `components/r-X.js` realmente usados** (mismo parsing que el preview). README mínimo dentro del ZIP indicando "tu web es tuya, estos componentes son snapshot inmutable".
-- [ ] persistencia: guardar proyecto en localStorage automáticamente
-- [ ] import/export `.retals.json` para mover proyectos entre dispositivos
-- [ ] **layout móvil (<700px) — decisión cerrada**: en lugar de tres columnas que no entran, cambiar a tabs (biblioteca / código / preview) con el código como tab activo por defecto. mismo HTML, distinto CSS via media query.
+- [x] `editor/editor.html` con layout de 3 paneles: biblioteca · código · preview
+- [x] panel de biblioteca: lista de los 15 bloques con descripción + complexity dot. (preview en miniatura queda como mejora Fase 8 — no aporta tanto como nombre/desc/snippet legible.)
+- [x] panel de código:
+  - `<textarea>` monoespaciada con `tab-size: 2`. sin resaltado de sintaxis.
+  - Tab indenta (incl. multilinea con Shift+Tab para des-indentar), Cmd/Ctrl+Z delegado al navegador.
+- [x] panel de preview:
+  - iframe con `sandbox="allow-scripts allow-same-origin"` y `srcdoc`
+  - live reload con debounce 300ms
+  - parsing por regex de tags `r-*` → inyecta sólo los `<script type="module">` necesarios. mapeo de tags-hijo (`r-track`, `r-tab`, `r-panel`) → archivo del padre en `editor/js/library.js`.
+- [x] click en bloque de biblioteca → inserta snippet en posición de cursor del código (con `\n` automáticos si no estás en línea limpia).
+- [x] toolbar: nuevo, cargar starter (selector con los 4), importar/exportar `.retals.json`, comprimir media (placeholder de Fase 5), descargar zip.
+- [x] descarga: ZIP autocontenido con `index.html` + `README.md` + sólo los `components/r-X.js` usados. ZIP "store mode" vanilla (cero dependencias) implementado en [editor/js/zip.js](editor/js/zip.js).
+- [x] persistencia: localStorage automática con throttle de 1s.
+- [x] import/export `.retals.json` (`{version, name, html, savedAt}`).
+- [x] **layout móvil (<700px)**: tabs (biblioteca / código / preview) con código activo por defecto.
 
 **criterio de done**: un user no-coder, partiendo de un starter, puede personalizar texto, añadir bloques, comprimir imágenes y descargar el ZIP listo para subir. **el ZIP descargado solo lleva los componentes que realmente aparecen en el HTML.**
 

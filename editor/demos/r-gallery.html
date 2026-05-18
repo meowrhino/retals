@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-gallery · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --ash:    #d4d4d0;
+
+      --r-bg:        var(--cream);
+      --r-fg:        var(--ink);
+      --r-accent:    var(--coral);
+      --r-border:    var(--ash);
+      --r-font:      'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          var(--cream) 0,
+          var(--cream) 18px,
+          #f6efd8 18px,
+          #f6efd8 19px
+        );
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+    }
+
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+
+    .demo-stage {
+      padding: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+    }
+
+    .demo-block {
+      margin: 0 0 2.5rem;
+      padding: 1.25rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--amber);
+    }
+    .demo-block h2 {
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+    .demo-block p.note {
+      margin: 0 0 1rem;
+      font-size: 0.78rem;
+      opacity: 0.75;
+    }
+    code { background: rgba(0,0,0,0.06); padding: 0 0.25rem; }
+
+    /* fallback antes de que el JS arranque */
+    r-gallery > img,
+    r-gallery > a > img {
+      max-width: 200px;
+      height: auto;
+      margin: 0.25rem;
+    }
+
+    .demo-log {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      width: 280px;
+      max-height: 40vh;
+      overflow: auto;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--amber);
+      z-index: 10;
+    }
+    .demo-log strong { color: var(--amber); }
+    .demo-log__title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+      gap: 0.5rem;
+    }
+    .demo-log__clear {
+      background: none;
+      border: 1px solid var(--cream);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      padding: 0 0.4rem;
+    }
+    .demo-log__entries { margin: 0; padding: 0; list-style: none; }
+    .demo-log__entries li { margin: 0.15rem 0; font-family: var(--r-font); }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✺ r-gallery · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-gallery.md">docs</a>
+    </nav>
+  </header>
+
+  <main class="demo-stage">
+
+    <section class="demo-block">
+      <h2>1 · grid (3 columnas, lightbox activado)</h2>
+      <p class="note">click en cualquier imagen abre el lightbox. <kbd>Esc</kbd> cierra, <kbd>←</kbd> <kbd>→</kbd> navegan.</p>
+      <r-gallery id="g1" layout="grid" cols="3">
+        <img src="https://picsum.photos/seed/retals1/600/600" alt="picsum 1">
+        <img src="https://picsum.photos/seed/retals2/600/600" alt="picsum 2">
+        <img src="https://picsum.photos/seed/retals3/600/600" alt="picsum 3">
+        <img src="https://picsum.photos/seed/retals4/600/600" alt="picsum 4">
+        <img src="https://picsum.photos/seed/retals5/600/600" alt="picsum 5">
+        <img src="https://picsum.photos/seed/retals6/600/600" alt="picsum 6">
+      </r-gallery>
+    </section>
+
+    <section class="demo-block">
+      <h2>2 · masonry (4 columnas, con radio y sombra)</h2>
+      <p class="note">true masonry vía <code>column-count</code> de CSS, sin JS extra. el orden va por columnas.</p>
+      <r-gallery
+        id="g2"
+        layout="masonry"
+        cols="4"
+        gap="0.5rem"
+        style="--r-gallery-radius: 6px; --r-gallery-shadow: 2px 2px 0 var(--ink);">
+        <img src="https://picsum.photos/seed/m1/400/600"  alt="vertical 1">
+        <img src="https://picsum.photos/seed/m2/600/400"  alt="horizontal 1">
+        <img src="https://picsum.photos/seed/m3/500/500"  alt="cuadrada 1">
+        <img src="https://picsum.photos/seed/m4/400/700"  alt="vertical 2">
+        <img src="https://picsum.photos/seed/m5/700/400"  alt="horizontal 2">
+        <img src="https://picsum.photos/seed/m6/450/550"  alt="vertical 3">
+        <img src="https://picsum.photos/seed/m7/550/450"  alt="horizontal 3">
+        <img src="https://picsum.photos/seed/m8/500/650"  alt="vertical 4">
+      </r-gallery>
+    </section>
+
+    <section class="demo-block">
+      <h2>3 · carousel (flechas, dots, thumb→full)</h2>
+      <p class="note">cada <code>&lt;a href&gt;</code> apunta a una imagen de mayor resolución para el lightbox.</p>
+      <r-gallery id="g3" layout="carousel" start="0">
+        <a href="https://picsum.photos/seed/c1/1600/1000"><img src="https://picsum.photos/seed/c1/800/500" alt="paisaje 1"></a>
+        <a href="https://picsum.photos/seed/c2/1600/1000"><img src="https://picsum.photos/seed/c2/800/500" alt="paisaje 2"></a>
+        <a href="https://picsum.photos/seed/c3/1600/1000"><img src="https://picsum.photos/seed/c3/800/500" alt="paisaje 3"></a>
+        <a href="https://picsum.photos/seed/c4/1600/1000"><img src="https://picsum.photos/seed/c4/800/500" alt="paisaje 4"></a>
+      </r-gallery>
+    </section>
+
+    <section class="demo-block">
+      <h2>4 · stack (rotaciones determinísticas, hover sube al frente)</h2>
+      <p class="note">click envía al fondo si lightbox está off. aquí está activado, así que click abre el modal.</p>
+      <r-gallery id="g4" layout="stack">
+        <img src="https://picsum.photos/seed/s1/600/450" alt="pila 1">
+        <img src="https://picsum.photos/seed/s2/600/450" alt="pila 2">
+        <img src="https://picsum.photos/seed/s3/600/450" alt="pila 3">
+        <img src="https://picsum.photos/seed/s4/600/450" alt="pila 4">
+        <img src="https://picsum.photos/seed/s5/600/450" alt="pila 5">
+      </r-gallery>
+    </section>
+
+    <section class="demo-block">
+      <h2>5 · en inglés + override del modal</h2>
+      <p class="note">aria-labels en inglés via <code>lang="en"</code>, fondo del modal coral semitransparente.</p>
+      <r-gallery
+        id="g5"
+        layout="grid"
+        cols="2"
+        lang="en"
+        style="--r-gallery-lightbox-bg: rgba(239,125,87,0.92); --r-gallery-lightbox-fg: #fef8e6;">
+        <img src="https://picsum.photos/seed/en1/600/600" alt="english 1">
+        <img src="https://picsum.photos/seed/en2/600/600" alt="english 2">
+        <img src="https://picsum.photos/seed/en3/600/600" alt="english 3">
+        <img src="https://picsum.photos/seed/en4/600/600" alt="english 4">
+      </r-gallery>
+    </section>
+
+  </main>
+
+  <aside class="demo-log" id="log">
+    <div class="demo-log__title">
+      <strong>eventos</strong>
+      <button class="demo-log__clear" type="button" onclick="document.getElementById('entries').innerHTML=''">limpiar</button>
+    </div>
+    <ul class="demo-log__entries" id="entries"></ul>
+  </aside>
+
+  <script type="module" src="../../components/r-gallery.js"></script>
+  <script>
+    const entries = document.getElementById('entries');
+    function log(evt) {
+      const li = document.createElement('li');
+      const time = new Date().toLocaleTimeString('es', { hour12: false });
+      const d = evt.detail || {};
+      const parts = Object.entries(d).map(([k, v]) => {
+        if (typeof v === 'string' && v.length > 30) v = v.slice(0, 30) + '…';
+        return `${k}=${v}`;
+      }).join(' ');
+      li.textContent = `${time} · ${evt.target.id || '?'} · ${evt.type} ${parts}`;
+      entries.prepend(li);
+      while (entries.children.length > 30) entries.lastChild.remove();
+    }
+    ['r-gallery:open','r-gallery:close','r-gallery:change']
+      .forEach(t => document.addEventListener(t, log));
+  </script>
+</body>
+</html>

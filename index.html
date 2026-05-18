@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>retals · bloques para hacerte una web</title>
+  <meta name="description" content="biblioteca de Web Components vanilla y editor en navegador para hacer webs personales. el código es tuyo.">
+  <meta property="og:title" content="retals">
+  <meta property="og:description" content="bloques para hacerte una web. cópialos, pégalos, modifícalos. el código es tuyo.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="./editor/assets/favicon.svg">
+  <link rel="stylesheet" href="./editor/style.css">
+</head>
+<body>
+  <header class="r-editor__header">
+    <a href="./" class="r-editor__brand">
+      <img src="./editor/assets/mascot.svg" alt="" width="32" height="32" class="r-editor__mascot">
+      <span>retals</span>
+    </a>
+    <nav class="r-editor__nav">
+      <a href="./editor/editor.html">editor</a>
+      <a href="#bloques">bloques</a>
+      <a href="#starters">starters</a>
+      <a href="#manifiesto">manifiesto</a>
+      <a href="https://github.com/meowrhino/retals" target="_blank" rel="noopener">código</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="r-hero">
+      <h1>bloques para hacerte una web.</h1>
+      <p class="r-hero__lead">cópialos, pégalos, modifícalos.<br>el código es tuyo.</p>
+      <div class="r-hero__actions">
+        <a href="./editor/editor.html" class="r-btn r-btn--primary">abrir el editor →</a>
+        <a href="#starters" class="r-btn">ver starters</a>
+      </div>
+    </section>
+
+    <section id="manifiesto" class="r-section">
+      <h2>▮ qué es retals</h2>
+      <p>una biblioteca de Web Components vanilla y un editor en navegador para hacer webs personales. inspirado en Geocities, en la ligereza del JAMstack, y en el respeto por el código del visitante.</p>
+
+      <h2>▰ qué NO es</h2>
+      <ul class="r-list">
+        <li>no es WordPress. no hay base de datos, ni panel de admin, ni updates de seguridad cada mes.</li>
+        <li>no es Wix ni Squarespace. tu web no vive en su servidor con su marca encima.</li>
+        <li>no es mmm.page. el output no es un dump generado — es HTML legible que puedes editar a mano.</li>
+        <li>no hay tracking. no hay analytics. no hay cookies salvo localStorage del editor.</li>
+      </ul>
+
+      <h2>▱ cómo funciona</h2>
+      <ol class="r-list r-list--steps">
+        <li><strong>descarga un starter</strong> o abre el editor.</li>
+        <li><strong>edita texto e imágenes</strong> en el HTML. arrastra bloques desde la biblioteca.</li>
+        <li><strong>comprime tu media</strong> con <a href="https://meowrhino.github.io/imgToWeb/" target="_blank" rel="noopener">imgToWeb</a> y <a href="https://meowrhino.github.io/videoToWeb/" target="_blank" rel="noopener">videoToWeb</a>.</li>
+        <li><strong>descarga la carpeta</strong> y súbela a Neocities, GitHub Pages, Codeberg, tu servidor — donde quieras.</li>
+      </ol>
+    </section>
+
+    <section id="bloques" class="r-section">
+      <h2>✦ la biblioteca de bloques</h2>
+      <p>15 Web Components vanilla. cada uno con su demo, su docs y fallback HTML legible sin JS.</p>
+
+      <div class="r-cards">
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-window&gt;</h3>
+          <p>ventana arrastrable y redimensionable. temas <code>none</code>, <code>win95</code>, <code>macos</code>.</p>
+          <footer><a href="./editor/demos/r-window.html">demo →</a> <a href="./docs/r-window.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="green">
+          <h3>&lt;r-divider&gt;</h3>
+          <p>separador decorativo con glifos, ondas o SVG.</p>
+          <footer><a href="./editor/demos/r-divider.html">demo →</a> <a href="./docs/r-divider.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="green">
+          <h3>&lt;r-marquee&gt;</h3>
+          <p>texto en movimiento configurable. sin el <code>&lt;marquee&gt;</code> viejo.</p>
+          <footer><a href="./editor/demos/r-marquee.html">demo →</a> <a href="./docs/r-marquee.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="green">
+          <h3>&lt;r-typewriter&gt;</h3>
+          <p>texto que se escribe solo, con velocidad y delay.</p>
+          <footer><a href="./editor/demos/r-typewriter.html">demo →</a> <a href="./docs/r-typewriter.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="green">
+          <h3>&lt;r-clock&gt;</h3>
+          <p>reloj en vivo con formato personalizable.</p>
+          <footer><a href="./editor/demos/r-clock.html">demo →</a> <a href="./docs/r-clock.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="green">
+          <h3>&lt;r-glitch&gt;</h3>
+          <p>texto glitcheado con intensidad regulable.</p>
+          <footer><a href="./editor/demos/r-glitch.html">demo →</a> <a href="./docs/r-glitch.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="green">
+          <h3>&lt;r-cursor&gt;</h3>
+          <p>efectos de cursor: sparkle, trail, custom.</p>
+          <footer><a href="./editor/demos/r-cursor.html">demo →</a> <a href="./docs/r-cursor.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-tooltip&gt;</h3>
+          <p>tooltip anclado a elemento o siguiendo cursor.</p>
+          <footer><a href="./editor/demos/r-tooltip.html">demo →</a> <a href="./docs/r-tooltip.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-card&gt;</h3>
+          <p>tarjeta con slots para image, title, body y link.</p>
+          <footer><a href="./editor/demos/r-card.html">demo →</a> <a href="./docs/r-card.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-tabs&gt;</h3>
+          <p>tabs accesibles con keyboard navigation.</p>
+          <footer><a href="./editor/demos/r-tabs.html">demo →</a> <a href="./docs/r-tabs.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-accordion&gt;</h3>
+          <p>secciones expandibles con un solo abierto a la vez (opcional).</p>
+          <footer><a href="./editor/demos/r-accordion.html">demo →</a> <a href="./docs/r-accordion.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-gallery&gt;</h3>
+          <p>4 layouts (grid · masonry · carousel · stack) + lightbox interno.</p>
+          <footer><a href="./editor/demos/r-gallery.html">demo →</a> <a href="./docs/r-gallery.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-jukebox&gt;</h3>
+          <p>reproductor con playlist <code>&lt;r-track&gt;</code>, loop y shuffle.</p>
+          <footer><a href="./editor/demos/r-jukebox.html">demo →</a> <a href="./docs/r-jukebox.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-counter&gt;</h3>
+          <p>contador local (localStorage) o compartido (Worker self-hosted).</p>
+          <footer><a href="./editor/demos/r-counter.html">demo →</a> <a href="./docs/r-counter.md">docs</a></footer>
+        </article>
+
+        <article class="r-card-block" data-complexity="yellow">
+          <h3>&lt;r-guestbook&gt;</h3>
+          <p>libro de visitas local o compartido (Worker self-hosted).</p>
+          <footer><a href="./editor/demos/r-guestbook.html">demo →</a> <a href="./docs/r-guestbook.md">docs</a></footer>
+        </article>
+      </div>
+    </section>
+
+    <section id="starters" class="r-section">
+      <h2>✺ starters</h2>
+      <p>arquetipos descargables. cada uno trae los componentes que usa copiados dentro — snapshot inmutable, sigue funcionando aunque retals desaparezca.</p>
+
+      <div class="r-cards">
+        <article class="r-card-starter">
+          <h3>collage-ventanas</h3>
+          <p>composición de ventanas arrastrables a lo Geocities. el más distintivo del proyecto.</p>
+          <footer>
+            <a href="./starters/collage-ventanas/">abrir →</a>
+            <a href="https://github.com/meowrhino/retals/tree/main/starters/collage-ventanas" target="_blank" rel="noopener">código</a>
+          </footer>
+        </article>
+
+        <article class="r-card-starter">
+          <h3>studio-carta</h3>
+          <p>portfolio editorial tipo meowrhino / rikamichie. grid de proyectos, foco tipográfico.</p>
+          <footer>
+            <a href="./starters/studio-carta/">abrir →</a>
+            <a href="https://github.com/meowrhino/retals/tree/main/starters/studio-carta" target="_blank" rel="noopener">código</a>
+          </footer>
+        </article>
+
+        <article class="r-card-starter">
+          <h3>one-pager</h3>
+          <p>scroll narrativo vertical, secciones grandes, anclas, tipografía protagonista.</p>
+          <footer>
+            <a href="./starters/one-pager/">abrir →</a>
+            <a href="https://github.com/meowrhino/retals/tree/main/starters/one-pager" target="_blank" rel="noopener">código</a>
+          </footer>
+        </article>
+
+        <article class="r-card-starter">
+          <h3>archivo</h3>
+          <p>índice cronológico (blog / diario). lista densa con fecha, estética 2000s-blogger.</p>
+          <footer>
+            <a href="./starters/archivo/">abrir →</a>
+            <a href="https://github.com/meowrhino/retals/tree/main/starters/archivo" target="_blank" rel="noopener">código</a>
+          </footer>
+        </article>
+      </div>
+    </section>
+
+    <section class="r-section">
+      <h2>◌ persistencia self-host</h2>
+      <p><code>&lt;r-counter&gt;</code> y <code>&lt;r-guestbook&gt;</code> arrancan en <strong>localStorage</strong> (cero servidor). para counter y guestbook compartidos entre visitantes, hay Workers de Cloudflare listos para que cada quien despliegue el suyo.</p>
+      <p><a href="./docs/self-host-workers.md">guía paso a paso de self-host →</a></p>
+      <p class="r-muted">no hay Worker público de retals. mantener uno compartido invita a spam y rate-limit abuse, y nos compromete a una infra que no queremos sostener. el self-host es la respuesta sincera.</p>
+    </section>
+  </main>
+
+  <footer class="r-editor__footer">
+    made in barcelona ☼ <a href="https://github.com/meowrhino" target="_blank" rel="noopener">meowrhino studio</a> · vanilla, forever · <a href="https://github.com/meowrhino/retals" target="_blank" rel="noopener">MIT</a>
+  </footer>
+</body>
+</html>

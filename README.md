@@ -2,6 +2,9 @@
 
 > bloques para hacerte una web. cópialos, pégalos, modifícalos. el código es tuyo.
 
+🌐 **web del proyecto** — https://meowrhino.github.io/retals/
+✺ **editor en navegador** — https://meowrhino.github.io/retals/editor/editor.html
+
 retals es una biblioteca de Web Components vanilla + un editor en navegador para hacer webs personales con la filosofía de Geocities, la ligereza del JAMstack, y el respeto por el código del visitante.
 
 ## qué te ofrece

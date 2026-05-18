@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-jukebox · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --ash:    #d4d4d0;
+
+      --r-bg:        var(--cream);
+      --r-fg:        var(--ink);
+      --r-accent:    var(--coral);
+      --r-border:    var(--ash);
+      --r-font:      'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background:
+        repeating-linear-gradient(
+          45deg,
+          var(--cream) 0,
+          var(--cream) 18px,
+          #f6efd8 18px,
+          #f6efd8 19px
+        );
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+    }
+
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+
+    .demo-stage {
+      padding: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .demo-block {
+      margin: 0;
+      padding: 1.25rem;
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0 var(--amber);
+    }
+    .demo-block h2 {
+      margin: 0 0 0.4rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+    .demo-block p.note {
+      margin: 0 0 1rem;
+      font-size: 0.78rem;
+      opacity: 0.75;
+    }
+    code { background: rgba(0,0,0,0.06); padding: 0 0.25rem; }
+
+    .demo-log {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      width: 280px;
+      max-height: 40vh;
+      overflow: auto;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      border: 2px solid var(--ink);
+      box-shadow: 2px 2px 0 var(--amber);
+      z-index: 10;
+    }
+    .demo-log strong { color: var(--amber); }
+    .demo-log__title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+      gap: 0.5rem;
+    }
+    .demo-log__clear {
+      background: none;
+      border: 1px solid var(--cream);
+      color: var(--cream);
+      cursor: pointer;
+      font: inherit;
+      padding: 0 0.4rem;
+    }
+    .demo-log__entries { margin: 0; padding: 0; list-style: none; }
+    .demo-log__entries li { margin: 0.15rem 0; font-family: var(--r-font); }
+
+    .demo-now {
+      margin: 0 0 1.5rem;
+      padding: 0.75rem 1rem;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 0.9rem;
+      border: 2px solid var(--ink);
+    }
+    .demo-now span { color: var(--amber); }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✺ r-jukebox · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-jukebox.md">docs</a>
+    </nav>
+  </header>
+
+  <main class="demo-stage">
+
+    <section class="demo-block" style="grid-column: 1 / -1;">
+      <p class="demo-now">ahora suena (todos los jukeboxes): <span id="np">—</span></p>
+      <h2>nota sobre los audios de la demo</h2>
+      <p class="note">
+        las pistas son samples públicos de <a href="https://www.soundhelix.com/audio-examples" target="_blank" rel="noopener">SoundHelix</a> (CC). si tu conexión está caída, los tracks se ven en la lista pero no suenan — el componente sigue mostrando el fallback de cada <code>&lt;r-track&gt;</code> como link.
+      </p>
+    </section>
+
+    <section class="demo-block">
+      <h2>1 · default (loop off, sin shuffle)</h2>
+      <p class="note">play, pause, scrubber, volumen y lista. al acabar el último, se detiene.</p>
+      <r-jukebox id="jb1">
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" title="SoundHelix #1" artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" title="SoundHelix #2" artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" title="SoundHelix #3" artist="T. Schürger"></r-track>
+      </r-jukebox>
+    </section>
+
+    <section class="demo-block">
+      <h2>2 · loop=all + shuffle + volumen bajo</h2>
+      <p class="note">click en el botón loop para ciclar entre off → all → one.</p>
+      <r-jukebox id="jb2" loop="all" shuffle volume="0.4">
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" title="SoundHelix #4" artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" title="SoundHelix #5" artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" title="SoundHelix #6" artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" title="SoundHelix #7" artist="T. Schürger"></r-track>
+      </r-jukebox>
+    </section>
+
+    <section class="demo-block">
+      <h2>3 · tema oscuro custom + lang="en"</h2>
+      <p class="note">override de <code>--r-jukebox-*</code> + aria-labels en inglés.</p>
+      <r-jukebox
+        id="jb3"
+        lang="en"
+        style="
+          --r-jukebox-bg: #1a1a1a;
+          --r-jukebox-fg: #fef8e6;
+          --r-jukebox-accent: #f5b840;
+          --r-jukebox-border: #f5b840;
+          --r-jukebox-track-hover: rgba(245,184,64,0.15);
+        ">
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"  title="Song 8"  artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3"  title="Song 9"  artist="T. Schürger"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" title="Song 10" artist="T. Schürger"></r-track>
+      </r-jukebox>
+    </section>
+
+    <section class="demo-block">
+      <h2>4 · start=1, botones grandes</h2>
+      <p class="note">arranca con el segundo track ya seleccionado. botones de transporte de 2.6rem.</p>
+      <r-jukebox
+        id="jb4"
+        start="1"
+        style="--r-jukebox-button-size: 2.6rem; --r-jukebox-progress-height: 10px;">
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" title="Song 11"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" title="Song 12"></r-track>
+        <r-track src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" title="Song 13"></r-track>
+      </r-jukebox>
+    </section>
+
+  </main>
+
+  <aside class="demo-log" id="log">
+    <div class="demo-log__title">
+      <strong>eventos</strong>
+      <button class="demo-log__clear" type="button" onclick="document.getElementById('entries').innerHTML=''">limpiar</button>
+    </div>
+    <ul class="demo-log__entries" id="entries"></ul>
+  </aside>
+
+  <script type="module" src="../../components/r-jukebox.js"></script>
+  <script>
+    const entries = document.getElementById('entries');
+    const np = document.getElementById('np');
+
+    function log(evt) {
+      const li = document.createElement('li');
+      const time = new Date().toLocaleTimeString('es', { hour12: false });
+      const d = evt.detail || {};
+      const parts = Object.entries(d).map(([k, v]) => {
+        if (typeof v === 'number') v = Math.round(v * 10) / 10;
+        if (typeof v === 'string' && v.length > 30) v = v.slice(0, 30) + '…';
+        return `${k}=${v}`;
+      }).join(' ');
+      li.textContent = `${time} · ${evt.target.id || '?'} · ${evt.type} ${parts}`;
+      entries.prepend(li);
+      while (entries.children.length > 30) entries.lastChild.remove();
+    }
+
+    [
+      'r-jukebox:play','r-jukebox:pause',
+      'r-jukebox:next','r-jukebox:prev',
+      'r-jukebox:ended','r-jukebox:error',
+    ].forEach(t => document.addEventListener(t, log));
+
+    // timeupdate va a parte para no saturar el log
+    document.addEventListener('r-jukebox:play', (e) => {
+      np.textContent = `${e.detail.title} [${e.target.id}]`;
+    });
+    document.addEventListener('r-jukebox:pause', (e) => {
+      np.textContent = `— (pausa: ${e.detail.title})`;
+    });
+  </script>
+</body>
+</html>

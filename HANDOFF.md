@@ -12,15 +12,30 @@ el proyecto se inspira en mosi (de hecho funciona como moixí en cuanto a estruc
 
 ---
 
-## estado actual (actualizado 2026-05-11)
+## estado actual (actualizado 2026-05-11 · sesión Opus 4.7)
 
-el repo está vivo en https://github.com/meowrhino/retals (público, MIT). dos commits:
+el repo está vivo en https://github.com/meowrhino/retals (público, MIT). commits:
 
-- `adf5c3f` — scaffold inicial: contrato (CLAUDE.md, ROADMAP, DESIGN, TESTING, HANDOFF), README, LICENSE, .gitignore, mascot/favicon placeholder, `_template.js`, `editor/index.html` + `style.css`.
-- `af1ea4d` (Sonnet) — Fase 1 + 2 + 3 + 6 + 7:
-  - **13 componentes** con docs y demo cada uno: `r-window`, `r-divider`, `r-marquee`, `r-typewriter`, `r-clock`, `r-glitch`, `r-cursor`, `r-tooltip`, `r-card`, `r-tabs`, `r-accordion`, `r-counter`, `r-guestbook`.
-  - **4 starters**: `collage-ventanas` (con copia snapshot de `r-window.js` dentro), `studio-carta`, `one-pager`, `archivo`.
-  - **2 workers**: `counter.js` + `guestbook.js` listos para `wrangler deploy`; guía paso a paso en `docs/self-host-workers.md`.
+- `adf5c3f` — scaffold inicial.
+- `af1ea4d` (Sonnet) — Fase 1 + 2 (13 componentes) + 3 + 6 + 7.
+- **pendiente de commit (Opus 4.7, 2026-05-11)** — cierra **Fase 2** (los 🟡 grandes `r-gallery` y `r-jukebox`) **y Fase 4** (editor en navegador end-to-end).
+
+**Fase 2: 15/15.** componentes con docs y demo:
+`r-window`, `r-divider`, `r-marquee`, `r-typewriter`, `r-clock`, `r-glitch`, `r-cursor`, `r-tooltip`, `r-card`, `r-tabs`, `r-accordion`, `r-counter`, `r-guestbook`, `r-gallery`, `r-jukebox`.
+
+**Fase 4: cerrada.** editor en `editor/editor.html` + `editor/js/{editor,library,preview,export,zip}.js`. funcionalidades:
+- 3 paneles (biblioteca · código · preview) en desktop, tabs en <700px.
+- live preview con debounce 300ms; detección de tags `r-*` por regex, inyección sólo de los scripts necesarios. mapeo `r-track`→`r-jukebox`, `r-tab`→`r-tabs`, `r-panel`→`r-accordion` en `library.js#CHILD_TO_PARENT`.
+- snippets de los 15 componentes en `library.js#BLOCKS`. click inserta en cursor.
+- starters cargables vía dropdown (fetch a `../starters/<name>/index.html`).
+- import/export `.retals.json` (`{version, name, html, savedAt}`).
+- ZIP descargable autocontenido: `index.html` + `README.md` + sólo los `components/r-X.js` usados. ZIP "store mode" vanilla en `editor/js/zip.js` (CRC32 + headers binarios, cero dependencias).
+- localStorage automático con throttle 1s.
+- botón "comprimir media" lleva a modal placeholder hasta Fase 5.
+
+starters y workers como estaban:
+- **4 starters**: `collage-ventanas` (con copia snapshot de `r-window.js` dentro), `studio-carta`, `one-pager`, `archivo`.
+- **2 workers**: `counter.js` + `guestbook.js` listos para `wrangler deploy`; guía paso a paso en `docs/self-host-workers.md`.
 
 ### revisión de código (2026-05-11)
 
@@ -51,16 +66,29 @@ confirmar:
 
 luego abrir 2-3 demos (`/editor/demos/r-window.html`, `/editor/demos/r-glitch.html`, `/editor/demos/r-guestbook.html`) y pasar TESTING.md por encima: keyboard, fallback sin JS (devtools → disable JS → reload), eventos custom en consola, override de CSS vars.
 
-### 2. completar Fase 2 — componentes pendientes
+### 2. ~~completar Fase 2~~ ✅ hecho en esta sesión
 
-- `r-gallery` 🟡 — galería con layouts (`grid` · `masonry` · `carousel` · `stack`) + lightbox interno (sin reusar `r-window`, replicar lo necesario por dentro).
-- `r-jukebox` 🟡 — reproductor de audio con playlist (children `<r-track>`).
+- `r-gallery` y `r-jukebox` ya cumplen el contrato: light DOM, `<style>` único auto-inyectado, fallback sin JS, i18n `es/en/ca`, CSS vars `--r-*` con override, eventos custom con namespace.
+- decisiones tomadas (no reabrir sin motivo):
+  - `r-gallery` no soporta `<picture>`/`<figure>` ni autoplay en carousel — documentado en limitaciones del .md.
+  - `r-gallery` `masonry` usa `column-count` (true masonry CSS, orden por columnas).
+  - `r-gallery` `stack` rota por hash determinista (función `seededAngle`), no aleatorio en cada carga.
+  - `r-jukebox` registra `<r-track>` en el mismo archivo (excepción a "un componente por archivo", justificada en la cabecera del .js).
+  - `r-jukebox` no incluye ecualizador, visualizador ni crossfade — el ROADMAP no los pedía.
+  - `r-jukebox.html` (demo) usa pistas de SoundHelix (CC). los starters no las tocan; el editor tampoco las inyectará por defecto.
 
-seguir el patrón de los 13 ya hechos: i18n trilingüe, fallback, CSS vars `--r-*`, demo en `editor/demos/`, doc en `docs/`.
+falta verificación manual (no se pudo automatizar sin pulsar play, que el navegador exige por política de autoplay): pasar TESTING.md por ambos demos, incluyendo el fallback con devtools→disable JS.
 
-### 3. Fase 4 — editor en navegador 🔴 (fase grande, requiere su propio plan)
+### 3. ~~Fase 4 — editor en navegador~~ ✅ hecho en esta sesión
 
-split-view biblioteca · código · preview. todas las decisiones ya cerradas en `ROADMAP.md` (textarea simple sin CodeMirror, parsing de tags `r-*` para inyectar solo lo necesario, ZIP con solo los componentes realmente usados, layout móvil con tabs <700px). ahora hay 13 componentes para poblar la biblioteca.
+ver bloque "Fase 4: cerrada" más arriba. decisiones tomadas:
+- biblioteca minimal sin previews-miniatura — nombre + complexity dot + descripción + snippet pegable cubre el caso de uso. previews son nice-to-have de Fase 8.
+- ZIP "store" en vanilla (CRC32 + headers binarios). hace ZIPs sin comprimir, no se nota para texto/HTML/JS. si en Fase 8 alguien pide tamaños menores, añadir deflate vía `CompressionStream`.
+- el iframe usa `sandbox="allow-scripts allow-same-origin"`. `allow-same-origin` es necesario porque los `<script type="module" src="../components/r-X.js">` se resuelven contra el origen del editor; sin él, el navegador rechaza módulos cross-origin. asumido.
+- el `r-cursor` y otros componentes globales que se aplican a `document` funcionan correctamente dentro del iframe (cada srcdoc crea su propio document).
+- el comportamiento de `<r-jukebox>` con autoplay está limitado por la política del navegador en iframe — igual que fuera. no es un bug del editor.
+
+falta verificación humana: probar en móvil real (<700px) que las tabs funcionan, probar la descarga ZIP descomprimiendo en Finder/Explorer y abriendo el `index.html` con doble click. screenshots en preview se hicieron pero no sustituyen el doble-click real.
 
 ### 4. Fase 5 — integración imgToWeb / videoToWeb 🟡
 
@@ -68,7 +96,6 @@ comprobación previa: ver si imgToWeb/videoToWeb exponen `postMessage` desde el 
 
 ### 5. limpieza menor (no bloquea)
 
-- `.claude/launch.json` está sin trackear (launch profile local con `python3 -m http.server` en puerto 8090; el doc oficial usa 8080). decidir si añadir `.claude/` al `.gitignore` o si trackear el launch.json (alinear puerto antes).
 - si Manu pasa la mascota oficial de moixí, sustituir `editor/assets/mascot.svg` y `favicon.svg` **conservando el `viewBox="0 0 8 8"`** para que el CSS no se descoloque.
 
 ---
