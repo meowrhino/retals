@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jardín digital de iván</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --ink: #2a2a25;
+      --soft: #6b6457;
+      --accent: #557a3a;
+      --accent-2: #b8642e;
+      --r-bg: var(--bg);
+      --r-fg: var(--ink);
+      --r-accent: var(--accent);
+      --r-tabs-active: var(--accent);
+      --r-accordion-border: #d5cfbf;
+      --r-card-bg: #fff;
+      --r-card-border: #d5cfbf;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Charter', 'Iowan Old Style', 'Cambria', serif;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+    .wrap { max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    header.top { margin-bottom: 2rem; }
+    header.top h1 {
+      font-size: 2rem;
+      margin: 0 0 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    header.top p {
+      color: var(--soft);
+      font-style: italic;
+      margin: 0;
+    }
+    nav.crumbs {
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+      color: var(--soft);
+      margin: 1rem 0 0;
+    }
+    nav.crumbs a { color: var(--accent); }
+    main { margin-top: 2rem; }
+    .leaf {
+      background: #fff;
+      padding: 0.7rem 0.9rem;
+      border-left: 3px solid var(--accent);
+      margin: 0.5rem 0;
+      font-size: 0.92rem;
+    }
+    .leaf small { color: var(--soft); font-family: ui-monospace, monospace; font-size: 0.72rem; display: block; margin-bottom: 0.2rem; }
+    .tag {
+      display: inline-block;
+      background: rgba(85,122,58,0.12);
+      color: var(--accent);
+      font-family: ui-monospace, monospace;
+      font-size: 0.72rem;
+      padding: 0.05rem 0.45rem;
+      border-radius: 2px;
+      margin-right: 0.3rem;
+    }
+    footer.bottom {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #d5cfbf;
+      font-size: 0.8rem;
+      color: var(--soft);
+      font-family: ui-monospace, monospace;
+    }
+    a { color: var(--accent-2); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header class="top">
+      <h1>jardín digital</h1>
+      <p>de iván c. · notas que crecen, no posts terminados.</p>
+      <nav class="crumbs"><a href="/">inicio</a> / jardín</nav>
+    </header>
+
+    <main>
+      <r-tabs>
+        <r-tab title="recientes">
+          <p style="color: var(--soft);">lo último que he tocado. casi todo en estado <em>brote</em> o <em>en crecimiento</em>.</p>
+          <div class="leaf">
+            <small>18 may 2026 · <span class="tag">lectura</span><span class="tag">brote</span></small>
+            <strong>Annie Ernaux y la primera persona implícita</strong>
+            <p style="margin: 0.4rem 0 0;">en <em>Los años</em> la voz no es "yo" pero todo lo cuenta una. todavía no sé cómo articular esto sin sonar pedante.</p>
+          </div>
+          <div class="leaf">
+            <small>15 may 2026 · <span class="tag">trabajo</span><span class="tag">en crecimiento</span></small>
+            <strong>contra la app de notas perfecta</strong>
+            <p style="margin: 0.4rem 0 0;">llevo seis años migrando notas entre Notion, Obsidian, Bear, txt. el problema no es la app. el problema es esperar que la app me organice las ideas.</p>
+          </div>
+          <div class="leaf">
+            <small>12 may 2026 · <span class="tag">cocina</span><span class="tag">en crecimiento</span></small>
+            <strong>arroz al horno como excusa</strong>
+            <p style="margin: 0.4rem 0 0;">la receta importa menos que el ritual de poner la mesa antes de que esté hecho. nota mental: invitar a julia.</p>
+          </div>
+        </r-tab>
+
+        <r-tab title="por tema">
+          <r-accordion>
+            <r-panel title="☘ lectura (12)">
+              <ul>
+                <li>Annie Ernaux — Los años</li>
+                <li>Maggie Nelson — Los argonautas</li>
+                <li>Iván Repila — El niño que robó el caballo de Atila</li>
+                <li>Olga Tokarczuk — Un lugar llamado Antaguo</li>
+                <li>...</li>
+              </ul>
+            </r-panel>
+            <r-panel title="☲ trabajo (8)">
+              <ul>
+                <li>contra la app de notas perfecta</li>
+                <li>onboarding sin manual, por qué funciona</li>
+                <li>retrospectivas honestas</li>
+              </ul>
+            </r-panel>
+            <r-panel title="✎ código (15)">
+              <ul>
+                <li>vanilla forever, una elección moral</li>
+                <li>git como herramienta de pensamiento</li>
+                <li>cuadernos de bitácora vs README</li>
+              </ul>
+            </r-panel>
+            <r-panel title="⚳ cocina (7)">
+              <ul>
+                <li>arroz al horno como excusa</li>
+                <li>pájaros en el mercado</li>
+                <li>la salsa que mi madre nunca anotó</li>
+              </ul>
+            </r-panel>
+          </r-accordion>
+        </r-tab>
+
+        <r-tab title="sobre este jardín">
+          <p>esto no es un blog. los blogs presumen de pulido y de cronología. esto es un jardín: las notas están en distintos estados de madurez, hay rincones a medio hacer, y a veces algo se planta y nunca crece. eso está bien.</p>
+          <p>los <strong>estados</strong> que uso:</p>
+          <ul>
+            <li><span class="tag">brote</span> — idea recién plantada, dos líneas, no sabe ni qué quiere ser</li>
+            <li><span class="tag">en crecimiento</span> — lleva varias notas o varios borradores, va tomando forma</li>
+            <li><span class="tag">verde</span> — estable, lo que está dicho está dicho, pero aún podría crecer</li>
+            <li><span class="tag">leñoso</span> — ya casi no cambia. raro</li>
+          </ul>
+          <p>inspirado por <a href="https://maggieappleton.com/garden-history">Maggie Appleton</a> y <a href="https://gwern.net/about">gwern</a>.</p>
+        </r-tab>
+      </r-tabs>
+    </main>
+
+    <footer class="bottom">
+      ¶ hecho con <a href="https://meowrhino.github.io/retals/">retals</a>. responde si quieres en hola@ejemplo.com.
+    </footer>
+
+  </div>
+
+  <script type="module" src="components/r-tabs.js"></script>
+  <script type="module" src="components/r-accordion.js"></script>
+
+</body>
+</html>

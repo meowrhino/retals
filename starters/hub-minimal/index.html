@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>june · hub</title>
+  <style>
+    :root {
+      --bg: #1a1d24;
+      --ink: #e8e6df;
+      --soft: #74798a;
+      --accent: #ff7a5c;
+      --r-bg: var(--bg);
+      --r-fg: var(--ink);
+      --r-accent: var(--accent);
+      --r-clock-fg: var(--accent);
+      --r-counter-fg: var(--accent);
+      --r-divider-fg: var(--soft);
+      --r-cursor-color: var(--accent);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-monospace, 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .stack { max-width: 400px; width: 100%; text-align: center; }
+    .avatar {
+      width: 88px; height: 88px;
+      margin: 0 auto 1.25rem;
+      background:
+        radial-gradient(circle at 40% 35%, var(--accent) 0%, var(--accent) 30%, transparent 31%),
+        var(--ink);
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 0 6px rgba(255,122,92,0.12);
+    }
+    h1.name {
+      font-size: 1.4rem;
+      margin: 0 0 0.3rem;
+      letter-spacing: -0.01em;
+    }
+    .bio {
+      color: var(--soft);
+      margin: 0 0 1.5rem;
+      font-size: 0.9rem;
+    }
+    .links { display: flex; flex-direction: column; gap: 0.5rem; margin: 1.5rem 0; }
+    .link {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.7rem 1rem;
+      border: 1px solid var(--soft);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.92rem;
+      transition: transform 0.1s, border-color 0.1s;
+    }
+    .link:hover {
+      transform: translateX(2px);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .link .arrow { color: var(--soft); }
+    .link:hover .arrow { color: var(--accent); }
+    .meta {
+      display: flex; justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--soft);
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px dashed var(--soft);
+    }
+    .meta strong { color: var(--ink); font-weight: 400; }
+  </style>
+</head>
+<body>
+
+  <r-cursor effect="sparkle" glyph="✸" color="#ff7a5c"></r-cursor>
+
+  <div class="stack">
+
+    <div class="avatar" aria-hidden="true"></div>
+    <h1 class="name">june</h1>
+    <p class="bio">diseñadora & dj. madrid ↔ lisboa. acepto encargos de portadas y sets curados.</p>
+
+    <r-divider variant="dots"></r-divider>
+
+    <div class="links">
+      <a class="link" href="https://soundcloud.com/example" target="_blank" rel="noopener">
+        <span>sets en soundcloud</span> <span class="arrow">→</span>
+      </a>
+      <a class="link" href="https://instagram.com/example" target="_blank" rel="noopener">
+        <span>fotos en instagram</span> <span class="arrow">→</span>
+      </a>
+      <a class="link" href="mailto:hola@junejune.es">
+        <span>email · encargos</span> <span class="arrow">→</span>
+      </a>
+      <a class="link" href="https://meowrhino.github.io/retals/">
+        <span>esta web está hecha con retals</span> <span class="arrow">→</span>
+      </a>
+      <a class="link" href="#libro">
+        <span>diario · escritura corta</span> <span class="arrow">→</span>
+      </a>
+    </div>
+
+    <r-divider variant="dots"></r-divider>
+
+    <div class="meta">
+      <span>visitas: <strong><r-counter id="june-hub"></r-counter></strong></span>
+      <span><r-clock format="HH:mm"></r-clock> en madrid</span>
+    </div>
+
+  </div>
+
+  <script type="module" src="components/r-cursor.js"></script>
+  <script type="module" src="components/r-divider.js"></script>
+  <script type="module" src="components/r-counter.js"></script>
+  <script type="module" src="components/r-clock.js"></script>
+
+</body>
+</html>

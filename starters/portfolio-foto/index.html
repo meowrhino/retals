@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>nara akiyama · fotografía</title>
+  <style>
+    :root {
+      --bg: #0e0e0c;
+      --ink: #f0ece4;
+      --soft: #8a857c;
+      --accent: #e8c66b;
+      --r-bg: var(--bg);
+      --r-fg: var(--ink);
+      --r-accent: var(--accent);
+      --r-gallery-bg: transparent;
+      --r-gallery-gap: 0.4rem;
+      --r-gallery-lightbox-bg: rgba(14,14,12,0.95);
+      --r-gallery-lightbox-fg: var(--ink);
+      --r-card-bg: #18181a;
+      --r-card-fg: var(--ink);
+      --r-card-border: #25241f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, 'Helvetica Neue', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      letter-spacing: 0.005em;
+    }
+    header.hero {
+      padding: 5rem 2rem 4rem;
+      max-width: 900px; margin: 0 auto;
+      text-align: left;
+    }
+    header.hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+    header.hero p {
+      color: var(--soft);
+      font-size: 0.95rem;
+      max-width: 38ch;
+      margin: 0 0 1.5rem;
+    }
+    header.hero nav { font-size: 0.85rem; }
+    header.hero nav a { color: var(--ink); margin-right: 1.2rem; text-decoration: none; border-bottom: 1px solid var(--soft); padding-bottom: 0.1rem; }
+    header.hero nav a:hover { border-color: var(--accent); color: var(--accent); }
+    section { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    section h2 {
+      font-weight: 400;
+      font-size: 1rem;
+      color: var(--soft);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin: 0 0 1.25rem;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin: 1rem 0;
+    }
+    footer.foot {
+      padding: 3rem 2rem;
+      max-width: 900px; margin: 0 auto;
+      font-size: 0.8rem;
+      color: var(--soft);
+      border-top: 1px solid #1d1d1a;
+    }
+    footer.foot a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1>nara akiyama</h1>
+    <p>fotógrafa documental basada en Bilbao. trabajo larga duración sobre paisaje y memoria. abierta a encargos para libros y editorial.</p>
+    <nav>
+      <a href="#proyectos">proyectos</a>
+      <a href="#archivo">archivo</a>
+      <a href="#sobre">sobre mí</a>
+      <a href="mailto:hola@ejemplo.com">contacto</a>
+    </nav>
+  </header>
+
+  <section id="proyectos">
+    <h2>proyectos en curso</h2>
+    <div class="grid-3">
+      <r-card>
+        <img slot="image" src="https://picsum.photos/seed/proj1/800/600" alt="playa azul" style="width:100%; aspect-ratio:4/3; object-fit:cover;">
+        <h3 slot="title">orilla larga</h3>
+        <p slot="body">tres años fotografiando la misma cala a la misma hora.</p>
+        <a slot="link" href="#orilla">ver →</a>
+      </r-card>
+      <r-card>
+        <img slot="image" src="https://picsum.photos/seed/proj2/800/600" alt="casa" style="width:100%; aspect-ratio:4/3; object-fit:cover;">
+        <h3 slot="title">la casa de mi abuela</h3>
+        <p slot="body">retrato del lugar antes de venderlo. libro editado con La Vasija.</p>
+        <a slot="link" href="#casa">ver →</a>
+      </r-card>
+      <r-card>
+        <img slot="image" src="https://picsum.photos/seed/proj3/800/600" alt="cuerpos" style="width:100%; aspect-ratio:4/3; object-fit:cover;">
+        <h3 slot="title">manos prestadas</h3>
+        <p slot="body">retratos a friends&family que pasan por una mala etapa. ongoing.</p>
+        <a slot="link" href="#manos">ver →</a>
+      </r-card>
+    </div>
+  </section>
+
+  <section id="archivo">
+    <h2>archivo · selección</h2>
+    <r-gallery layout="masonry" cols="4" gap="0.4rem">
+      <img src="https://picsum.photos/seed/a1/600/900"  alt="vertical 1">
+      <img src="https://picsum.photos/seed/a2/900/600"  alt="horizontal 1">
+      <img src="https://picsum.photos/seed/a3/700/700"  alt="cuadrada 1">
+      <img src="https://picsum.photos/seed/a4/600/800"  alt="vertical 2">
+      <img src="https://picsum.photos/seed/a5/900/500"  alt="horizontal 2">
+      <img src="https://picsum.photos/seed/a6/650/850"  alt="vertical 3">
+      <img src="https://picsum.photos/seed/a7/750/650"  alt="horizontal 3">
+      <img src="https://picsum.photos/seed/a8/600/750"  alt="vertical 4">
+      <img src="https://picsum.photos/seed/a9/800/600"  alt="horizontal 4">
+      <img src="https://picsum.photos/seed/a10/700/900" alt="vertical 5">
+      <img src="https://picsum.photos/seed/a11/700/700" alt="cuadrada 2">
+      <img src="https://picsum.photos/seed/a12/600/800" alt="vertical 6">
+    </r-gallery>
+  </section>
+
+  <section id="sobre">
+    <h2>sobre mí</h2>
+    <p style="max-width: 60ch; color: var(--soft);">nació en 1991. estudió antropología y empezó a fotografiar tarde, como excusa para escuchar mejor. trabaja en blanco y negro y a veces en color cuando hay algo que no se puede traducir.</p>
+    <p style="max-width: 60ch; color: var(--soft);">publicada en LensCulture (2023), Pikara (2024), Concreta (2025).</p>
+  </section>
+
+  <footer class="foot">
+    © 2026 nara akiyama · hecho con <a href="https://meowrhino.github.io/retals/">retals</a>
+  </footer>
+
+  <script type="module" src="components/r-card.js"></script>
+  <script type="module" src="components/r-gallery.js"></script>
+
+</body>
+</html>

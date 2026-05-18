@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>flábula — montañas bajas (LP, 2026)</title>
+  <style>
+    :root {
+      --bg: #14130f;
+      --ink: #fff4d9;
+      --soft: #b8a878;
+      --accent: #e54b2c;
+      --r-bg: var(--bg);
+      --r-fg: var(--ink);
+      --r-accent: var(--accent);
+      --r-window-bg: #1c1a14;
+      --r-window-fg: var(--ink);
+      --r-window-header-bg: var(--accent);
+      --r-window-header-fg: var(--ink);
+      --r-window-border: var(--accent);
+      --r-window-shadow: 4px 4px 0 var(--soft);
+      --r-jukebox-bg: #1c1a14;
+      --r-jukebox-fg: var(--ink);
+      --r-jukebox-accent: var(--accent);
+      --r-jukebox-border: var(--accent);
+      --r-jukebox-track-hover: rgba(229,75,44,0.12);
+      --r-divider-fg: var(--accent);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: ui-monospace, 'Menlo', 'Consolas', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(229,75,44,0.12), transparent 60%),
+        radial-gradient(circle at 80% 70%, rgba(232,198,107,0.08), transparent 50%);
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem; position: relative; min-height: 100vh; }
+    h1.album {
+      font-family: 'Georgia', serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 400;
+      letter-spacing: -0.04em;
+      margin: 0;
+      line-height: 0.95;
+      color: var(--accent);
+      font-style: italic;
+    }
+    .band {
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--soft);
+      font-size: 0.85rem;
+      margin: 0 0 1rem;
+    }
+    .meta {
+      color: var(--soft);
+      font-size: 0.82rem;
+      margin: 1.5rem 0;
+    }
+    .meta a { color: var(--ink); border-bottom: 1px dashed var(--accent); text-decoration: none; }
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    @media (max-width: 700px) { .layout { grid-template-columns: 1fr; } }
+    .cover {
+      aspect-ratio: 1/1;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(229,75,44,0.6), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(232,198,107,0.5), transparent 55%),
+        #1c1a14;
+      border: 1px solid var(--accent);
+      box-shadow: 6px 6px 0 var(--soft);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Georgia', serif;
+      font-size: 4rem; color: var(--ink); font-style: italic;
+      letter-spacing: -0.04em;
+    }
+    .credits {
+      font-size: 0.78rem;
+      color: var(--soft);
+      line-height: 1.7;
+    }
+    .credits h3 {
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+      color: var(--ink);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 1.5rem 0 0.4rem;
+    }
+    .credits h3:first-child { margin-top: 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <header>
+      <p class="band">flábula</p>
+      <h1 class="album">montañas bajas</h1>
+      <p class="meta">LP · 2026 · 9 tracks · 38 min · <a href="#stream">bandcamp</a> · <a href="#tour">gira</a></p>
+    </header>
+
+    <r-divider variant="dashes"></r-divider>
+
+    <div class="layout">
+      <div class="cover">fl<em>á</em>bula</div>
+
+      <r-jukebox loop="all" volume="0.75">
+        <r-track src="audio/01-amanecer.mp3"  title="amanecer (no era)"  artist="flábula" duration="3:42"></r-track>
+        <r-track src="audio/02-cuello.mp3"    title="cuello"             artist="flábula" duration="4:08"></r-track>
+        <r-track src="audio/03-montanas.mp3"  title="montañas bajas"     artist="flábula" duration="5:21"></r-track>
+        <r-track src="audio/04-coches.mp3"    title="coches verdes"      artist="flábula" duration="3:55"></r-track>
+        <r-track src="audio/05-flecha.mp3"    title="flecha y nudo"      artist="flábula" duration="2:48"></r-track>
+        <r-track src="audio/06-vena.mp3"      title="vena cava"          artist="flábula" duration="4:33"></r-track>
+        <r-track src="audio/07-perro.mp3"     title="perro de fondo"     artist="flábula" duration="3:18"></r-track>
+        <r-track src="audio/08-mirar.mp3"     title="mirar afuera"       artist="flábula" duration="4:50"></r-track>
+        <r-track src="audio/09-coda.mp3"      title="coda"               artist="flábula" duration="6:11"></r-track>
+      </r-jukebox>
+    </div>
+
+    <r-window title="⛬ créditos" x="30%" y="60%" w="360" h="260" minimizable="true">
+      <div class="credits">
+        <h3>composición</h3>
+        <p>todas las canciones por amaia r. × lucas v.</p>
+        <h3>grabación</h3>
+        <p>cabezas de muelle, abril–junio 2025. ingeniería de javier oraa.</p>
+        <h3>masterizado</h3>
+        <p>blackbird studio (nashville), por jim demain.</p>
+        <h3>portada</h3>
+        <p>collage de paula sánchez. tipografía condensada palatino.</p>
+      </div>
+    </r-window>
+
+    <r-window title="☸ notas" x="55%" y="50%" w="320" h="200" theme="none">
+      <p style="margin: 0 0 0.5rem;">arrastra esta ventana →</p>
+      <p style="margin: 0;">los componentes son tuyos. cierra, mueve, reescribe.</p>
+    </r-window>
+
+    <r-divider variant="glyph" glyph="⛬ ⛬ ⛬"></r-divider>
+
+    <footer style="margin-top: 3rem; color: var(--soft); font-size: 0.78rem; text-align: center;">
+      booking: <a style="color: var(--accent);" href="mailto:booking@flabula.es">booking@flabula.es</a> · hecho con <a style="color: var(--accent);" href="https://meowrhino.github.io/retals/">retals</a>
+    </footer>
+
+  </div>
+
+  <script type="module" src="components/r-divider.js"></script>
+  <script type="module" src="components/r-jukebox.js"></script>
+  <script type="module" src="components/r-window.js"></script>
+
+</body>
+</html>

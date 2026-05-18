@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>diario · meri</title>
+  <style>
+    :root {
+      --bg: #f7f0d9;
+      --ink: #1a1a1a;
+      --accent: #c1453a;
+      --soft: #8b8275;
+      --r-bg: var(--bg);
+      --r-fg: var(--ink);
+      --r-accent: var(--accent);
+      --r-marquee-bg: var(--ink);
+      --r-marquee-fg: var(--bg);
+      --r-divider-fg: var(--accent);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Times New Roman', Georgia, serif;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    .wrap { max-width: 640px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    h1.title {
+      font-family: ui-monospace, 'Menlo', monospace;
+      font-size: 2.5rem;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.25rem;
+      line-height: 1;
+    }
+    .subtitle {
+      font-family: ui-monospace, 'Menlo', monospace;
+      font-size: 0.85rem;
+      color: var(--soft);
+      margin: 0 0 2rem;
+    }
+    article.entry { margin: 2.5rem 0; }
+    article.entry header {
+      font-family: ui-monospace, 'Menlo', monospace;
+      font-size: 0.78rem;
+      color: var(--soft);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin: 0 0 0.4rem;
+    }
+    article.entry h2 {
+      font-size: 1.5rem;
+      margin: 0 0 0.6rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    article.entry p { margin: 0 0 0.9rem; }
+    blockquote {
+      border-left: 3px solid var(--accent);
+      margin: 1.2rem 0;
+      padding: 0.2rem 0 0.2rem 1rem;
+      color: var(--soft);
+      font-style: italic;
+    }
+    footer.sig {
+      margin-top: 4rem;
+      font-family: ui-monospace, 'Menlo', monospace;
+      font-size: 0.78rem;
+      color: var(--soft);
+      text-align: center;
+    }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <r-marquee speed="55" style="font-family: ui-monospace, monospace; font-size: 0.78rem; padding: 0.4rem 0;">
+    ⌁ diario abierto ⌁ vanilla, forever ⌁ neocities mi amor ⌁ apaga el wifi y respira ⌁
+  </r-marquee>
+
+  <div class="wrap">
+
+    <header>
+      <h1 class="title"><r-glitch intensity="0.4" hover>diario · meri</r-glitch></h1>
+      <p class="subtitle">notas, hallazgos, contradicciones · empezado el 2026</p>
+    </header>
+
+    <p style="font-size: 1.05rem;">
+      <r-typewriter speed="45" delay="500">no escribo para nadie en particular. esto es un cuaderno abierto donde dejo lo que pienso antes de que se me olvide.</r-typewriter>
+    </p>
+
+    <r-divider variant="glyph" glyph="✺"></r-divider>
+
+    <article class="entry">
+      <header>18 · mayo · 2026</header>
+      <h2>la web pequeña</h2>
+      <p>he pasado el día buscando webs personales. no portafolios pulidos: webs raras. blogs de geocities recuperados, archivos extraños, jardines digitales sin orden.</p>
+      <p>la sensación de que internet era esto antes me dura un rato pero luego se me pasa. no fue todo así. lo que dura es la <em>idea</em> de que sí podría volver a serlo.</p>
+      <blockquote>una web es un sitio que tú habitas, no un escaparate que te ocupa.</blockquote>
+    </article>
+
+    <article class="entry">
+      <header>15 · mayo · 2026</header>
+      <h2>contra la productividad</h2>
+      <p>hoy no he hecho nada y está bien. el café se ha enfriado mientras releía el mismo párrafo de Annie Ernaux tres veces sin entender por qué me dolía tanto.</p>
+      <p>a veces el cerebro necesita ese hueco. no se llena con una lista.</p>
+    </article>
+
+    <article class="entry">
+      <header>12 · mayo · 2026</header>
+      <h2>lista de cosas que se me caen</h2>
+      <ul>
+        <li>las gafas, dos veces al día</li>
+        <li>el bolígrafo verde</li>
+        <li>el hilo de lo que iba a decir</li>
+        <li>las claves del banco (en otro sentido)</li>
+      </ul>
+    </article>
+
+    <r-divider variant="dashes"></r-divider>
+
+    <footer class="sig">
+      <p>me escribes en <a href="mailto:hola@ejemplo.com">hola@ejemplo.com</a></p>
+      <p>retals · vanilla, forever</p>
+    </footer>
+
+  </div>
+
+  <script type="module" src="components/r-marquee.js"></script>
+  <script type="module" src="components/r-glitch.js"></script>
+  <script type="module" src="components/r-typewriter.js"></script>
+  <script type="module" src="components/r-divider.js"></script>
+
+</body>
+</html>
