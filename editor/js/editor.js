@@ -408,6 +408,7 @@ function setupDropTarget(el, opts) {
     el.classList.remove('r-drop-target--active');
     if (!e.dataTransfer?.files?.length) return;
     e.preventDefault();
+    e.stopPropagation();  // evitar que un ancestro (body) lo procese de nuevo
     handleDropFiles(e.dataTransfer.files, opts);
   });
 }
