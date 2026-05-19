@@ -21,7 +21,7 @@
 import { tagsInHTML, componentFilesFor } from './library.js';
 import { zipBlob } from './zip.js';
 
-const README = (componentsList) => `# tu web hecha con retals
+const README = (componentsList, assetsList = []) => `# tu web hecha con retals
 
 esta carpeta contiene tu sitio listo para subir donde quieras: Neocities,
 GitHub Pages, Codeberg Pages, un servidor propio. doble click en \`index.html\`
@@ -32,10 +32,11 @@ también funciona (algunas funcionalidades pueden requerir servirlo por HTTP).
 - \`index.html\` — tu página. edítala con cualquier editor de texto.
 - \`components/\` — los Web Components que usa tu HTML. **son tuyos**: una
   copia inmutable. si retals desaparece o cambia, tu web sigue funcionando.
-
+${assetsList.length ? `- \`img/\`, \`audio/\`, etc. — tus assets (imágenes, audio, etc.) tal cual los importaste al editor.\n` : ''}
 componentes incluidos:
 
 ${componentsList.length ? componentsList.map(c => `- \`${c}\``).join('\n') : '- (ninguno: HTML puro)'}
+${assetsList.length ? `\nassets incluidos:\n\n${assetsList.map(a => `- \`${a}\``).join('\n')}\n` : ''}
 
 ## cómo lo modifico
 
@@ -88,7 +89,7 @@ ${userHTML}
 `;
 }
 
-export async function exportProject(userHTML, projectName = 'mi-retals') {
+export async function exportProject(userHTML, projectName = 'mi-retals', assets = []) {
   const tags = tagsInHTML(userHTML);
   const files = componentFilesFor(tags);
 
@@ -112,15 +113,23 @@ export async function exportProject(userHTML, projectName = 'mi-retals') {
 
   const indexHTML = buildHTMLForExport(userHTML, scriptTags);
 
+  // convertir assets a Uint8Array para el ZIP
+  const assetFiles = [];
+  for (const a of assets) {
+    const buf = await a.blob.arrayBuffer();
+    assetFiles.push({ path: a.path, data: new Uint8Array(buf) });
+  }
+
   const allFiles = [
     { path: 'index.html', data: indexHTML },
-    { path: 'README.md',  data: README(files) },
+    { path: 'README.md',  data: README(files, assetFiles.map(a => a.path)) },
     ...componentSources,
+    ...assetFiles,
   ];
 
   const blob = await zipBlob(allFiles);
   triggerDownload(blob, `${projectName}.zip`);
-  return { tags, files: files.length, projectName };
+  return { tags, files: files.length, projectName, assets: assetFiles.length };
 }
 
 function triggerDownload(blob, filename) {

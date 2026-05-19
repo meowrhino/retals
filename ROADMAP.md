@@ -117,18 +117,18 @@ el split-view tres columnas. la parte más ambiciosa.
 
 ---
 
-## Fase 5 — integración imgToWeb / videoToWeb 🟡
+## Fase 5 — integración imgToWeb / videoToWeb 🟡 ✅ (cerrada 2026-05-18)
 
-embeber las herramientas existentes en el editor.
+- [x] **comprobación previa**: imgToWeb/videoToWeb **no exponen `postMessage`** hacia el parent (todo se queda en el iframe). pero **no tienen X-Frame-Options ni CSP** que bloquee embedding → iframe OK. **flow B** (manual con drop zone) es el camino.
+- [x] botón "comprimir media" en el menú hamburger del editor → abre modal.
+- [x] panel modal a dos columnas: iframe + drop zone + instrucciones. botón para alternar entre imgToWeb y videoToWeb.
+- [x] **asset store** (`editor/js/assets.js`): blobs en memoria, Object URLs para preview, carpetas automáticas (`img/`, `audio/`, `video/`, `fonts/`, `assets/`) por extensión.
+- [x] **panel de assets** flotante (top-right): thumb + path + tamaño + botones `insertar` / `×`.
+- [x] **preview con assets**: `rewriteRefsToBlobs` traduce `src="img/foto.webp"` a object URL para verlas sin upload.
+- [x] **drop zone**: en la textarea (drop → asset + snippet `<img>`/`<audio>`/`<video>` insertado). en el body (drop → asset sin insertar).
+- [x] **export con assets**: el ZIP incluye `img/`, `audio/`, etc. README listando los assets.
 
-- [ ] **comprobación previa**: revisar si imgToWeb y videoToWeb soportan `postMessage` desde el iframe parent. si soportan, integración fluida; si no, flow manual aceptable (descargar + arrastrar).
-- [ ] botón "comprimir media" en la toolbar del editor
-- [ ] panel modal/lateral con `<iframe src="https://meowrhino.github.io/imgToWeb/">`
-- [ ] **flow A — si hay `postMessage`**: el iframe avisa al parent cuando hay archivo listo, el editor lo recoge y lo mete en `/img` del proyecto sin tocar el sistema de archivos del user.
-- [ ] **flow B — si no hay `postMessage`**: documentar paso a paso el manual: comprimir en iframe → descargar a `/Downloads` → arrastrar al editor (drop zone) → editor lo mete en `/img`. honesto sobre la fricción.
-- [ ] mismo flujo para videoToWeb
-
-**criterio de done**: user comprime una foto sin tener que abrir otra pestaña distinta del editor y ve el archivo aparecer en su proyecto. (con o sin `postMessage`, según lo que descubramos en la comprobación previa.)
+**criterio de done**: ✅ user comprime una foto sin abrir otra pestaña, arrastra el resultado al editor y la ve en el preview con el `<img>` insertado.
 
 ---
 

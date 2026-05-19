@@ -126,6 +126,43 @@
     </div>
   </aside>
 
+  <!-- panel de assets (aparece cuando hay assets cargados) -->
+  <aside class="r-editor__assets" id="assets-panel" hidden>
+    <header class="r-editor__assets-head">
+      <strong>assets · <small>arrastra aquí imágenes/audio</small></strong>
+    </header>
+    <ul class="r-editor__assets-list" id="assets-list"></ul>
+  </aside>
+
+  <!-- modal de comprimir media (Fase 5): iframe + drop zone -->
+  <div class="r-media-modal" id="media-modal" hidden>
+    <div class="r-media-modal__card">
+      <header class="r-media-modal__head">
+        <strong id="media-title">comprimir imágenes</strong>
+        <div>
+          <button type="button" class="r-btn r-btn--xs" id="media-toggle">cambiar a video ↔</button>
+          <button type="button" class="r-btn r-btn--xs" id="media-close" aria-label="cerrar">×</button>
+        </div>
+      </header>
+      <div class="r-media-modal__body">
+        <iframe id="media-iframe" class="r-media-modal__iframe" title="herramienta de compresión"></iframe>
+        <div class="r-media-modal__side">
+          <div id="media-drop" class="r-drop-zone">
+            <strong>arrastra aquí</strong>
+            <small>los archivos comprimidos<br>(de tus descargas o del iframe)</small>
+          </div>
+          <p class="r-media-modal__help">
+            <strong>flujo:</strong><br>
+            1. en el iframe ← carga imágenes y compáralas.<br>
+            2. pulsa <em>descargar todo</em>.<br>
+            3. arrastra los archivos resultantes desde tu carpeta de descargas a este recuadro.<br>
+            4. el editor los añade al proyecto y los incluye en el ZIP.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- modal genérico -->
   <div class="r-editor__modal" id="modal" hidden>
     <div class="r-editor__modal-card">

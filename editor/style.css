@@ -632,6 +632,173 @@ a:hover { text-decoration: none; }
 }
 
 /* ============================================================================
+   panel de assets (flota arriba-derecha del editor)
+   ========================================================================== */
+
+.r-editor__assets {
+  position: fixed;
+  top: 60px;
+  right: 1rem;
+  width: 280px;
+  max-height: 60vh;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--coral);
+  z-index: 35;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.82rem;
+}
+.r-editor__assets[hidden] { display: none; }
+.r-editor__assets-head {
+  padding: 0.4rem 0.7rem;
+  background: var(--coral);
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+.r-editor__assets-head small {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+.r-editor__assets-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem;
+  overflow: auto;
+}
+.r-asset {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  align-items: center;
+  border-bottom: 1px dashed var(--ash);
+}
+.r-asset:last-child { border-bottom: 0; }
+.r-asset__thumb {
+  width: 48px; height: 48px;
+  object-fit: cover;
+  border: 1px solid var(--ash);
+}
+.r-asset__icon {
+  width: 48px; height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+  border: 1px solid var(--ash);
+  font-size: 1.2rem;
+}
+.r-asset__path {
+  font-size: 0.75rem;
+  word-break: break-all;
+  background: rgba(0,0,0,0.04);
+  padding: 0 0.25rem;
+}
+.r-asset__meta small {
+  display: block;
+  color: var(--r-muted);
+  font-size: 0.68rem;
+  margin-top: 0.15rem;
+}
+.r-asset__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+/* drop target highlight */
+.r-drop-target--active {
+  outline: 3px dashed var(--coral) !important;
+  outline-offset: -3px;
+  background: rgba(239,125,87,0.06) !important;
+}
+
+/* ============================================================================
+   modal de media (comprimir imágenes/video con imgToWeb embebido)
+   ========================================================================== */
+
+.r-media-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,26,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  padding: 1rem;
+}
+.r-media-modal[hidden] { display: none; }
+.r-media-modal__card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--coral);
+  width: 100%;
+  max-width: 1200px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+.r-media-modal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem;
+  border-bottom: 2px solid var(--ink);
+  background: var(--cream);
+}
+.r-media-modal__head strong { font-size: 0.95rem; }
+.r-media-modal__body {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  min-height: 0;
+}
+.r-media-modal__iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-right: 2px solid var(--ink);
+  background: #fff;
+}
+.r-media-modal__side {
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  gap: 0.75rem;
+  overflow: auto;
+  background: var(--cream);
+}
+.r-drop-zone {
+  flex: 0 0 auto;
+  min-height: 130px;
+  border: 2px dashed var(--coral);
+  background: var(--paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  text-align: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+}
+.r-drop-zone strong { color: var(--coral); }
+.r-drop-zone small { color: var(--r-muted); font-size: 0.72rem; }
+.r-media-modal__help {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--ink);
+}
+.r-media-modal__help em { font-style: normal; background: var(--amber); padding: 0 0.25rem; }
+@media (max-width: 800px) {
+  .r-media-modal__body { grid-template-columns: 1fr; }
+  .r-media-modal__iframe { border-right: 0; border-bottom: 2px solid var(--ink); height: 60vh; }
+}
+
+/* ============================================================================
    modal genérico
    ========================================================================== */
 

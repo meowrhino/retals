@@ -18,10 +18,11 @@
 // ============================================================================
 
 import { tagsInHTML, componentFilesFor } from './library.js';
+import { rewriteRefsToBlobs } from './assets.js';
 
 const DEBOUNCE_MS = 300;
 
-export function createPreview(iframe, getCode, onUsedTags) {
+export function createPreview(iframe, getCode, onUsedTags, getAssetStore) {
   let timer = null;
   let lastFingerprint = '';
 
@@ -87,7 +88,10 @@ ${html}
   function refresh(immediate) {
     if (timer) clearTimeout(timer);
     const apply = () => {
-      const html = getCode();
+      let html = getCode();
+      // reescribir src/href hacia los Object URLs de los assets locales
+      const store = getAssetStore && getAssetStore();
+      if (store) html = rewriteRefsToBlobs(html, store);
       const doc = build(html);
       const fp = doc.length + '·' + doc.slice(0, 80);
       // evitar repintar si nada cambió

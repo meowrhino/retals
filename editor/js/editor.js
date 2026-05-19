@@ -6,6 +6,7 @@ import { BLOCKS, VISIBLE_BLOCKS, insertAtCursor, tagsInHTML, componentFilesFor }
 import { createPreview } from './preview.js';
 import { exportProject } from './export.js';
 import { mountInspector } from './inspector.js';
+import { createAssetStore } from './assets.js';
 
 const STORAGE_KEY = 'retals:project';
 const DEFAULT_HTML = '';   // por defecto, lienzo limpio
@@ -99,11 +100,24 @@ $code.addEventListener('keydown', (e) => {
 
 // ── preview ────────────────────────────────────────────────────────────
 
-const preview = createPreview($preview, () => state.html, (tags, files) => {
-  $used.textContent = tags.length
-    ? `usa: ${tags.join(', ')}  ·  ${files.length} archivo${files.length === 1 ? '' : 's'}`
-    : 'HTML puro · 0 componentes';
-});
+// ── assets store + drop zone ───────────────────────────────────────────
+
+const assetStore = createAssetStore({ onChange: () => renderAssets() });
+
+const preview = createPreview(
+  $preview,
+  () => state.html,
+  (tags, files) => {
+    const assetCount = assetStore.list().length;
+    const compPart = tags.length
+      ? `usa: ${tags.join(', ')}  ·  ${files.length} archivo${files.length === 1 ? '' : 's'}`
+      : 'HTML puro · 0 componentes';
+    $used.textContent = assetCount
+      ? `${compPart}  ·  ${assetCount} asset${assetCount === 1 ? '' : 's'}`
+      : compPart;
+  },
+  () => assetStore,
+);
 
 let saveTimer = null;
 function scheduleSave() {
@@ -320,19 +334,141 @@ function onExportJSON() {
   setTimeout(() => { a.remove(); URL.revokeObjectURL(url); }, 100);
 }
 
-async function onMediaPlaceholder() {
-  await modalAlert('comprimir media (Fase 5)',
-    'la integración está pendiente. mientras tanto:\n\n• https://meowrhino.github.io/imgToWeb/\n• https://meowrhino.github.io/videoToWeb/\n\ncomprime ahí y arrastra los archivos al ZIP que descargues.');
+function onMediaPlaceholder() {
+  openMediaModal('img');
 }
+
+// modal con iframe de imgToWeb / videoToWeb + drop zone hacia el editor.
+function openMediaModal(kind) {
+  const $m = document.getElementById('media-modal');
+  const $iframe = document.getElementById('media-iframe');
+  const $title  = document.getElementById('media-title');
+  const $drop   = document.getElementById('media-drop');
+  const isVideo = kind === 'video';
+  $iframe.src = isVideo
+    ? 'https://meowrhino.github.io/videoToWeb/'
+    : 'https://meowrhino.github.io/imgToWeb/';
+  $title.textContent = isVideo ? 'comprimir video' : 'comprimir imágenes';
+  $m.hidden = false;
+  setupDropTarget($drop, { insertSnippet: true });
+}
+
+document.getElementById('media-close')?.addEventListener('click', () => {
+  document.getElementById('media-modal').hidden = true;
+});
+document.getElementById('media-modal')?.addEventListener('click', (e) => {
+  if (e.target.id === 'media-modal') document.getElementById('media-modal').hidden = true;
+});
+document.getElementById('media-toggle')?.addEventListener('click', () => {
+  const $iframe = document.getElementById('media-iframe');
+  const isVideo = $iframe.src.includes('videoToWeb');
+  openMediaModal(isVideo ? 'img' : 'video');
+});
 
 async function onDownload() {
   try {
-    const r = await exportProject(state.html, state.name || 'mi-retals');
-    $status.textContent = `· descargado (${r.files} archivo${r.files === 1 ? '' : 's'})`;
+    const r = await exportProject(state.html, state.name || 'mi-retals', assetStore.list());
+    const assetsPart = r.assets ? ` + ${r.assets} asset${r.assets === 1 ? '' : 's'}` : '';
+    $status.textContent = `· descargado (${r.files} componente${r.files === 1 ? '' : 's'}${assetsPart})`;
   } catch (err) {
     await modalAlert('descarga fallida', `error: ${err.message}`);
   }
 }
+
+// ── drop zone global + drop en textarea ────────────────────────────────
+
+function snippetForAsset(path, type) {
+  if (type.startsWith('image/')) return `<img src="${path}" alt="">`;
+  if (type.startsWith('audio/')) return `<audio controls src="${path}"></audio>`;
+  if (type.startsWith('video/')) return `<video controls src="${path}" style="max-width:100%;"></video>`;
+  return `<a href="${path}">${path.split('/').pop()}</a>`;
+}
+
+async function handleDropFiles(files, opts = {}) {
+  if (!files || !files.length) return;
+  const paths = await assetStore.addFiles(files);
+  if (opts.insertSnippet && paths.length) {
+    for (const p of paths) {
+      const a = assetStore.get(p);
+      if (a) insertAtCursor($code, snippetForAsset(p, a.type));
+    }
+    $code.dispatchEvent(new Event('input', { bubbles: true }));
+  }
+  $status.textContent = `· ${paths.length} asset${paths.length === 1 ? '' : 's'} añadido${paths.length === 1 ? '' : 's'}`;
+}
+
+function setupDropTarget(el, opts) {
+  el.addEventListener('dragover', (e) => {
+    if (!e.dataTransfer?.types?.includes('Files')) return;
+    e.preventDefault();
+    el.classList.add('r-drop-target--active');
+  });
+  el.addEventListener('dragleave', () => el.classList.remove('r-drop-target--active'));
+  el.addEventListener('drop', (e) => {
+    el.classList.remove('r-drop-target--active');
+    if (!e.dataTransfer?.files?.length) return;
+    e.preventDefault();
+    handleDropFiles(e.dataTransfer.files, opts);
+  });
+}
+
+setupDropTarget($code,            { insertSnippet: true });
+setupDropTarget(document.body,    { insertSnippet: false });
+
+// ── panel de assets ────────────────────────────────────────────────────
+
+const $assetsPanel = document.getElementById('assets-panel');
+const $assetsList  = document.getElementById('assets-list');
+
+function renderAssets() {
+  const items = assetStore.list();
+  if (!$assetsList) return;
+  $assetsPanel.hidden = items.length === 0;
+  $assetsList.innerHTML = '';
+  items.forEach(a => {
+    const li = document.createElement('li');
+    li.className = 'r-asset';
+    const isImg = a.type.startsWith('image/');
+    const thumb = isImg
+      ? `<img src="${assetStore.urlFor(a.path)}" alt="" class="r-asset__thumb">`
+      : `<span class="r-asset__icon">${a.type.startsWith('audio/') ? '♪' : a.type.startsWith('video/') ? '▶' : '◎'}</span>`;
+    li.innerHTML = `
+      ${thumb}
+      <div class="r-asset__meta">
+        <code class="r-asset__path">${a.path}</code>
+        <small>${formatSize(a.size)} · ${a.type || 'binario'}</small>
+      </div>
+      <div class="r-asset__actions">
+        <button type="button" class="r-btn r-btn--xs" data-asset-act="insert" data-path="${a.path}">insertar</button>
+        <button type="button" class="r-btn r-btn--xs" data-asset-act="remove" data-path="${a.path}" aria-label="quitar">×</button>
+      </div>
+    `;
+    $assetsList.appendChild(li);
+  });
+  // refrescar el preview por si los URLs cambian
+  preview.refresh(true);
+}
+
+function formatSize(n) {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+document.body.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-asset-act]');
+  if (!btn) return;
+  const path = btn.dataset.path;
+  if (btn.dataset.assetAct === 'remove') {
+    assetStore.remove(path);
+  } else if (btn.dataset.assetAct === 'insert') {
+    const a = assetStore.get(path);
+    if (a) {
+      insertAtCursor($code, snippetForAsset(path, a.type));
+      $code.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  }
+});
 
 // ── tabs móviles ───────────────────────────────────────────────────────
 
