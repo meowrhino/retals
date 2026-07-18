@@ -3,22 +3,19 @@
 // ============================================================================
 //
 // flow:
-// 1. parse del HTML para detectar tags r-* usados.
-// 2. resolver los archivos components/r-X.js necesarios.
-// 3. fetch de esos .js desde el propio editor (mismo origen).
-// 4. construir el HTML final con scripts apuntando a "components/r-X.js"
-//    relativo a la raíz del ZIP (el user despliega la carpeta tal cual).
-// 5. añadir README.md.
-// 6. zipBlob → descargar.
-//
-// si el HTML del user ya es un documento completo (con <html>), se respeta
-// y solo se inyectan los <script> antes de </head> (mismo criterio que preview).
+// 1. buildDoc (builddoc.js) monta el HTML final — el MISMO camino que el
+//    preview, así lo descargado es exactamente lo que se estuvo viendo.
+//    aquí los scripts van sin prefijo: "components/r-X.js" relativo a la
+//    raíz del ZIP (el user despliega la carpeta tal cual).
+// 2. fetch de esos .js desde el propio editor (mismo origen).
+// 3. añadir README.md + assets.
+// 4. zipBlob → descargar.
 //
 // si falla algún fetch (componente que no está en este editor), se documenta
 // en el README y se omite — el download no se cancela: el ZIP llega sin ese .js.
 // ============================================================================
 
-import { tagsInHTML, componentFilesFor } from './library.js';
+import { buildDoc } from './builddoc.js';
 import { zipBlob } from './zip.js';
 
 const README = (componentsList, assetsList = []) => `# tu web hecha con retals
@@ -62,56 +59,20 @@ async function fetchText(url) {
   return await r.text();
 }
 
-function buildHTMLForExport(userHTML, scriptTags) {
-  const hasDoctype = /<!doctype/i.test(userHTML);
-  const hasHtml    = /<html[\s>]/i.test(userHTML);
-
-  if (hasDoctype || hasHtml) {
-    let doc = userHTML;
-    if (/<\/head>/i.test(doc))      doc = doc.replace(/<\/head>/i, `  ${scriptTags}\n</head>`);
-    else if (/<\/body>/i.test(doc)) doc = doc.replace(/<\/body>/i, `  ${scriptTags}\n</body>`);
-    else                            doc = doc + scriptTags;
-    return doc;
-  }
-
-  return `<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mi web</title>
-  ${scriptTags}
-</head>
-<body>
-${userHTML}
-</body>
-</html>
-`;
-}
-
 export async function exportProject(userHTML, projectName = 'mi-retals', assets = []) {
-  const tags = tagsInHTML(userHTML);
-  const files = componentFilesFor(tags);
-
-  // scripts apuntando a la ruta relativa dentro del ZIP
-  const scriptTags = files
-    .map(f => `<script type="module" src="${f}"></script>`)
-    .join('\n  ');
+  const { doc: indexHTML, tags, files } = buildDoc(userHTML, { scriptPrefix: '', title: projectName });
 
   // fetch de los componentes desde el editor actual.
-  // si el editor está en /editor/, los .js viven en ../components/r-X.js
+  // el editor vive en /editor/, los .js en ../components/r-X.js
   const componentSources = [];
   for (const f of files) {
     try {
-      // editor.js corre desde /editor/js/, así que necesitamos `../../<f>`
       const src = await fetchText(`../${f}`);
       componentSources.push({ path: f, data: src });
     } catch (err) {
       console.warn('[export] no se pudo cargar', f, err);
     }
   }
-
-  const indexHTML = buildHTMLForExport(userHTML, scriptTags);
 
   // convertir assets a Uint8Array para el ZIP
   const assetFiles = [];

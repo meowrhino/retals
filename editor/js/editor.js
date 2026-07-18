@@ -3,6 +3,7 @@
 // ============================================================================
 
 import { BLOCKS, VISIBLE_BLOCKS, insertAtCursor, tagsInHTML, componentFilesFor } from './library.js';
+import { stripComponentScripts } from './builddoc.js';
 import { createPreview } from './preview.js';
 import { exportProject } from './export.js';
 import { mountInspector } from './inspector.js';
@@ -286,11 +287,39 @@ async function onNew() {
   inspector.refresh();
 }
 
+// convierte los <link rel="stylesheet" href="style.css"> del starter en un
+// <style> inline con su contenido. el proyecto del editor es un único HTML:
+// si el link quedara, el preview lo resolvería contra /editor/ (cargaría el
+// CSS del editor, no el del starter) y el ZIP saldría sin el archivo.
+async function inlineLocalStylesheets(html, baseUrl) {
+  const links = html.match(/<link\b[^>]*\brel\s*=\s*["']stylesheet["'][^>]*>/gi) || [];
+  for (const linkTag of links) {
+    const hrefM = linkTag.match(/\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/i);
+    const href = hrefM && (hrefM[1] ?? hrefM[2]);
+    if (!href || /^(?:https?:|data:|\/\/|\/)/i.test(href)) continue;
+    try {
+      const r = await fetch(baseUrl + href, { cache: 'no-cache' });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const css = await r.text();
+      const styleTag = `<style>\n/* ── ${href} del starter, inline para que viaje con tu HTML ── */\n${css.trim()}\n  </style>`;
+      html = html.replace(linkTag, () => styleTag);
+    } catch (_) { /* si falla el fetch, se deja el <link> tal cual */ }
+  }
+  return html;
+}
+
 async function onLoadStarter(name) {
+  if (state.html.trim()) {
+    const proceed = await modalConfirm('cargar starter', `¿sustituir el proyecto actual por «${name}»?`);
+    if (!proceed) return;
+  }
   try {
     const r = await fetch(`../starters/${name}/index.html`, { cache: 'no-cache' });
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    const html = await r.text();
+    let html = await r.text();
+    html = await inlineLocalStylesheets(html, `../starters/${name}/`);
+    // los scripts de componentes los gestiona el editor según los tags usados
+    html = stripComponentScripts(html);
     state.html = html;
     state.name = name;
     $code.value = html;
