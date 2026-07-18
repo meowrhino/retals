@@ -9,35 +9,35 @@
 
 ---
 
-## Fase 0 — manifiesto + landing 🟢
+## Fase 0 — manifiesto + landing 🟢 ✅ (cerrada — la landing vive ahora en `/index.html`, raíz del repo)
 
-la entrada pública al proyecto. **gran parte ya está hecha** en el scaffold inicial — esta fase es solo refinar y verificar.
+la entrada pública al proyecto.
 
-- [x] `editor/index.html` con el manifiesto (presente, revisar copy)
+- [x] landing con el manifiesto (movida de `editor/index.html` a `/index.html`; el viejo path redirige)
 - [x] `editor/style.css` con la paleta meowrhino (presente)
 - [x] favicon y mascota en `editor/assets/` (placeholder pixel art 8x8 — sustituir si Manu tiene la oficial de moixí, si no, dejar el placeholder)
 - [x] footer estándar `made in barcelona ☼ meowrhino studio · vanilla, forever`
 - [x] README.md público con resumen y links
-- [ ] verificar que carga sin JS y sin errores en consola
-- [ ] dejar marcados con TODO los dos slots vacíos (`#bloques`, `#starters`) para Fases 1-3
+- [x] carga sin errores en consola (verificado 2026-07-19)
+- [x] las secciones `#bloques` y `#starters` ya no son slots TODO: tienen contenido real
 
-**criterio de done**: `python3 -m http.server 8080 → http://localhost:8080/editor/` carga sin errores en consola. la paleta meowrhino se ve correcta (coral/ámbar sobre cream). las dos secciones futuras (`#bloques`, `#starters`) están marcadas con `<!-- TODO -->` visible en el HTML para que las próximas fases sepan dónde insertar.
+**criterio de done**: cumplido — `python3 -m http.server 8080 → http://localhost:8080/` carga sin errores, paleta correcta, secciones pobladas.
 
 ---
 
-## Fase 1 — primer Web Component end-to-end 🟡
+## Fase 1 — primer Web Component end-to-end 🟡 ✅ (cerrada)
 
 empezar con **`<r-window>`** porque prueba todos los patrones del contrato: atributos, slots, fallback, drag, theming, eventos.
 
-- [ ] `components/_template.js` con el esqueleto base (ver CLAUDE.md)
-- [ ] `components/r-window.js` implementando la API completa:
+- [x] `components/_template.js` con el esqueleto base (ver CLAUDE.md)
+- [x] `components/r-window.js` implementando la API completa:
   - atributos: `title`, `x`, `y`, `w`, `h`, `theme` (win95|macos|none), `resizable`, `closable`, `minimizable`
   - drag desde la barra de título
   - resize desde la esquina inferior derecha
   - close emite evento `r-window:close`
   - fallback: un `<div>` con borde, título arriba, contenido debajo (sin drag, pero legible)
-- [ ] `editor/demos/r-window.html` con varias ventanas usándose
-- [ ] `docs/r-window.md` con ejemplos copy-paste
+- [x] `editor/demos/r-window.html` con varias ventanas usándose
+- [x] `docs/r-window.md` con ejemplos copy-paste
 
 **criterio de done**: pegas el snippet del docs en un HTML cualquiera, funciona, y sigue mostrando algo decente con JS desactivado.
 
@@ -66,13 +66,13 @@ orden sugerido (de más simple a más complejo):
 
 ---
 
-## Fase 3 — primer starter (`collage-ventanas`) 🟡
+## Fase 3 — primer starter (`collage-ventanas`) 🟡 ✅ (cerrada)
 
 **solo uno** en esta fase. los otros tres se hacen en Fase 7. razón: hacer cuatro a la vez los acaba todos a medias y todos iguales. concentramos esfuerzo en el que más justifica el proyecto y prueba la cadena completa.
 
 elegimos `collage-ventanas` porque (a) es el más distintivo del proyecto, (b) usa `r-window` que ya está implementado en Fase 1, y (c) demuestra el valor de retals frente a un starter genérico tipo blog.
 
-- [ ] `starters/collage-ventanas/`
+- [x] `starters/collage-ventanas/`
   - `index.html` con varias `<r-window>` arrastrables como composición
   - fondo a color sólido vibrante o GIF tileado
   - glifos ✺ ✦ ◌ ✜ en lugar de iconos modernos
@@ -87,7 +87,7 @@ el starter debe:
 - funcionar offline (`file://`, doble click al `index.html`)
 - funcionar subido a Neocities (verificar manualmente)
 
-**criterio de done**: descargas el starter como carpeta, abres `index.html` con doble click, ves la composición funcionando. lo subes a Neocities y sigue funcionando. lo personalizas modificando solo HTML y CSS sin tocar JS.
+**criterio de done**: descargas el starter como carpeta, abres `index.html` con doble click, ves la composición funcionando. lo subes a Neocities y sigue funcionando. lo personalizas modificando solo HTML y CSS sin tocar JS. *(pendiente de verificación humana: doble click real + subida a Neocities — ver TESTING.md)*
 
 **los otros starters (`studio-carta`, `one-pager`, `archivo`) se posponen a Fase 7.** dejar las carpetas con un `README.md` "próximamente, ver Fase 7" para que la estructura no engañe.
 
@@ -130,30 +130,33 @@ el split-view tres columnas. la parte más ambiciosa.
 
 **criterio de done**: ✅ user comprime una foto sin abrir otra pestaña, arrastra el resultado al editor y la ve en el preview con el `<img>` insertado.
 
+**fix posterior (2026-07-19)**: el flujo starter → preview → zip estaba roto (el preview cargaba el CSS del editor en vez del CSS del starter, y el ZIP salía sin `style.css`). arreglado con `editor/js/builddoc.js`: un único constructor de documento compartido por preview y export, CSS del starter inline al cargarlo, scripts de componentes gestionados solo por el editor.
+
 ---
 
-## Fase 6 — counter y guestbook 🟡
+## Fase 6 — counter y guestbook 🟡 ✅ (cerrada — pendiente solo probar un Worker desplegado de verdad)
 
 componentes con persistencia. **arrancan en localStorage**, el Worker es upgrade self-hosted opcional. razón: Worker compartido para todos los users invita a spam y nos compromete a una infra que no queremos sostener (ver CLAUDE.md → componentes con persistencia).
 
 ### parte A — versión por defecto (localStorage)
 
-- [ ] `components/r-counter.js` — counter decorativo en localStorage
+- [x] `components/r-counter.js` — counter decorativo en localStorage
   - sin atributos: cuenta visitas únicas del visitante (con `localStorage.getItem('r-counter:<id>')`)
   - atributo `id` para distinguir varios counters en la misma página
   - fallback HTML: muestra "—" si no hay JS
-- [ ] `components/r-guestbook.js` — libro de visitas local del visitante
+- [x] `components/r-guestbook.js` — libro de visitas local del visitante
   - sin atributos: guardado solo en su localStorage, útil como demo o ejercicio personal
   - fallback HTML: textarea + botón submit que no hace nada (mensaje informativo de que JS hace falta para guardar)
-- [ ] docs: dejar muy claro que **estos componentes en modo default no son compartidos entre visitantes**. el visitante A no ve el contador del visitante B.
+- [x] docs: dejar muy claro que **estos componentes en modo default no son compartidos entre visitantes**. el visitante A no ve el contador del visitante B.
 
 ### parte B — versión avanzada (self-host Worker, opcional)
 
-- [ ] `workers/counter.js` — counter compartido por `id`, almacenado en Cloudflare KV
-- [ ] `workers/guestbook.js` — libro de visitas con rate limit (IP-based, 1 mensaje cada 30s) y length cap (500 chars)
-- [ ] `workers/README.md` con instrucciones paso a paso de `wrangler deploy`
-- [ ] `r-counter` y `r-guestbook` aceptan atributo `endpoint="https://mi-worker.workers.dev/..."` que cuando está presente sustituye el modo localStorage
-- [ ] `docs/self-host-workers.md` — guía completa de self-host
+- [x] `workers/counter.js` — counter compartido por `id`, almacenado en Cloudflare KV
+- [x] `workers/guestbook.js` — libro de visitas con rate limit (IP-based, 1 mensaje cada 30s) y length cap (500 chars)
+- [x] `workers/README.md` con instrucciones paso a paso de `wrangler deploy`
+- [x] `r-counter` y `r-guestbook` aceptan atributo `endpoint="https://mi-worker.workers.dev/..."` que cuando está presente sustituye el modo localStorage
+- [x] `docs/self-host-workers.md` — guía completa de self-host
+- [ ] verificación con un Worker desplegado de verdad (`wrangler deploy` + `endpoint=` apuntando a él)
 
 **no desplegamos un `retals-api.workers.dev` público.**
 
@@ -163,28 +166,30 @@ componentes con persistencia. **arrancan en localStorage**, el Worker es upgrade
 
 ---
 
-## Fase 7 — starters restantes + showcase 🟢
+## Fase 7 — starters restantes + showcase 🟢 (starters hechos; falta showcase)
 
 los tres starters pospuestos desde Fase 3, ahora que el editor y la biblioteca están maduros y sabemos qué patrones funcionan.
 
-- [ ] `starters/studio-carta/` — portfolio tipo meowrhino / rikamichie
+- [x] `starters/studio-carta/` — portfolio tipo meowrhino / rikamichie
   - grid de proyectos, página de proyecto individual, sobre / contacto
   - paleta neutra, tipografía cuidada
-- [ ] `starters/one-pager/` — scroll narrativo vertical
+- [x] `starters/one-pager/` — scroll narrativo vertical
   - secciones grandes con anclajes
   - foco editorial, tipografía protagonista
-- [ ] `starters/archivo/` — índice cronológico (blog/diario)
+- [x] `starters/archivo/` — índice cronológico (blog/diario)
   - lista densa de entradas con fecha
   - estética 2000s-blogger, monospace
+- [x] starters adicionales: `zine-personal`, `portfolio-foto`, `banda-album`, `wiki-jardin`, `hub-minimal` (5 nuevos, construidos en el editor live — total 9 starters)
 - [ ] showcase público de webs hechas con retals
 - [ ] formulario simple para enviar URL (manual approval)
-- [ ] starters adicionales según pidan: zine editorial, terminal/CLI, escritorio-OS, jardín-wiki, hub/linktree
 - [ ] página "made with retals" enlazable desde los starters
 
 ---
 
 ## Fase 8 — pulido y comunidad 🟢
 
+- [ ] persistir los assets del editor en IndexedDB (ahora viven en memoria y se pierden al cerrar la pestaña; hay aviso en el panel)
+- [ ] **(evaluar)** editor multi-archivo: proyecto `{index.html, style.css}` con pestañas en el panel de código y ZIP con ambos. hoy el CSS del starter se inlinea en el `<head>` al cargarlo (decisión 2026-07-19), que funciona pero hace el HTML más largo
 - [ ] tutoriales en vídeo cortos (1-3 min) screencast del flow básico
 - [ ] traducciones: catalán e inglés (castellano es el default)
 - [ ] integración opcional de deploy directo a GitHub Pages / Codeberg vía OAuth

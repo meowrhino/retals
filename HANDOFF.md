@@ -12,13 +12,16 @@ el proyecto se inspira en mosi (de hecho funciona como moixí en cuanto a estruc
 
 ---
 
-## estado actual (actualizado 2026-05-11 · sesión Opus 4.7)
+## estado actual (actualizado 2026-07-19 · sesión Fable 5)
 
-el repo está vivo en https://github.com/meowrhino/retals (público, MIT). commits:
+el repo está vivo en https://github.com/meowrhino/retals (público, MIT). hitos:
 
 - `adf5c3f` — scaffold inicial.
 - `af1ea4d` (Sonnet) — Fase 1 + 2 (13 componentes) + 3 + 6 + 7.
-- **pendiente de commit (Opus 4.7, 2026-05-11)** — cierra **Fase 2** (los 🟡 grandes `r-gallery` y `r-jukebox`) **y Fase 4** (editor en navegador end-to-end).
+- `4c1e839` (Opus 4.7) — cierra **Fase 2** (`r-gallery` y `r-jukebox`) **y Fase 4** (editor end-to-end) + landing pública en raíz.
+- `4c5c7a3` — 5 starters nuevos (total 9).
+- `1a23025` — **Fase 5** cerrada: imgToWeb/videoToWeb + asset store.
+- `f913677` (Fable 5, 2026-07-19) — **fix estructural del editor**: el flujo starter → preview → zip estaba roto (el preview resolvía el `style.css` del starter contra `/editor/` y cargaba el CSS del editor; el ZIP salía sin `style.css`; scripts duplicados/404). ahora `editor/js/builddoc.js` es el ÚNICO constructor del documento final, compartido por preview y export — **lo que ves en el preview es lo que descargas**. al cargar un starter su CSS se inlinea en el `<head>` y sus `<script>` de componentes se quitan (los gestiona el editor según los tags `r-*` usados). además: confirmación antes de machacar el proyecto al cargar starter, preview repinta siempre (fuera el fingerprint que se saltaba ediciones), aviso de que los assets viven solo en la pestaña.
 
 **Fase 2: 15/15.** componentes con docs y demo:
 `r-window`, `r-divider`, `r-marquee`, `r-typewriter`, `r-clock`, `r-glitch`, `r-cursor`, `r-tooltip`, `r-card`, `r-tabs`, `r-accordion`, `r-counter`, `r-guestbook`, `r-gallery`, `r-jukebox`.
@@ -50,23 +53,29 @@ starters y workers como estaban:
 
 en orden de prioridad:
 
-### 1. verificación manual de Fase 0 + 1 + 2 (rápido, bloquea avance)
+### 1. verificación humana end-to-end (lo único que bloquea decir "funciona")
 
 ```bash
-cd /Users/manu/Documents/GitHub/retals
+cd retals
 python3 -m http.server 8080
-# abrir http://localhost:8080/editor/
+# abrir http://localhost:8080/editor/editor.html
 ```
 
-confirmar:
-- la landing carga sin errores en consola
-- la paleta meowrhino (coral/ámbar sobre cream) se ve correcta
-- `mascot.svg` + `favicon.svg` cargan (siguen como placeholder 8x8)
-- las dos secciones futuras (`#bloques`, `#starters`) tienen `<!-- TODO -->` visible
+- cargar un starter → descargar ZIP → descomprimir en Finder → doble click al `index.html` → debe verse igual que el preview.
+- subir ese ZIP a Neocities y comprobar que funciona (es LA promesa del proyecto, nunca probada de verdad).
+- probar el editor en móvil real (<700px: tabs biblioteca/código/preview).
+- pasar TESTING.md por 2-3 demos: keyboard, fallback sin JS, eventos custom, override de CSS vars.
+- opcional: desplegar un Worker de verdad y probar `r-counter endpoint=...` (cierra del todo la Fase 6).
 
-luego abrir 2-3 demos (`/editor/demos/r-window.html`, `/editor/demos/r-glitch.html`, `/editor/demos/r-guestbook.html`) y pasar TESTING.md por encima: keyboard, fallback sin JS (devtools → disable JS → reload), eventos custom en consola, override de CSS vars.
+### 2. mejoras siguientes (ver ROADMAP Fase 7 y 8)
 
-### 2. ~~completar Fase 2~~ ✅ hecho en esta sesión
+- showcase público + página "made with retals" (lo que queda de Fase 7).
+- persistir assets en IndexedDB (ahora solo hay aviso de que se pierden).
+- evaluar editor multi-archivo (`index.html` + `style.css` en pestañas) como evolución del inline actual.
+
+## histórico de sesiones anteriores (decisiones tomadas, no reabrir sin motivo)
+
+### ~~completar Fase 2~~ ✅ hecho (sesión 2026-05-11)
 
 - `r-gallery` y `r-jukebox` ya cumplen el contrato: light DOM, `<style>` único auto-inyectado, fallback sin JS, i18n `es/en/ca`, CSS vars `--r-*` con override, eventos custom con namespace.
 - decisiones tomadas (no reabrir sin motivo):
@@ -79,7 +88,7 @@ luego abrir 2-3 demos (`/editor/demos/r-window.html`, `/editor/demos/r-glitch.ht
 
 falta verificación manual (no se pudo automatizar sin pulsar play, que el navegador exige por política de autoplay): pasar TESTING.md por ambos demos, incluyendo el fallback con devtools→disable JS.
 
-### 3. ~~Fase 4 — editor en navegador~~ ✅ hecho en esta sesión
+### ~~Fase 4 — editor en navegador~~ ✅ hecho (sesión 2026-05-11)
 
 ver bloque "Fase 4: cerrada" más arriba. decisiones tomadas:
 - biblioteca minimal sin previews-miniatura — nombre + complexity dot + descripción + snippet pegable cubre el caso de uso. previews son nice-to-have de Fase 8.
@@ -90,11 +99,11 @@ ver bloque "Fase 4: cerrada" más arriba. decisiones tomadas:
 
 falta verificación humana: probar en móvil real (<700px) que las tabs funcionan, probar la descarga ZIP descomprimiendo en Finder/Explorer y abriendo el `index.html` con doble click. screenshots en preview se hicieron pero no sustituyen el doble-click real.
 
-### 4. Fase 5 — integración imgToWeb / videoToWeb 🟡
+### ~~Fase 5 — integración imgToWeb / videoToWeb~~ ✅ hecho (sesión 2026-05-18)
 
-comprobación previa: ver si imgToWeb/videoToWeb exponen `postMessage` desde el iframe. si sí, integración fluida; si no, flow manual (descargar + drop zone). decisión documentada en ROADMAP.
+imgToWeb/videoToWeb no exponen `postMessage` → flow manual (iframe + drop zone), asset store en memoria, export con assets. detalle en ROADMAP Fase 5.
 
-### 5. limpieza menor (no bloquea)
+### limpieza menor (no bloquea)
 
 - si Manu pasa la mascota oficial de moixí, sustituir `editor/assets/mascot.svg` y `favicon.svg` **conservando el `viewBox="0 0 8 8"`** para que el CSS no se descoloque.
 
