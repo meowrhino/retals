@@ -23,13 +23,15 @@ el repo está vivo en https://github.com/meowrhino/retals (público, MIT). hitos
 - `1a23025` — **Fase 5** cerrada: imgToWeb/videoToWeb + asset store.
 - `f913677` (Fable 5, 2026-07-19) — **fix estructural del editor**: el flujo starter → preview → zip estaba roto (el preview resolvía el `style.css` del starter contra `/editor/` y cargaba el CSS del editor; el ZIP salía sin `style.css`; scripts duplicados/404). ahora `editor/js/builddoc.js` es el ÚNICO constructor del documento final, compartido por preview y export — **lo que ves en el preview es lo que descargas**. al cargar un starter su CSS se inlinea en el `<head>` y sus `<script>` de componentes se quitan (los gestiona el editor según los tags `r-*` usados). además: confirmación antes de machacar el proyecto al cargar starter, preview repinta siempre (fuera el fingerprint que se saltaba ediciones), aviso de que los assets viven solo en la pestaña.
 
-**Fase 2: 15/15.** componentes con docs y demo:
-`r-window`, `r-divider`, `r-marquee`, `r-typewriter`, `r-clock`, `r-glitch`, `r-cursor`, `r-tooltip`, `r-card`, `r-tabs`, `r-accordion`, `r-counter`, `r-guestbook`, `r-gallery`, `r-jukebox`.
+- (2026-11-22) — **`<r-collage>`**: lienzo libre que escala entero con el ancho (técnica de mmm.page escrita a nuestra manera: lienzo de referencia, `x`/`y` = centro del bloque, una unidad = ancho/`width` con tope de 1px, márgenes fuera de 0–`width` solo en pantallas anchas). el starter `collage-ventanas` pasa a usarlo y ya se ve bien en el móvil. decisiones: la unidad la mide el JS (`--r-collage-u`) y no `cqw`, para que la letra escalada se herede y un `<h1>` o un `em` dentro funcionen; `<r-window>` no va directamente dentro (las dos leen `x`/`y`/`w`): se envuelve en un `<div>` + una línea de CSS (ver `docs/r-collage.md`).
+
+**Fase 2: 15/15** (+ `r-collage`, añadido después: 16). componentes con docs y demo:
+`r-window`, `r-collage`, `r-divider`, `r-marquee`, `r-typewriter`, `r-clock`, `r-glitch`, `r-cursor`, `r-tooltip`, `r-card`, `r-tabs`, `r-accordion`, `r-counter`, `r-guestbook`, `r-gallery`, `r-jukebox`.
 
 **Fase 4: cerrada.** editor en `editor/editor.html` + `editor/js/{editor,library,preview,export,zip}.js`. funcionalidades:
 - 3 paneles (biblioteca · código · preview) en desktop, tabs en <700px.
 - live preview con debounce 300ms; detección de tags `r-*` por regex, inyección sólo de los scripts necesarios. mapeo `r-track`→`r-jukebox`, `r-tab`→`r-tabs`, `r-panel`→`r-accordion` en `library.js#CHILD_TO_PARENT`.
-- snippets de los 15 componentes en `library.js#BLOCKS`. click inserta en cursor.
+- snippets de los 16 componentes en `library.js#BLOCKS`. click inserta en cursor.
 - starters cargables vía dropdown (fetch a `../starters/<name>/index.html`).
 - import/export `.retals.json` (`{version, name, html, savedAt}`).
 - ZIP descargable autocontenido: `index.html` + `README.md` + sólo los `components/r-X.js` usados. ZIP "store mode" vanilla en `editor/js/zip.js` (CRC32 + headers binarios, cero dependencias).

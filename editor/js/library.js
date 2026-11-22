@@ -40,6 +40,22 @@ export const BLOCKS = [
     ],
   },
   {
+    tag: 'r-collage',
+    name: '<r-collage>',
+    complexity: 'green',
+    desc: 'lienzo libre: bloques con x/y que encogen enteros en el móvil.',
+    snippet:
+`<r-collage width="600">
+  <p x="300" y="60" w="320">hola, esto es un collage.</p>
+  <img src="img/1.webp" alt="" x="200" y="220" w="240" rot="-4">
+  <p x="430" y="300" w="200" rot="3" z="2">x e y son el centro del bloque.</p>
+</r-collage>`,
+    attrs: [
+      { name: 'width',  type: 'number', placeholder: '600 (ancho de referencia)' },
+      { name: 'height', type: 'number', placeholder: 'vacío = lo que ocupen los bloques' },
+    ],
+  },
+  {
     tag: 'r-divider',
     name: '<r-divider>',
     complexity: 'green',
@@ -268,8 +284,8 @@ export const BLOCKS = [
 ];
 
 // los tres hijos de arriba no aparecen en la biblioteca visible
-// (la lista útil del panel biblioteca son los 15 primeros).
-export const VISIBLE_BLOCKS = BLOCKS.slice(0, 15);
+// (la lista útil del panel biblioteca son los 16 primeros).
+export const VISIBLE_BLOCKS = BLOCKS.slice(0, 16);
 
 // ── helpers ────────────────────────────────────────────────────────────
 

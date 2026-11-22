@@ -190,6 +190,7 @@ los tres starters pospuestos desde Fase 3, ahora que el editor y la biblioteca e
 
 - [ ] persistir los assets del editor en IndexedDB (ahora viven en memoria y se pierden al cerrar la pestaña; hay aviso en el panel)
 - [ ] **(evaluar)** editor multi-archivo: proyecto `{index.html, style.css}` con pestañas en el panel de código y ZIP con ambos. hoy el CSS del starter se inlinea en el `<head>` al cargarlo (decisión 2026-07-19), que funciona pero hace el HTML más largo
+- [ ] **(propuesta, 2026-11-22)** arrastrar un bloque de `<r-collage>` en el preview del editor y que se reescriban sus `x`/`y` en el código. hoy las posiciones se escriben a mano. `r-collage` ya reacciona en vivo a cambios de `x`/`y`/`w`/`rot`/`z`; falta el gesto en el preview y devolver el cambio a la textarea (como hace el inspector con los atributos)
 - [ ] tutoriales en vídeo cortos (1-3 min) screencast del flow básico
 - [ ] traducciones: catalán e inglés (castellano es el default)
 - [ ] integración opcional de deploy directo a GitHub Pages / Codeberg vía OAuth

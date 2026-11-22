@@ -1,7 +1,7 @@
 /* ============================================================
    collage-ventanas — starter de retals
    personaliza los colores en :root, las posiciones de las
-   ventanas en index.html, y el fondo aquí abajo.
+   ventanas en index.html (x, y, w), y el fondo aquí abajo.
    ============================================================ */
 
 :root {
@@ -46,21 +46,55 @@ body {
   */
 }
 
-/* ——— área de ventanas: todo el viewport, posición relativa ——— */
-.desktop {
-  position: relative;
-  min-height: 100vh;
-  min-width: 100vw;
+/* ——— el lienzo: letra a 15 unidades (en el móvil encoge con todo) ——— */
+r-collage {
+  --r-collage-font-size: 15;
+  display: block;
+  padding-bottom: 4rem;   /* sitio para el footer fijo */
 }
 
-/* ——— glifos decorativos flotantes ——— */
+/* la ventana ocupa el <div> que la coloca, y se deja arrastrar desde ahí */
+r-collage r-window.r-window--ready {
+  position: relative;
+  width: 100%;
+}
+/* los rellenos de la ventana, en em: que encojan con el lienzo */
+r-collage .r-window__header { padding: 0.4em 0.6em; }
+r-collage .r-window__body   { padding: 0.75em; }
+
+/* ——— sin JS: las ventanas, una debajo de otra y legibles ——— */
+r-collage > * {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto 1rem;
+}
+r-window {
+  display: block;
+  background: var(--win-bg);
+  padding: 0.75rem;
+}
+r-window::before {
+  content: attr(title);
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+/* ——— glifos decorativos sueltos ——— */
 .glifo {
-  position: absolute;
   color: var(--accent);
-  font-size: 1.5rem;
-  opacity: 0.35;
+  font-size: 1.8em;
+  line-height: 1;
+  opacity: 0.45;
   pointer-events: none;
   user-select: none;
+}
+
+/* ——— nota al margen (solo pantallas anchas) ——— */
+.nota-margen {
+  color: var(--win-bg);
+  opacity: 0.7;
+  font-size: 0.9em;
 }
 
 /* ——— footer ——— */
@@ -78,15 +112,16 @@ body {
   pointer-events: none;
 }
 
-/* ——— estilos dentro de las ventanas ——— */
-r-window p  { margin: 0 0 0.75rem; }
+/* ——— estilos dentro de las ventanas ———
+   todo en em (no rem ni px): así encoge con el lienzo en el móvil */
+r-window p  { margin: 0 0 0.75em; }
 r-window p:last-child { margin: 0; }
 r-window a  { color: var(--accent); }
-r-window ul { padding-left: 1.2rem; }
-r-window li { margin-bottom: 0.25rem; }
+r-window ul { padding-left: 1.2em; }
+r-window li { margin-bottom: 0.25em; }
 r-window h2 {
-  font-size: 1rem;
-  margin: 0 0 0.5rem;
+  font-size: 1em;
+  margin: 0 0 0.5em;
   letter-spacing: 0.03em;
 }
 r-window img {
@@ -96,11 +131,22 @@ r-window img {
 
 /* ——— window de bienvenida: texto grande ——— */
 .ventana-bienvenida h1 {
-  font-size: 1.4rem;
+  font-size: 1.4em;
   line-height: 1.2;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.5em;
 }
 .ventana-bienvenida .tagline {
   opacity: 0.7;
-  font-size: 0.85rem;
+  font-size: 0.85em;
+}
+
+/* ——— hueco de la foto (bórralo cuando pongas la tuya) ——— */
+.foto-hueco {
+  height: 4em;
+  background: #333;
+  color: var(--accent);
+  font-size: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

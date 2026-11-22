@@ -1,6 +1,6 @@
 # collage-ventanas
 
-starter de retals. ventanas arrastrables sobre un fondo de color sólido. estética 2000s sin los clichés de mmm.page — el HTML es tuyo y es legible.
+starter de retals. ventanas arrastrables en un collage que encoge entero en el móvil, sobre un fondo de color sólido. estética 2000s sin los clichés de mmm.page — el HTML es tuyo y es legible.
 
 ---
 
@@ -21,17 +21,29 @@ abre `index.html` en cualquier editor de texto. busca los textos entre `[corchet
 <p class="tagline">diseñadora · barcelona · 2026</p>
 ```
 
-### mover y redimensionar ventanas
+### mover las ventanas
 
-cada `<r-window>` tiene atributos `x`, `y`, `w`, `h` (en píxeles):
+las ventanas viven en un lienzo (`<r-collage width="500">`) que mide 500 de ancho. en el móvil el lienzo encoge entero; en una pantalla ancha se queda a 500 px, centrado.
+
+cada ventana va dentro de un `<div>` que dice dónde va:
 
 ```html
-<r-window title="hola" x="60" y="40" w="280" h="160">
-  ...
-</r-window>
+<div x="170" y="110" w="290">
+  <r-window title="hola" resizable="false">
+    ...
+  </r-window>
+</div>
 ```
 
-también puedes arrastrarlas directamente en el navegador.
+- `x`, `y`: el **centro** de la ventana (no la esquina). `x="250"` es el centro del lienzo.
+- `w`: el ancho. el alto es el de lo que haya dentro.
+- `rot`: giro en grados, si quieres torcer algo. `z`: quién va encima.
+
+también puedes arrastrarlas en el navegador (no se guarda: es para quien visita).
+
+### los márgenes
+
+lo que pongas fuera de 0–500 (`x="-150"`, `x="700"`) solo se ve en pantallas anchas; en el móvil no existe. el starter trae ahí una nota y unos glifos. no pongas nada importante.
 
 ### cambiar el fondo
 
@@ -66,7 +78,7 @@ sustituye el placeholder en la ventana "foto":
 
 ```html
 <!-- antes -->
-<div style="width:100%;height:200px;background:#333;...">✦</div>
+<div class="foto-hueco">✦</div>
 
 <!-- después -->
 <img src="img/foto.webp" alt="mi foto">
@@ -76,21 +88,25 @@ pon tus imágenes en una carpeta `img/`. para comprimirlas antes de subir, usa [
 
 ### añadir o quitar ventanas
 
-copia un bloque `<r-window>` completo para añadir una, o bórralo para quitarla:
+copia un bloque completo (el `<div>` con su `<r-window>` dentro) para añadir una, o bórralo para quitarla:
 
 ```html
-<r-window title="nueva ventana" x="200" y="300" w="250" h="150">
-  <p>contenido de la ventana.</p>
-</r-window>
+<div x="250" y="1320" w="260">
+  <r-window title="nueva ventana" resizable="false">
+    <p>contenido de la ventana.</p>
+  </r-window>
+</div>
 ```
+
+fuera de una ventana también vale cualquier cosa: `<img src="img/foto.webp" alt="…" x="100" y="400" w="200" rot="-5">`.
 
 ---
 
 ## estos componentes son tuyos
 
-`components/r-window.js` es una copia snapshot de la versión con la que se creó este starter. si retals actualiza `r-window` con cambios incompatibles, tu web no se entera — sigue usando su propia copia.
+`components/r-window.js` y `components/r-collage.js` son copias snapshot de la versión con la que se creó este starter. si retals los actualiza con cambios incompatibles, tu web no se entera — sigue usando sus propias copias.
 
-si quieres actualizarla, descarga un starter nuevo desde retals y reemplaza el archivo.
+si quieres actualizarlas, descarga un starter nuevo desde retals y reemplaza los archivos.
 
 ---
 

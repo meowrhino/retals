@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>r-collage · demo</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <style>
+    :root {
+      --coral:  #ef7d57;
+      --amber:  #f5b840;
+      --cream:  #fef8e6;
+      --ink:    #1a1a1a;
+      --paper:  #fafafa;
+      --moss:   #5a6a3e;
+      --r-bg:   var(--cream);
+      --r-fg:   var(--ink);
+      --r-font: 'JetBrains Mono', 'Menlo', 'Consolas', monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--r-font);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .demo-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 2px solid var(--ink);
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .demo-header h1 { margin: 0; font-size: 1.1rem; }
+    .demo-header nav { display: flex; gap: 1rem; font-size: 0.85rem; }
+    .demo-header a { color: var(--ink); }
+
+    main { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    section { margin-bottom: 2.5rem; }
+    h2 { font-size: 0.9rem; margin: 0 0 0.4rem; color: var(--moss); letter-spacing: 0.04em; text-transform: lowercase; }
+    .demo-code {
+      display: block;
+      background: var(--paper);
+      border: 1px solid var(--ink);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+      margin: 0 0 0.75rem;
+      overflow-x: auto;
+      white-space: pre;
+    }
+    .demo-nota { font-size: 0.8rem; opacity: 0.75; margin: 0.4rem 0 0; }
+
+    /* fallback sin JS: los bloques caen uno debajo de otro y no se salen */
+    r-collage { display: block; }
+    r-collage > * { display: block; max-width: calc(100% - 2rem); margin: 0 auto 1rem; }
+
+    /* piezas del collage. todo en em: así encoge con el lienzo */
+    r-collage a { color: inherit; }
+    .papel {
+      background: var(--paper);
+      border: 2px solid var(--ink);
+      box-shadow: 0.2em 0.2em 0 var(--ink);
+      padding: 0.6em 0.8em;
+    }
+    .papel--amber { background: var(--amber); }
+    .papel--coral { background: var(--coral); }
+    .papel--ink   { background: var(--ink); color: var(--cream); }
+    .titular { font-size: 2.6em; line-height: 1; font-weight: 700; }
+    .glifo   { font-size: 3em; line-height: 1; color: var(--coral); }
+    .margen  { font-size: 0.85em; color: var(--moss); }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>✦ r-collage · demo</h1>
+    <nav>
+      <a href="../index.html">← landing</a>
+      <a href="../../docs/r-collage.md">docs</a>
+    </nav>
+  </header>
+
+  <!-- a todo el ancho de la página: así se ven los márgenes en pantallas anchas -->
+  <r-collage width="600">
+    <p class="titular" x="200" y="85" w="360">un lienzo libre</p>
+    <img src="../assets/mascot.svg" alt="gato-rinoceronte en píxeles, la mascota de retals" x="470" y="120" w="150" rot="8">
+    <p class="papel" x="170" y="190" w="280" rot="-3">cada bloque lleva su sitio escrito en el HTML: <strong>x</strong>, <strong>y</strong>, <strong>w</strong>, <strong>rot</strong>, <strong>z</strong>.</p>
+    <p class="papel papel--amber" x="400" y="290" w="300" rot="2" z="2">estréchame: me encojo entera, con la letra y todo.</p>
+    <a class="papel papel--coral" href="../../docs/r-collage.md" x="150" y="330" w="200" rot="-6" z="3">leer los docs →</a>
+    <span class="glifo" x="560" y="390" rot="15" aria-hidden="true">✺</span>
+    <p class="papel papel--ink" x="300" y="420" w="260" rot="1">sin JS, los bloques caen uno debajo de otro.</p>
+
+    <!-- fuera de 0–600: los márgenes. solo se ven en pantallas anchas -->
+    <p class="margen" x="-150" y="150" w="180" rot="-4">← esto está en x="-150": en el móvil no existe.</p>
+    <p class="margen" x="760" y="330" w="180" rot="5">gracias por venir desde una pantalla ancha ☼</p>
+    <span class="glifo" x="-190" y="380" aria-hidden="true">◌</span>
+    <span class="glifo" x="800" y="90" aria-hidden="true">✜</span>
+  </r-collage>
+
+  <main>
+
+    <section>
+      <h2>el de arriba</h2>
+      <code class="demo-code">&lt;r-collage width="600"&gt;
+  &lt;p x="200" y="85" w="360"&gt;un lienzo libre&lt;/p&gt;
+  &lt;img src="foto.webp" alt="…" x="470" y="120" w="150" rot="8"&gt;
+  &lt;p x="-150" y="150" w="180"&gt;solo en pantallas anchas&lt;/p&gt;
+&lt;/r-collage&gt;</code>
+      <p class="demo-nota">x e y son el centro del bloque. el lienzo mide 600 de ancho; en el móvil 600 unidades son todo el ancho de la pantalla.</p>
+    </section>
+
+    <section>
+      <h2>mínimo</h2>
+      <code class="demo-code">&lt;r-collage width="300"&gt;
+  &lt;p x="150" y="30"&gt;hola&lt;/p&gt;
+  &lt;p x="150" y="80"&gt;adiós&lt;/p&gt;
+&lt;/r-collage&gt;</code>
+      <r-collage width="300">
+        <p x="150" y="30">hola</p>
+        <p x="150" y="80">adiós</p>
+      </r-collage>
+    </section>
+
+    <section>
+      <h2>rot y z: girar y apilar</h2>
+      <code class="demo-code">&lt;p x="120" y="60" w="160" rot="-8" z="1"&gt;debajo&lt;/p&gt;
+&lt;p x="190" y="90" w="160" rot="6" z="2"&gt;encima&lt;/p&gt;</code>
+      <r-collage width="300">
+        <p class="papel papel--amber" x="120" y="60" w="160" rot="-8" z="1">debajo</p>
+        <p class="papel papel--coral" x="190" y="90" w="160" rot="6" z="2">encima</p>
+      </r-collage>
+    </section>
+
+    <section>
+      <h2>height: alto fijo (si no, lo que ocupen los bloques)</h2>
+      <code class="demo-code">&lt;r-collage width="300" height="200" style="--r-collage-bg: #fafafa;"&gt;</code>
+      <r-collage width="300" height="200" style="--r-collage-bg: #fafafa;">
+        <p class="papel" x="150" y="100" w="200">200 de alto, yo en el centro</p>
+      </r-collage>
+    </section>
+
+    <section>
+      <h2>override de CSS vars</h2>
+      <code class="demo-code">style="--r-collage-bg: #f5b840; --r-collage-font-size: 24;"</code>
+      <r-collage width="300" style="--r-collage-bg: #f5b840; --r-collage-font-size: 24;">
+        <p x="150" y="50" w="260" rot="-2">fondo ámbar, letra a 24</p>
+        <span x="150" y="125" aria-hidden="true">✦ ✦ ✦</span>
+      </r-collage>
+    </section>
+
+    <section>
+      <h2>con una &lt;r-window&gt; dentro</h2>
+      <code class="demo-code">&lt;div x="150" y="90" w="240"&gt;
+  &lt;r-window title="hola" resizable="false"&gt;…&lt;/r-window&gt;
+&lt;/div&gt;
+
+/* en tu CSS */
+r-collage r-window.r-window--ready { position: relative; width: 100%; }</code>
+      <style>
+        r-collage r-window.r-window--ready { position: relative; width: 100%; }
+      </style>
+      <r-collage width="300" height="190">
+        <div x="150" y="90" w="240">
+          <r-window title="hola ✦" resizable="false" closable="false">
+            <p style="margin:0">el div me coloca; a mí me puedes arrastrar.</p>
+          </r-window>
+        </div>
+      </r-collage>
+      <p class="demo-nota">directamente dentro de r-collage, r-window no va: las dos leen x, y, w. se envuelve en un div.</p>
+    </section>
+
+  </main>
+
+  <script type="module" src="../../components/r-collage.js"></script>
+  <script type="module" src="../../components/r-window.js"></script>
+</body>
+</html>
