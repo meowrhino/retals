@@ -8,6 +8,7 @@ import { createPreview } from './preview.js';
 import { exportProject } from './export.js';
 import { mountInspector } from './inspector.js';
 import { createAssetStore } from './assets.js';
+import { setBlockPlace } from './collage-drag.js';
 
 const STORAGE_KEY = 'retals:project';
 const DEFAULT_HTML = '';   // por defecto, lienzo limpio
@@ -42,6 +43,7 @@ const $lib       = document.getElementById('lib');
 const $libSearch = document.getElementById('lib-search');
 const $used      = document.getElementById('used-components');
 const $status    = document.getElementById('code-status');
+const $prevHint  = document.getElementById('preview-hint');
 const $modal     = document.getElementById('modal');
 const $modalTitle= document.getElementById('modal-title');
 const $modalBody = document.getElementById('modal-body');
@@ -109,6 +111,7 @@ const preview = createPreview(
   $preview,
   () => state.html,
   (tags, files) => {
+    $prevHint.hidden = !tags.includes('r-collage');
     const assetCount = assetStore.list().length;
     const compPart = tags.length
       ? `usa: ${tags.join(', ')}  ·  ${files.length} archivo${files.length === 1 ? '' : 's'}`
@@ -118,6 +121,20 @@ const preview = createPreview(
       : compPart;
   },
   () => assetStore,
+  // bloque de <r-collage> arrastrado en el preview: se reescriben su x/y en
+  // el código. el preview NO se repinta: el bloque ya está donde se soltó, y
+  // repintar llevaría el scroll del preview arriba del todo.
+  (n, place) => {
+    const next = setBlockPlace(state.html, n, place);
+    if (next === state.html) return;
+    const { scrollTop, selectionStart, selectionEnd } = $code;
+    state.html = $code.value = next;
+    $code.scrollTop = scrollTop;
+    $code.setSelectionRange(selectionStart, selectionEnd);
+    $status.textContent = `· movido (${place.x}, ${place.y})`;
+    scheduleSave();
+    inspector.refresh();
+  },
 );
 
 let saveTimer = null;

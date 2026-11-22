@@ -3,8 +3,10 @@
 // ============================================================================
 //
 // API exportada:
-//   createPreview(iframe, getCode, onUsedTags?, getAssetStore?)
+//   createPreview(iframe, getCode, onUsedTags?, getAssetStore?, onBlockMove?)
 //     → { refresh(immediate?), reload() }
+//   onBlockMove(n, { x, y }) al soltar un bloque de <r-collage> arrastrado en
+//   el preview (ver collage-drag.js).
 //
 // estrategia:
 // - debounce 300ms en cada cambio de código
@@ -22,16 +24,19 @@
 
 import { buildDoc } from './builddoc.js';
 import { rewriteRefsToBlobs } from './assets.js';
+import { markBlocks, enableCollageDrag } from './collage-drag.js';
 
 const DEBOUNCE_MS = 300;
 
-export function createPreview(iframe, getCode, onUsedTags, getAssetStore) {
+export function createPreview(iframe, getCode, onUsedTags, getAssetStore, onBlockMove) {
   let timer = null;
+  if (onBlockMove) enableCollageDrag(iframe, onBlockMove);
 
   function refresh(immediate) {
     if (timer) clearTimeout(timer);
     const apply = () => {
-      let html = getCode();
+      // numerar los bloques arrastrables antes de tocar nada más del texto
+      let html = onBlockMove ? markBlocks(getCode()) : getCode();
       // reescribir src/href hacia los Object URLs de los assets locales
       const store = getAssetStore && getAssetStore();
       if (store) html = rewriteRefsToBlobs(html, store);

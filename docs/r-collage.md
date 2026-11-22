@@ -123,6 +123,12 @@ ojo con poner letra clara sobre `--r-collage-bg` oscuro: sin JS el fondo no se p
 
 ---
 
+## en el editor de retals
+
+en el preview del editor puedes **arrastrar los bloques** de un `<r-collage>` con el ratón: al soltar, el editor reescribe su `x` y su `y` en el código. un clic sin mover sigue siendo un clic (los enlaces y botones del preview funcionan). con el dedo no: en el móvil, arrastrar y hacer scroll del preview son el mismo gesto, así que ahí las posiciones se cambian en el código.
+
+---
+
 ## con `<r-window>` dentro
 
 `<r-window>` no puede ir directamente dentro de `<r-collage>`: las dos leen `x`, `y` y `w` del mismo elemento, y la ventana se coloca en px (no encoge). se envuelve en un `<div>`: el `<div>` lleva el sitio y la ventana va dentro, sin `x`/`y`/`w`.
